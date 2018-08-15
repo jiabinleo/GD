@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css" />
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+
+    <script src="https://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.9&key=您申请的key值"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrap {
+            position: relative;
+            width: 100Wh;
+            height: 100vh;
+        }
+
+        .tool {
+            position: absolute;
+            width: 225px;
+            height: 23px;
+            right: 100px;
+            top: 50px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 5px 15px 15px RGBA(51, 51, 51, 0.3);
+            padding: 11px 0;
+        }
+
+        .tool>div {
+            width: 74px;
+            height: 23px;
+            float: left;
+            border-right: dashed 1px #7C8196;
+            text-align: center;
+            line-height: 23px;
+            font-weight: 500;
+            color: #7C8196;
+            font-size: 12px;
+        }
+
+        .tool>div:hover {
+            color: #50BBFB;
+        }
+
+        .tool .quick {
+            border: none;
+            width: 74px;
+            overflow: hidden;
+            height: 23px;
+        }
+
+        .tool .quick:hover {
+            height: auto;
+        }
+
+        .tool .satellite::before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+            background: url("img/satellite.png") no-repeat;
+            vertical-align: -3px;
+        }
+
+        .tool .satellite:hover::before {
+            background: url("img/satellite-hide.png") no-repeat;
+        }
+
+        .tool .rangefinder::before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+            background: url("img/rangefinder.png") no-repeat;
+            vertical-align: -3px;
+        }
+
+        .tool .rangefinder:hover::before {
+            background: url("img/rangefinder-hide.png") no-repeat;
+        }
+
+        .tool .title::before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+            background: url("img/quick.png") no-repeat;
+            vertical-align: -3px;
+        }
+
+        .tool .title:hover::before {
+            background: url("img/quick-hide.png") no-repeat;
+        }
+
+        .tool .quick .menu {
+            width: 74px;
+            background-color: #ffffff;
+            padding: 7px 0;
+            margin-top: 15px;
+            border-radius: 5px;
+            box-shadow: 5px 15px 15px RGBA(51, 51, 51, 0.3);
+        }
+
+        .tool .quick .menu a {
+            text-decoration: none;
+            color: inherit;
+            color: #7C8196;
+        }
+
+        .tool .quick .menu a:hover {
+            color: #50BBFB;
+        }
+
+        .tool .quick .menu div {
+            width: 74px;
+            height: 27px;
+            line-height: 27px;
+            font-size: 12px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="container"></div>
+        <div class="tool">
+            <div id="satellite" data-if="true" class="satellite">卫星</div>
+            <div id="rangefinder" class="rangefinder" data-if="true">测距</div>
+            <div id="quick" class="quick">
+                <div class="title">快捷</div>
+                <div class="menu">
+                    <div>
+                        <a href="javascript:;">消息中心</a>
+                    </div>
+                    <div>
+                        <a href="javascript:;">灾情上报</a>
+                    </div>
+                    <div>
+                        <a href="javascript:;">进度管理</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom: 12,
+        });
+        var mapPage = {
+            init: function () {
+                mapPage.map()
+                mapPage.listen()
+            },
+            listen: function () {
+                var satellite = true
+                $("#satellite").on("click", function () {
+                    if (satellite) {
+                        mapPage.map([new AMap.TileLayer.Satellite()])
+                    } else {
+                        mapPage.map()
+                    }
+                    satellite = !satellite
+                })
+                $("#rangefinder").on("click",function(){
+                    startRuler()
+                })
+
+            },
+            map: function (layers, ) {
+                var map = new AMap.Map('container', {
+                    resizeEnable: true,
+                    zoom: 12,
+                    layers: layers
+                });
+
+
+
+            }
+        }
+        mapPage.init();
+        //高德地图测距
+        (function (window) {
+            var map, ruler1, ruler2;
+            //地图初始化
+            map = new AMap.Map("container", {
+                resizeEnable: true
+            });
+            map.plugin(["AMap.RangingTool"], function () {
+                ruler1 = new AMap.RangingTool(map);
+                AMap.event.addListener(ruler1, "end", function (e) {
+                    ruler1.turnOff();
+                });
+                var sMarker = {
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(19, 31),//图标大小
+                        image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b1.png"
+                    })
+                };
+                var eMarker = {
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(19, 31),//图标大小
+                        image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b2.png"
+                    }),
+                    offset: new AMap.Pixel(-9, -31)
+                };
+                var lOptions = {
+                    strokeStyle: "solid",
+                    strokeColor: "#FF33FF",
+                    strokeOpacity: 1,
+                    strokeWeight: 2
+                };
+                var rulerOptions = { startMarkerOptions: sMarker, endMarkerOptions: eMarker, lineOptions: lOptions };
+                ruler2 = new AMap.RangingTool(map, rulerOptions);
+            });
+            //启用默认样式测距
+            function startRuler1() {
+                ruler2.turnOff();
+                ruler1.turnOn();
+            }
+            //启用自定义样式测距
+            function startRuler2() {
+                ruler1.turnOff();
+                ruler2.turnOn();
+            }
+            return window.startRuler = startRuler1
+        })(window)
+    </script>
+</body>
+
+</html>
