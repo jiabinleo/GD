@@ -8,9 +8,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css" />
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-
     <script src="https://cache.amap.com/lbs/static/es5.min.js"></script>
-    <script src="https://webapi.amap.com/maps?v=1.4.9&key=您申请的key值"></script>
+    <!-- <script src="https://webapi.amap.com/maps?v=1.4.9&key=您申请的key值"></script> -->
+    <script src="https://webapi.amap.com/maps?v=1.4.9&key=您申请的key值&plugin=AMap.Driving"></script>
     <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
     <style>
         * {
@@ -32,7 +32,7 @@
             top: 50px;
             background-color: #ffffff;
             border-radius: 5px;
-            box-shadow: 5px 15px 15px RGBA(51, 51, 51, 0.3);
+            box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
             padding: 11px 0;
         }
 
@@ -101,7 +101,7 @@
             vertical-align: -3px;
         }
 
-        .tool .title:hover::before {
+        .tool .quick:hover .title::before {
             background: url("img/quick-hide.png") no-repeat;
         }
 
@@ -131,12 +131,96 @@
             font-size: 12px;
             background-color: #ffffff;
         }
+
+        #panel {
+            position: fixed;
+            background-color: white;
+            max-height: 90%;
+            overflow-y: auto;
+            top: 10px;
+            right: 10px;
+            width: 280px;
+        }
+
+        .search {
+            position: absolute;
+            width: 324px;
+            height: 45px;
+            right: 375px;
+            top: 50px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
+            overflow: hidden;
+        }
+
+        .search .search-left {
+            float: left;
+            width: 269px;
+            height: 45px;
+        }
+
+        .search .search-right {
+            float: left;
+            width: 55px;
+            height: 45px;
+            background-color: #50BBFB;
+        }
+
+        .search-logo {
+            width: 55px;
+            height: 45px;
+            background: url("img/search.png") no-repeat 19px 12px;
+        }
+
+        .search--left-wrap {
+            float: left;
+            padding: 7px;
+            width: 200px;
+
+        }
+
+        .navigation {
+            float: left;
+            width: 55px;
+            height: 45px;
+            margin-right: -5px;
+            background: url("img/navigation.png") no-repeat 19px 10px;
+        }
+
+        .search--left-wrap input {
+            width: 178px;
+            height: 30px;
+            border: none;
+            line-height: 27px;
+            border-right: solid 1px #cccccc;
+            padding: 0 14px;
+            outline: none;
+            color: #D3D3D3;
+            font-size: 12px;
+        }
     </style>
 </head>
 
 <body>
     <div class="wrap">
         <div id="container"></div>
+        <div id="panel"></div>
+        <div class="search">
+            <div class="search-left">
+                <div class="search--left-wrap">
+                    <input type="text" placeholder="请输入您想搜索的内容">
+                </div>
+                <div class="navigation">
+
+                </div>
+            </div>
+            <div class="search-right">
+                <div class="search-logo">
+
+                </div>
+            </div>
+        </div>
         <div class="tool">
             <div id="satellite" data-if="true" class="satellite">卫星</div>
             <div id="rangefinder" class="rangefinder" data-if="true">测距</div>
@@ -163,82 +247,74 @@
         });
         var mapPage = {
             init: function () {
-                mapPage.map()
                 mapPage.listen()
             },
             listen: function () {
                 var satellite = true
                 $("#satellite").on("click", function () {
                     if (satellite) {
-                        mapPage.map([new AMap.TileLayer.Satellite()])
+                        layers = [new AMap.TileLayer.Satellite()]
                     } else {
-                        mapPage.map()
+                        layers = ""
                     }
                     satellite = !satellite
+                    mapPage.ranging(window, layers)
                 })
-                $("#rangefinder").on("click",function(){
+                $("#rangefinder").on("click", function () {
                     startRuler()
                 })
 
             },
-            map: function (layers, ) {
-                var map = new AMap.Map('container', {
+            //高德地图测距
+            ranging: function (window, layers) {
+                var map, ruler1, ruler2;
+                //地图初始化
+                map = new AMap.Map("container", {
                     resizeEnable: true,
-                    zoom: 12,
                     layers: layers
                 });
-
-
-
+                map.plugin(["AMap.RangingTool"], function () {
+                    ruler1 = new AMap.RangingTool(map);
+                    AMap.event.addListener(ruler1, "end", function (e) {
+                        ruler1.turnOff();
+                    });
+                    var sMarker = {
+                        icon: new AMap.Icon({
+                            size: new AMap.Size(19, 31),//图标大小
+                            image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b1.png"
+                        })
+                    };
+                    var eMarker = {
+                        icon: new AMap.Icon({
+                            size: new AMap.Size(19, 31),//图标大小
+                            image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b2.png"
+                        }),
+                        offset: new AMap.Pixel(-9, -31)
+                    };
+                    var lOptions = {
+                        strokeStyle: "solid",
+                        strokeColor: "#FF33FF",
+                        strokeOpacity: 1,
+                        strokeWeight: 2
+                    };
+                    var rulerOptions = { startMarkerOptions: sMarker, endMarkerOptions: eMarker, lineOptions: lOptions };
+                    ruler2 = new AMap.RangingTool(map, rulerOptions);
+                });
+                //启用默认样式测距
+                function startRuler1() {
+                    ruler2.turnOff();
+                    ruler1.turnOn();
+                }
+                //启用自定义样式测距
+                function startRuler2() {
+                    ruler1.turnOff();
+                    ruler2.turnOn();
+                }
+                return window.startRuler = startRuler1
             }
         }
         mapPage.init();
-        //高德地图测距
-        (function (window) {
-            var map, ruler1, ruler2;
-            //地图初始化
-            map = new AMap.Map("container", {
-                resizeEnable: true
-            });
-            map.plugin(["AMap.RangingTool"], function () {
-                ruler1 = new AMap.RangingTool(map);
-                AMap.event.addListener(ruler1, "end", function (e) {
-                    ruler1.turnOff();
-                });
-                var sMarker = {
-                    icon: new AMap.Icon({
-                        size: new AMap.Size(19, 31),//图标大小
-                        image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b1.png"
-                    })
-                };
-                var eMarker = {
-                    icon: new AMap.Icon({
-                        size: new AMap.Size(19, 31),//图标大小
-                        image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b2.png"
-                    }),
-                    offset: new AMap.Pixel(-9, -31)
-                };
-                var lOptions = {
-                    strokeStyle: "solid",
-                    strokeColor: "#FF33FF",
-                    strokeOpacity: 1,
-                    strokeWeight: 2
-                };
-                var rulerOptions = { startMarkerOptions: sMarker, endMarkerOptions: eMarker, lineOptions: lOptions };
-                ruler2 = new AMap.RangingTool(map, rulerOptions);
-            });
-            //启用默认样式测距
-            function startRuler1() {
-                ruler2.turnOff();
-                ruler1.turnOn();
-            }
-            //启用自定义样式测距
-            function startRuler2() {
-                ruler1.turnOff();
-                ruler2.turnOn();
-            }
-            return window.startRuler = startRuler1
-        })(window)
+        mapPage.ranging(window, "")
     </script>
 </body>
 
