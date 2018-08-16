@@ -39,13 +39,6 @@
   color: #d3d3d3;
   font-size: 12px;
 }
-.wrap .search .search-left .navigation {
-  float: left;
-  width: 55px;
-  height: 45px;
-  margin-right: -5px;
-  background: url("../img/navigation.png") no-repeat 19px 10px;
-}
 .wrap .search .search-right {
   float: left;
   width: 55px;
@@ -152,31 +145,158 @@
 }
 .wrap .retrieval {
   position: absolute;
-  right: 20px;
+  right: 11px;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #ffffff;
-  padding: 25px 10px;
   writing-mode: tb-rl;
+  font-size: 12px;
+  font-weight: 500;
+  width: 36px;
+  height: 81px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 15px rgba(51, 51, 51, 0.3);
   cursor: pointer;
 }
-.wrap .retrievalBox {
-  display: none;
-  position: absolute;
-  right: 80px;
-  top: 30px;
-  width: 400px;
-  height: 600px;
+.wrap .retrieval span {
+  padding: 10px 0px;
+}
+.wrap .retrieval span:before {
+  content: "";
+  display: inline-block;
+  width: 25px;
+  height: 24px;
+  vertical-align: 6px;
+  font-size: 12px;
+}
+.wrap .retrieval.retrieval-show {
+  color: #7c8196;
   background-color: #ffffff;
 }
-.wrap .retrievalBox .title {
+.wrap .retrieval.retrieval-show span:before {
+  background: url("../img/retrieval.png") -8px -4px;
+}
+.wrap .retrieval.retrieval-hide {
+  color: #ffffff;
+  background-color: #50bbfb;
+}
+.wrap .retrieval.retrieval-hide span:before {
+  background: url("../img/retrieval-hide.png") -8px -4px;
+}
+.wrap .retrievalBox {
+  position: absolute;
+  right: 77px;
+  top: 50%;
+  width: 375px;
+  height: 596px;
+  background-color: #ffffff;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 15px rgba(51, 51, 51, 0.3);
   overflow: hidden;
 }
-.wrap .retrievalBox .title span {
-  float: left;
+.wrap .retrievalBox .retrievalBox-title {
+  overflow: hidden;
+  width: 315px;
+  height: 47px;
+  background-color: #50bbfb;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 0 30px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
-.wrap .retrievalBox .title span:nth-of-type(2) {
+.wrap .retrievalBox .retrievalBox-title span {
+  float: left;
+  line-height: 47px;
+}
+.wrap .retrievalBox .retrievalBox-title span:nth-of-type(2) {
   float: right;
+}
+.wrap .retrievalBox .retrievalBox-content {
+  width: 315px;
+  height: 549px;
+  padding: 0 30px;
+  font-size: 14px;
+}
+.wrap .retrievalBox .retrievalBox-content p {
+  color: #666666;
+  height: 48px;
+  line-height: 48px;
+}
+.wrap .retrievalBox .retrievalBox-content p.disasterType span {
+  color: #999999;
+  display: inline-block;
+  width: 94px;
+  text-align: right;
+}
+.wrap .retrievalBox .retrievalBox-content p.disasterType span:first-of-type {
+  width: 56px;
+}
+.wrap .retrievalBox .retrievalBox-content p.disasterType span a:before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 14px;
+  margin-right: -5px;
+  vertical-align: -2px;
+  background: 100% url("../img/check.png") no-repeat;
+}
+.wrap .retrievalBox .retrievalBox-content p.areaStreet {
+  margin-top: 10px;
+}
+.wrap .retrievalBox .retrievalBox-content p.areaStreet select {
+  margin-left: 15px;
+  width: 225px;
+  height: 30px;
+  border-radius: 3px;
+  border: solid #d3d3d3 1px;
+}
+.wrap .retrievalBox .retrievalBox-content .button {
+  width: 315px;
+  height: 43px;
+  background-color: #50bbfb;
+  border: none;
+  border-radius: 3px;
+  color: #ffffff;
+  font-weight: 700;
+  margin-top: 20px;
+}
+.wrap .retrievalBox .retrievalBox-content .status span {
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 30px;
+}
+.wrap .retrievalBox .retrievalBox-content .status span:first-of-type {
+  color: #ff0000;
+}
+.wrap .retrievalBox .retrievalBox-content .status span:nth-of-type(2) {
+  color: #fa9d0a;
+}
+.wrap .retrievalBox .retrievalBox-content .status span:nth-of-type(3) {
+  color: #0aa2fa;
+}
+.wrap .retrievalBox .retrievalBox-content table {
+  width: 100%;
+}
+.wrap .retrievalBox .retrievalBox-content table thead {
+  color: #666666;
+  font-size: 14px;
+  font-weight: 500;
+}
+.wrap .retrievalBox .retrievalBox-content table thead tr {
+  line-height: 31px;
+}
+.wrap .retrievalBox .retrievalBox-content table thead tr td:last-of-type {
+  text-align: right;
+}
+.wrap .retrievalBox .retrievalBox-content table tbody {
+  padding-top: 24px;
+}
+.wrap .retrievalBox .retrievalBox-content table tbody tr {
+  line-height: 26px;
+}
+.wrap .retrievalBox .retrievalBox-content table tbody tr td:last-of-type {
+  text-align: right;
 }
 #container {
   width: 100%;

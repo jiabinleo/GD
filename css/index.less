@@ -36,13 +36,13 @@
           font-size: 12px;
         }
       }
-      .navigation {
-        float: left;
-        width: 55px;
-        height: 45px;
-        margin-right: -5px;
-        background: url("../img/navigation.png") no-repeat 19px 10px;
-      }
+      // .navigation {
+      //   float: left;
+      //   width: 55px;
+      //   height: 45px;
+      //   margin-right: -5px;
+      //   background: url("../img/navigation.png") no-repeat 19px 10px;
+      // }
     }
     .search-right {
       float: left;
@@ -161,28 +161,173 @@
   }
   .retrieval {
     position: absolute;
-    right: 20px;
+    right: 11px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #ffffff;
-    padding: 25px 10px;
     writing-mode: tb-rl;
+    font-size: 12px;
+    font-weight: 500;
+    width: 36px;
+    height: 81px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 15px RGBA(51, 51, 51, 0.3);
     cursor: pointer;
+    span {
+      padding: 10px 0px;
+      &:before {
+        content: "";
+        display: inline-block;
+        width: 25px;
+        height: 24px;
+        vertical-align: 6px;
+        font-size: 12px;
+      }
+    }
+    &.retrieval-show {
+      color: #7c8196;
+      background-color: #ffffff;
+      span {
+        &:before {
+          background: url("../img/retrieval.png") -8px -4px;
+        }
+      }
+    }
+    &.retrieval-hide {
+      color: #ffffff;
+      background-color: #50bbfb;
+      span {
+        &:before {
+          background: url("../img/retrieval-hide.png") -8px -4px;
+        }
+      }
+    }
   }
   .retrievalBox {
-    display: none;
+    // display: none;
     position: absolute;
-    right: 80px;
-    top: 30px;
-    width: 400px;
-    height: 600px;
+    right: 77px;
+    top: 50%;
+    width: 375px;
+    height: 596px;
     background-color: #ffffff;
-    .title {
+    transform: translateY(-50%);
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 15px RGBA(51, 51, 51, 0.3);
+    overflow: hidden;
+    .retrievalBox-title {
       overflow: hidden;
+      width: 315px;
+      height: 47px;
+      background-color: #50bbfb;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 0 30px;
+      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
       span {
         float: left;
+        line-height: 47px;
+        &:first-of-type {
+        }
         &:nth-of-type(2) {
           float: right;
+        }
+      }
+    }
+    .retrievalBox-content {
+      height: 549px;
+      width: 315px;
+      height: 549px;
+      padding: 0 30px;
+      font-size: 14px;
+      p {
+        color: #666666;
+        height: 48px;
+        line-height: 48px;
+        &.disasterType {
+          span {
+            color: #999999;
+            display: inline-block;
+            width: 94px;
+            text-align: right;
+            &:first-of-type {
+              width: 56px;
+            }
+            a {
+              &:before {
+                content: "";
+                display: inline-block;
+                width: 24px;
+                height: 14px;
+                margin-right: -5px;
+                vertical-align: -2px;
+                background: 100% url("../img/check.png") no-repeat;
+              }
+            }
+          }
+        }
+        &.areaStreet {
+          margin-top: 10px;
+          select {
+            margin-left: 15px;
+            width: 225px;
+            height: 30px;
+            border-radius: 3px;
+            border: solid #d3d3d3 1px;
+          }
+        }
+      }
+      .button {
+        width: 315px;
+        height: 43px;
+        background-color: #50bbfb;
+        border: none;
+        border-radius: 3px;
+        color: #ffffff;
+        font-weight: 700;
+        margin-top: 20px;
+      }
+      .status {
+        span {
+          font-size: 12px;
+          font-weight: 500;
+          margin-right: 30px;
+          &:first-of-type {
+            color: RGBA(255, 0, 0, 1);
+          }
+          &:nth-of-type(2) {
+            color: RGBA(250, 157, 10, 1);
+          }
+          &:nth-of-type(3) {
+            color: RGBA(10, 162, 250, 1);
+          }
+        }
+      }
+      table {
+        width: 100%;
+        thead {
+          color: #666666;
+          font-size: 14px;
+          font-weight: 500;
+          tr {
+            line-height: 31px;
+            td {
+              &:last-of-type {
+                text-align: right;
+              }
+            }
+          }
+        }
+        tbody {
+          padding-top: 24px;
+          tr {
+            line-height: 26px;
+            td {
+              &:last-of-type {
+                text-align: right;
+              }
+            }
+          }
         }
       }
     }
