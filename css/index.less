@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.wrap {
+  position: relative;
+  width: 100wh;
+  height: 100vh;
+  .search {
+    position: absolute;
+    width: 324px;
+    height: 45px;
+    right: 375px;
+    top: 50px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
+    overflow: hidden;
+    .search-left {
+      float: left;
+      width: 269px;
+      height: 45px;
+      .search-left-wrap {
+        float: left;
+        padding: 7px;
+        width: 200px;
+        input {
+          width: 178px;
+          height: 30px;
+          border: none;
+          line-height: 27px;
+          border-right: solid 1px #cccccc;
+          padding: 0 14px;
+          outline: none;
+          color: #d3d3d3;
+          font-size: 12px;
+        }
+      }
+      .navigation {
+        float: left;
+        width: 55px;
+        height: 45px;
+        margin-right: -5px;
+        background: url("../img/navigation.png") no-repeat 19px 10px;
+      }
+    }
+    .search-right {
+      float: left;
+      width: 55px;
+      height: 45px;
+      background-color: #50bbfb;
+      .search-logo {
+        width: 55px;
+        height: 45px;
+        background: url("../img/search.png") no-repeat 19px 12px;
+      }
+    }
+  }
+  .tool {
+    position: absolute;
+    width: 225px;
+    height: 23px;
+    right: 100px;
+    top: 50px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
+    padding: 11px 0;
+    & > div {
+      width: 74px;
+      height: 23px;
+      float: left;
+      border-right: dashed 1px #7c8196;
+      text-align: center;
+      line-height: 23px;
+      font-weight: 500;
+      color: #7c8196;
+      font-size: 12px;
+      &:hover {
+        color: #50bbfb;
+      }
+    }
+    .satellite {
+      &::before {
+        content: "";
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin-right: 5px;
+        background: url("../img/satellite.png") no-repeat;
+        vertical-align: -3px;
+      }
+      &:hover {
+        &::before {
+          background: url("../img/satellite-hide.png") no-repeat;
+        }
+      }
+    }
+    .rangefinder {
+      &::before {
+        content: "";
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin-right: 5px;
+        background: url("../img/rangefinder.png") no-repeat;
+        vertical-align: -3px;
+      }
+      &:hover {
+        &::before {
+          background: url("../img/rangefinder-hide.png") no-repeat;
+        }
+      }
+    }
+    .quick {
+      border: none;
+      width: 74px;
+      overflow: hidden;
+      height: 23px;
+      &:hover {
+        height: auto;
+        .title::before {
+          background: url("../img/quick-hide.png") no-repeat;
+        }
+      }
+      .title {
+        &::before {
+          content: "";
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          margin-right: 5px;
+          background: url("../img/quick.png") no-repeat;
+          vertical-align: -3px;
+        }
+      }
+      .menu {
+        width: 74px;
+        background-color: #ffffff;
+        padding: 7px 0;
+        margin-top: 15px;
+        border-radius: 5px;
+        box-shadow: 5px 15px 15px RGBA(51, 51, 51, 0.3);
+        & > div {
+          width: 74px;
+          height: 27px;
+          line-height: 27px;
+          font-size: 12px;
+          background-color: #ffffff;
+        }
+        a {
+          text-decoration: none;
+          color: inherit;
+          color: #7c8196;
+          &:hover {
+            color: #50bbfb;
+          }
+        }
+      }
+    }
+  }
+}
