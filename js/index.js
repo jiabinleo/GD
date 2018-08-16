@@ -1,13 +1,15 @@
+var map = new AMap.Map("container", {
+  resizeEnable: true,
+  zoom: 12
+});
 $(function() {
   var StartingPoint = "",
     endPoint = "";
-  var map = new AMap.Map("container", {
-    resizeEnable: true,
-    zoom: 12
-  });
+
   var mapPage = {
     init: function() {
       mapPage.listen();
+      mapPage.queryData();
     },
     listen: function() {
       var satellite = true;
@@ -23,7 +25,6 @@ $(function() {
       $("#rangefinder").on("click", function() {
         startRuler();
       });
-
       // 路径规划
       $("#btn").on("click", function() {
         StartingPoint = "珠光(地铁站)";
@@ -34,6 +35,13 @@ $(function() {
             "&to%5Bname%5D=" +
             endPoint
         );
+      });
+      //右侧检索
+      $("#retrieval").on("click", function() {
+        $("#retrievalBox").show();
+      });
+      $("#close").on("click", function() {
+        $("#retrievalBox").hide();
       });
     },
 
@@ -87,6 +95,24 @@ $(function() {
         ruler2.turnOn();
       }
       return (window.startRuler = startRuler1);
+    },
+    queryData: function(data) {
+      $.ajax({
+        type: "GET",
+        url:
+          "http://192.168.1.240:8080/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
+        dataType: "jsonp",
+        data: data,
+        jsonp: "callback",
+        success: function(data) {
+          if (data.success === "0") {
+            mapPage.showPoint(data.result);
+          }
+        }
+      });
+    },
+    showPoint: function(data) {
+      console.log(data);
     }
   };
   mapPage.init();

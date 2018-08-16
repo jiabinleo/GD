@@ -159,4 +159,32 @@
       }
     }
   }
+  .retrieval {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    padding: 25px 10px;
+    writing-mode: tb-rl;
+    cursor: pointer;
+  }
+  .retrievalBox {
+    display: none;
+    position: absolute;
+    right: 80px;
+    top: 30px;
+    width: 400px;
+    height: 600px;
+    background-color: #ffffff;
+    .title {
+      overflow: hidden;
+      span {
+        float: left;
+        &:nth-of-type(2) {
+          float: right;
+        }
+      }
+    }
+  }
 }
