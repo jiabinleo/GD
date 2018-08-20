@@ -1,17 +1,19 @@
 * {
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 .wrap {
   position: relative;
   width: 100wh;
   height: 100vh;
+  overflow: hidden;
 }
 .wrap .search {
   position: absolute;
-  width: 324px;
+  width: 268px;
   height: 45px;
-  right: 375px;
+  right: 430px;
   top: 50px;
   background-color: #ffffff;
   border-radius: 5px;
@@ -20,7 +22,7 @@
 }
 .wrap .search .search-left {
   float: left;
-  width: 269px;
+  width: 213px;
   height: 45px;
 }
 .wrap .search .search-left .search-left-wrap {
@@ -52,7 +54,7 @@
 }
 .wrap .tool {
   position: absolute;
-  width: 225px;
+  width: 300px;
   height: 23px;
   right: 100px;
   top: 50px;
@@ -87,20 +89,19 @@
 .wrap .tool .satellite:hover::before {
   background: url("../img/satellite-hide.png") no-repeat;
 }
-.wrap .tool .rangefinder::before {
+.wrap .tool .chart::before {
   content: "";
   display: inline-block;
   width: 14px;
   height: 14px;
   margin-right: 5px;
-  background: url("../img/rangefinder.png") no-repeat;
+  background: url("../img/chart.png") no-repeat;
   vertical-align: -3px;
 }
-.wrap .tool .rangefinder:hover::before {
-  background: url("../img/rangefinder-hide.png") no-repeat;
+.wrap .tool .chart:hover::before {
+  background: url("../img/chart-hide.png") no-repeat;
 }
 .wrap .tool .quick {
-  border: none;
   width: 74px;
   overflow: hidden;
   height: 23px;
@@ -142,6 +143,21 @@
 }
 .wrap .tool .quick .menu a:hover {
   color: #50bbfb;
+}
+.wrap .tool .message {
+  border: none;
+}
+.wrap .tool .message::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+  background: url("../img/message.png") no-repeat;
+  vertical-align: -3px;
+}
+.wrap .tool .message:hover::before {
+  background: url("../img/message-hide.png") no-repeat;
 }
 .wrap .retrieval {
   position: absolute;
@@ -297,18 +313,35 @@
   margin-top: 20px;
 }
 .wrap .retrievalBox .retrievalBox-content .status span {
+  border-radius: 10px;
+  padding: 2px 5px;
   font-size: 12px;
   font-weight: 500;
   margin-right: 30px;
 }
 .wrap .retrievalBox .retrievalBox-content .status span:first-of-type {
   color: #ff0000;
+  border: solid 1px #ff0000;
 }
 .wrap .retrievalBox .retrievalBox-content .status span:nth-of-type(2) {
   color: #fa9d0a;
+  border: solid 1px #fa9d0a;
 }
 .wrap .retrievalBox .retrievalBox-content .status span:nth-of-type(3) {
   color: #0aa2fa;
+  border: solid 1px #0aa2fa;
+}
+.wrap .retrievalBox .retrievalBox-content .status span.insetActive {
+  color: #ffffff;
+}
+.wrap .retrievalBox .retrievalBox-content .status span.insetActive.span1 {
+  background-color: #ff0000;
+}
+.wrap .retrievalBox .retrievalBox-content .status span.insetActive.span2 {
+  background-color: #fa9d0a;
+}
+.wrap .retrievalBox .retrievalBox-content .status span.insetActive.span3 {
+  background-color: #0aa2fa;
 }
 .wrap .retrievalBox .retrievalBox-content table {
   width: 100%;
@@ -406,4 +439,222 @@
 }
 .wrap .ProjectileFrame p a.status3 {
   color: #fa9d0a;
+}
+.wrap .tableList {
+  position: absolute;
+  top: 194px;
+  right: 77px;
+  width: 375px;
+  display: none;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 15px rgba(51, 51, 51, 0.3);
+  overflow: hidden;
+}
+.wrap .tableList .tableList-header {
+  padding: 0 30px;
+  background-color: #50bbfb;
+  width: 315px;
+  height: 47px;
+  line-height: 47px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+}
+.wrap .tableList .tableList-header span {
+  float: left;
+  line-height: 47px;
+}
+.wrap .tableList .tableList-header span:nth-of-type(2) {
+  float: right;
+}
+.wrap .tableList .tableList-content {
+  background-color: #ffffff;
+  padding: 10px 30px 15px 30px;
+}
+.wrap .tableList .tableList-content table {
+  width: 100%;
+}
+.wrap .tableList .tableList-content table thead tr {
+  line-height: 43px;
+  font-size: 14px;
+  color: #666666;
+}
+.wrap .tableList .tableList-content table thead tr td:first-of-type {
+  text-align: left;
+}
+.wrap .tableList .tableList-content table thead tr td:last-of-type {
+  text-align: right;
+}
+.wrap .tableList .tableList-content table tbody tr {
+  line-height: 43px;
+  font-size: 14px;
+  color: #999999;
+}
+.wrap .tableList .tableList-content table tbody tr td {
+  border-bottom: solid 1px #eeeeee;
+}
+.wrap .tableList .tableList-content table tbody tr td:first-of-type {
+  text-align: left;
+}
+.wrap .tableList .tableList-content table tbody tr td:last-of-type {
+  text-align: right;
+}
+.wrap .tableList .tableList-content table tbody tr:last-of-type td {
+  border: none;
+}
+.wrap .details {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 567px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.wrap .details .details-header {
+  padding: 0 30px;
+  background-color: #50bbfb;
+  height: 47px;
+  line-height: 47px;
+  font-size: 18px;
+  color: #ffffff;
+}
+.wrap .details .details-header span:first-of-type {
+  float: left;
+  max-width: 353px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wrap .details .details-header span:last-of-type {
+  float: right;
+}
+.wrap .details .details-content {
+  width: 517px;
+  padding: 0 30px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.wrap .details .details-content .lt {
+  float: left;
+}
+.wrap .details .details-content .rt {
+  float: right;
+}
+.wrap .details .details-content .address {
+  color: #666666;
+  font-size: 14px;
+  overflow: hidden;
+  line-height: 73px;
+  border-bottom: solid 1px #eeeeee;
+}
+.wrap .details .details-content .address span:nth-of-type(2) {
+  float: right;
+  width: 16px;
+  height: 20px;
+  vertical-align: -11px;
+  padding: 8px;
+}
+.wrap .details .details-content .address span:last-of-type {
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wrap .details .details-content .disasterPoint {
+  border-bottom: solid 1px #eeeeee;
+  padding: 10px 0;
+}
+.wrap .details .details-content .disasterPoint p {
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  color: #666666;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type {
+  font-size: 16px;
+  color: #999999;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span {
+  color: #7c8196;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span:first-of-type {
+  color: #333333;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span.pl30 {
+  padding-left: 30px;
+}
+.wrap .details .details-content .fieldPhoto {
+  border-bottom: solid 1px #eeeeee;
+  padding: 20px 0;
+}
+.wrap .details .details-content .fieldPhoto p {
+  line-height: 40px;
+  color: #666666;
+  font-size: 14px;
+}
+.wrap .details .details-content .fieldPhoto p:first-of-type {
+  color: #333333;
+  font-size: 16px;
+  margin-top: -15px;
+}
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul {
+  overflow: hidden;
+}
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul li {
+  width: 150px;
+  height: 107px;
+  border-radius: 5px;
+  overflow: hidden;
+  float: left;
+  margin-right: 33px;
+}
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul li:last-of-type {
+  margin: 0;
+}
+.wrap .details .details-content .weather {
+  border-bottom: solid 1px #eeeeee;
+  padding: 20px 0;
+}
+.wrap .details .details-content .weather p {
+  color: #333333;
+  font-size: 16px;
+}
+.wrap .details .details-content .weather ul {
+  overflow: hidden;
+}
+.wrap .details .details-content .weather ul li {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+.wrap .details .details-content .weather ul li p {
+  line-height: 25px;
+  font-size: 14px;
+}
+.wrap .details .details-content .weather ul li p:first-of-type {
+  color: #666666;
+}
+.wrap .details .details-content .weather ul li p:nth-of-type(2) {
+  color: #333333;
+}
+.wrap .details .details-content .weather ul li p:last-of-type {
+  color: #333333;
+}
+.wrap .details .details-content .else ul {
+  overflow: hidden;
+}
+.wrap .details .details-content .else ul li {
+  float: left;
+  text-align: center;
+  width: 25%;
+  padding: 20px 0;
+}
+.wrap .details .details-content .else ul li img {
+  width: 60px;
+  height: 60px;
+}
+.wrap .details .details-content .else ul li p {
+  font-size: 14px;
+  color: #666666;
+  line-height: 20px;
 }

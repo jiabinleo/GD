@@ -31,13 +31,14 @@ var indexPage = {
   listen: function() {
     //查询按钮
     $("#search").on("click", function() {
+      $(".status span").removeClass("insetActive");
       areaname = $("#getAreaName option:selected").val();
       if (dtype.length == 0 || dtype.length == 2) {
         dtypes = "";
       } else {
         dtypes = dtype[0];
       }
-
+      warnlevel = "";
       for (let i = 0; i < gradename.length; i++) {
         warnlevel += gradename[i] + ",";
       }
@@ -84,7 +85,7 @@ var indexPage = {
     //   startRuler();
     // });
     //路径规划
-    $(document).on("click", ".goto", function() {
+    $(document).on("click", "#goto", function() {
       indexPage.goto("珠光创新科技园", $(this).attr("data"));
     });
     //点击检索
@@ -103,11 +104,30 @@ var indexPage = {
       // indexPage.queryData("", layers);
     });
     //关闭检索
-    $("#close").on("click", function() {
+    $("#close1").on("click", function() {
       $("#retrievalBox").hide();
       $(".retrieval")
         .removeClass("retrieval-hide")
         .addClass("retrieval-show");
+    });
+    // 显示图表
+    $("#chart").on("click", function() {
+      if ($("#tableList").css("display") == "none") {
+        $("#tableList").show();
+      } else {
+        $("#tableList").hide();
+      }
+    });
+    //关闭图表列表
+    $("#close2").on("click", function() {
+      $("#tableList").hide();
+      $(".tableList")
+        .removeClass("retrieval-hide")
+        .addClass("retrieval-show");
+    });
+    //关闭详情
+    $(document).on("click", "#close3", function() {
+      $("#details").hide();
     });
     //灾情类型
     $(".disasterType").on("click", "[name='check']", function() {
@@ -139,13 +159,17 @@ var indexPage = {
     });
     //根据状态筛选
     $(".status").on("click", "span", function() {
+      $(this)
+        .addClass("insetActive")
+        .siblings()
+        .removeClass("insetActive");
       areaname = $("#getAreaName option:selected").val();
       if (dtype.length == 0 || dtype.length == 2) {
         dtypes = "";
       } else {
         dtypes = dtype[0];
       }
-
+      warnlevel = "";
       for (let i = 0; i < gradename.length; i++) {
         warnlevel += gradename[i] + ",";
       }
@@ -298,6 +322,7 @@ var indexPage = {
   },
   // 地图上显示点
   showPoint: function(data) {
+    var tData = "";
     //初始化地图对象，加载地图
     infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
     map.clearMap(); // 清除地图覆盖物
@@ -313,14 +338,14 @@ var indexPage = {
       if (data[i].managestate == 2) {
         icon = new AMap.Icon({
           size: new AMap.Size(40, 50), //图标大小
-          image: "../img/led_orange.png",
+          image: "../img/led_red.png",
           imageOffset: new AMap.Pixel(0, 0)
         });
       }
       if (data[i].managestate == 3) {
         icon = new AMap.Icon({
           size: new AMap.Size(40, 50), //图标大小
-          image: "../img/led_red.png",
+          image: "../img/led_orange.png",
           imageOffset: new AMap.Pixel(0, 0)
         });
       }
@@ -329,37 +354,142 @@ var indexPage = {
         map: window.map,
         icon: icon
       });
-      var contentHtml =
-        "<div class='ProjectileFrame'>" +
-        "<p>经度：<a>" +
-        data[i].lon +
-        "</a></p>" +
-        "<p>纬度：<a>" +
-        data[i].lat +
-        "</a></p>" +
-        "<p>巡查地址：" +
-        data[i].addressname +
-        "<a class='goto'data=" +
-        data[i].addressname +
-        ">[去这里]</a></p>" +
-        "<p>状况：<a>" +
-        data[i].remark +
-        "</a></p>" +
-        "<p>状态：<a class=status" +
-        data[i].managestate +
-        ">" +
-        indexPage.status(data[i].managestate) +
-        "</a></p>" +
-        "</div>";
-      marker.content = contentHtml;
+      var tData = data[i];
+      marker.content = tData;
       marker.on("click", markerClick);
-      // marker.emit("click", { target: marker });
     }
     function markerClick(e) {
-      infoWindow.setContent(e.target.content);
-      infoWindow.open(map, e.target.getPosition());
+      var etc = e.target.content;
+      indexPage.detailsSpot(etc);
     }
     map.setFitView();
+  },
+  detailsSpot: function(etc) {
+    var data = {
+      uuid: etc.uuid
+    };
+    $.ajax({
+      type: "GET",
+      url: header + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
+      dataType: "jsonp",
+      data: data,
+      jsonp: "callback",
+      success: function(data) {
+        if (data.success == "0") {
+          indexPage.detailsSpotHtml(etc, data.result);
+        }
+      }
+    });
+  },
+  detailsSpotHtml: function(etc, data) {
+    console.log(data);
+    var detailsHtml = `<div class="details-header">
+    <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
+    <span>(编号：${data.fzsite.id})</span>
+    <span id="close3"><img src="img/close.png" alt=""></span>
+</div>
+<div class="details-content">
+    <div class="address">
+        <span class="lt">巡查地址：</span>
+        <span><img id='goto' data=${data.fzsite.addressname} src="img/goto.png" alt=""></span>
+        <span class="rt">${data.fzsite.addressname}</span>
+    </div>
+    <div class="disasterPoint">
+        <p>
+            <span class="lt">灾情点： (${indexPage.status(
+              data.fzsite.managestate
+            )})</span>
+            <span class="rt pl30">转发</span>
+            <span class="rt">巡查</span>
+        </p>
+        <p>
+            <span class="lt">巡查时间</span>
+            <span class="rt">${data.fzsite.managertel}</span>
+        </p>
+        <p>
+            <span class="lt">巡查者</span>
+            <span class="rt">${data.fzsite.manager}</span>
+        </p>
+        <!-- <p>
+            <span class="lt">联系电话：</span>
+            <span class="rt">${data.fzsite.managertel}</span>
+        </p> -->
+    </div>
+    <div class="fieldPhoto">
+        <p>现场照片</p>
+        <p>2018年8月20日</p>
+        <div class="fieldPhoto-wrap">
+            <ul>
+                <li><img src="img/png.png" alt=""></li>
+                <li><img src="img/png.png" alt=""></li>
+                <li><img src="img/png.png" alt=""></li>
+            </ul>
+        </div>
+    </div>
+    <div class="weather">
+        <p>未来天气</p>
+        <ul>
+            <li>
+                <p>昨天</p>
+                <p>-2/3℃</p>
+                <img src="img/snow.png" alt="">
+                <p>下雪</p>
+            </li>
+            <li>
+                <p>昨天</p>
+                <p>-2/3℃</p>
+                <img src="img/snow.png" alt="">
+                <p>下雪</p>
+            </li>
+            <li>
+                <p>昨天</p>
+                <p>-2/3℃</p>
+                <img src="img/snow.png" alt="">
+                <p>下雪</p>
+            </li>
+            <li>
+                <p>昨天</p>
+                <p>-2/3℃</p>
+                <img src="img/snow.png" alt="">
+                <p>下雪</p>
+            </li>
+            <li>
+                <p>昨天</p>
+                <p>-2/3℃</p>
+                <img src="img/snow.png" alt="">
+                <p>下雪</p>
+            </li>
+        </ul>
+    </div>
+    <div class="else">
+        <ul>
+            <li>
+                <img src="img/school.png" alt="">
+                <p>学校</p>
+            </li>
+            <li>
+                <img src="img/school.png" alt="">
+                <p>
+                    避乱所
+                </p>
+            </li>
+            <li>
+                <img src="img/school.png" alt="">
+                <p>
+                    重要场所
+                </p>
+            </li>
+            <li>
+                <img src="img/school.png" alt="">
+                <p>
+                    水库
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>`;
+    $("#details").html(detailsHtml);
+    $("#details").show();
   }
 };
 indexPage.init();

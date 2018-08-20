@@ -37,7 +37,7 @@
         </div>
         <div class="tool">
             <div id="satellite" data-if="true" class="satellite">卫星</div>
-            <!-- <div id="rangefinder" class="rangefinder" data-if="true">测距</div> -->
+            <div id="chart" class="chart" data-if="true">图表</div>
             <div id="quick" class="quick">
                 <div class="title">快捷</div>
                 <div class="menu">
@@ -52,6 +52,7 @@
                     </div>
                 </div>
             </div>
+            <div id="message" class="message" data-if="true">消息</div>
         </div>
         <div id="retrieval" class="retrieval retrieval-show ">
             <span>检&nbsp;&nbsp;索</span>
@@ -59,7 +60,7 @@
         <div id="retrievalBox" class="retrievalBox">
             <div class="retrievalBox-title">
                 <span>检索</span>
-                <span id="close">X</span>
+                <span id="close1"><img src="img/close.png" alt=""></span>
             </div>
             <div class="retrievalBox-content" id="retrievalBox_content">
                 <p class="disasterType">灾情类型：
@@ -78,13 +79,16 @@
                     <span><a name="check" class="checkFalse" data="4">四级</a></span>
                 </p>
                 <input id="search" class="button" type="button" value="查询">
-                <p class="status"><span data="2">未治理：<a id="ungovern">9</a></span><span data="3">治理中：<a id="hasgovern">9</a></span><span data="1">已治理：<a
-                            id="ingovern">9</a></span></p>
+                <p class="status">
+                    <span class="span1" data="2">未治理：<a id="ungovern">9</a></span>
+                    <span class="span2" data="3">治理中：<a id="hasgovern">9</a></span>
+                    <span class="span3" data="1">已治理：<a id="ingovern">9</a></span>
+                </p>
                 <table>
                     <thead>
                         <tr>
-                            <td>设备ID</td>
-                            <td>设备位置</td>
+                            <td>编号</td>
+                            <td>地址</td>
                             <td>状态</td>
                         </tr>
                     </thead>
@@ -102,6 +106,151 @@
                 </div>
             </div>
         </div>
+        <div class="tableList" id="tableList">
+            <div class="tableList-header">
+                <span>图表列表</span>
+                <span id="close2"><img src="img/close.png" alt=""></span>
+            </div>
+            <div class="tableList-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>编号</td>
+                            <td>图表列表</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>323445</td>
+                            <td>列表列表列表列表列表</td>
+                        </tr>
+                        <tr>
+                            <td>323445</td>
+                            <td>列表列表列表列表列表</td>
+                        </tr>
+                        <tr>
+                            <td>323445</td>
+                            <td>列表列表列表列表列表</td>
+                        </tr>
+                        <tr>
+                            <td>323445</td>
+                            <td>列表列表列表列表列表</td>
+                        </tr>
+                        <tr>
+                            <td>323445</td>
+                            <td>列表列表列表列表列表</td>
+                        </tr>
+                        <tr>
+                            <td>323445</td>
+                            <td>列表列表列表列表列表</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="details" id="details">
+            <!-- <div class="details-header">
+                <span>保安桥头灾害点(编号：230123)</span>
+                <span id="close3"><img src="img/close.png" alt=""></span>
+            </div>
+            <div class="details-content">
+                <div class="address">
+                    <span class="lt">巡查地址：</span>
+                    <span class="rt">广东省深圳市宝安区桥头沥青水库<img src="img/goto.png" alt=""></span>
+                </div>
+                <div class="disasterPoint">
+                    <p>
+                        <span class="lt">灾情点： (已治理)</span>
+                        <span class="rt pl30">转发</span>
+                        <span class="rt">巡查</span>
+                    </p>
+                    <p>
+                        <span class="lt">巡查时间</span>
+                        <span class="rt">2018年8月22日</span>
+                    </p>
+                    <p>
+                        <span class="lt">巡查者</span>
+                        <span class="rt">王大锤</span>
+                    </p>
+                    <p>
+                        <span class="lt">联系电话：</span>
+                        <span class="rt">15689475625</span>
+                    </p>
+                </div>
+                <div class="fieldPhoto">
+                    <p>现场照片</p>
+                    <p>2018年8月20日</p>
+                    <div class="fieldPhoto-wrap">
+                        <ul>
+                            <li><img src="img/png.png" alt=""></li>
+                            <li><img src="img/png.png" alt=""></li>
+                            <li><img src="img/png.png" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="weather">
+                    <p>未来天气</p>
+                    <ul>
+                        <li>
+                            <p>昨天</p>
+                            <p>-2/3℃</p>
+                            <img src="img/snow.png" alt="">
+                            <p>下雪</p>
+                        </li>
+                        <li>
+                            <p>昨天</p>
+                            <p>-2/3℃</p>
+                            <img src="img/snow.png" alt="">
+                            <p>下雪</p>
+                        </li>
+                        <li>
+                            <p>昨天</p>
+                            <p>-2/3℃</p>
+                            <img src="img/snow.png" alt="">
+                            <p>下雪</p>
+                        </li>
+                        <li>
+                            <p>昨天</p>
+                            <p>-2/3℃</p>
+                            <img src="img/snow.png" alt="">
+                            <p>下雪</p>
+                        </li>
+                        <li>
+                            <p>昨天</p>
+                            <p>-2/3℃</p>
+                            <img src="img/snow.png" alt="">
+                            <p>下雪</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="else">
+                    <ul>
+                        <li>
+                            <img src="img/school.png" alt="">
+                            <p>学校</p>
+                        </li>
+                        <li>
+                            <img src="img/school.png" alt="">
+                            <p>
+                                避乱所
+                            </p>
+                        </li>
+                        <li>
+                            <img src="img/school.png" alt="">
+                            <p>
+                                重要场所
+                            </p>
+                        </li>
+                        <li>
+                            <img src="img/school.png" alt="">
+                            <p>
+                                水库
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
     </div>
     <script src="js/index.js"></script>
 
