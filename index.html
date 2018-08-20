@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main.css?v=1.0" />
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.9&key=您申请的key值&plugin=AMap.ToolBar"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.9&key=您申请的key值&plugin=AMap.CitySearch"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.9&key=您申请的key值&plugin=AMap.Geocoder"></script>
     <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
     <link rel="stylesheet" href="css/index.css">
 </head>
@@ -27,9 +28,6 @@
                 <div class="search-left-wrap">
                     <input type="text" placeholder="请输入您想搜索的内容">
                 </div>
-                <!-- <div id='btn' class="navigation">
-
-                </div> -->
             </div>
             <div class="search-right">
                 <div class="search-logo">
@@ -39,7 +37,7 @@
         </div>
         <div class="tool">
             <div id="satellite" data-if="true" class="satellite">卫星</div>
-            <div id="rangefinder" class="rangefinder" data-if="true">测距</div>
+            <!-- <div id="rangefinder" class="rangefinder" data-if="true">测距</div> -->
             <div id="quick" class="quick">
                 <div class="title">快捷</div>
                 <div class="menu">
@@ -63,22 +61,25 @@
                 <span>检索</span>
                 <span id="close">X</span>
             </div>
-            <div class="retrievalBox-content">
-                <p class="disasterType">灾情类型：<span><a>全部</a></span><span><a>隐患点</a></span><span><a>灾情点</a></span></p>
-                <p class="area areaStreet">所在区域：
-                    <select name="" id="">
+            <div class="retrievalBox-content" id="retrievalBox_content">
+                <p class="disasterType">灾情类型：
+                    <span><a name="check" class="checkFalse" data="1">隐患点</a></span>
+                    <span><a name="check" class="checkFalse" data="2">灾情点</a></span>
+                </p>
+                <p class="area">所在区域：
+                    <select name="" id="getAreaName">
                         <option value="全部">全部</option>
-                        <option value="南山区">南山区</option>
                     </select>
                 </p>
-                <p class="street areaStreet">所在街道：
-                    <select name="" id="">
-                        <option value="全部">全部</option>
-                        <option value="南山区">南山区</option>
-                    </select>
+                <p class="grade">等级:
+                    <span><a name="check" class="checkFalse" data="1">一级</a></span>
+                    <span><a name="check" class="checkFalse" data="2">二级</a></span>
+                    <span><a name="check" class="checkFalse" data="3">三级</a></span>
+                    <span><a name="check" class="checkFalse" data="4">四级</a></span>
                 </p>
-                <input class="button" type="button" value="查询">
-                <p class="status"><span>未治理：<a>9</a></span><span>治理中：<a>9</a></span><span>已治理：<a>9</a></span></p>
+                <input id="search" class="button" type="button" value="查询">
+                <p class="status"><span data="2">未治理：<a id="ungovern">9</a></span><span data="3">治理中：<a id="hasgovern">9</a></span><span data="1">已治理：<a
+                            id="ingovern">9</a></span></p>
                 <table>
                     <thead>
                         <tr>
@@ -87,29 +88,18 @@
                             <td>状态</td>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>34223</td>
-                            <td>广东省深圳市南山区珠光科技园</td>
-                            <td>已治理</td>
-                        </tr>
-                        <tr>
-                            <td>34223</td>
-                            <td>广东省深圳市南山区珠光科技园</td>
-                            <td>已治理</td>
-                        </tr>
-                        <tr>
-                            <td>34223</td>
-                            <td>广东省深圳市南山区珠光科技园</td>
-                            <td>已治理</td>
-                        </tr>
-                        <tr>
-                            <td>34223</td>
-                            <td>广东省深圳市南山区珠光科技园</td>
-                            <td>已治理</td>
-                        </tr>
+                    <tbody id="tbodyHtml">
                     </tbody>
                 </table>
+            </div>
+            <div class="paging">
+                <div class="paging-content">
+                    <span id="arrL" class="arrL"></span>
+                    <span class="arrCenter" id="arrCenter">
+
+                    </span>
+                    <span id="arrR" class="arrR"></span>
+                </div>
             </div>
         </div>
     </div>

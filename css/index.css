@@ -183,11 +183,13 @@
   background: url("../img/retrieval-hide.png") -8px -4px;
 }
 .wrap .retrievalBox {
+  display: none;
   position: absolute;
   right: 77px;
   top: 50%;
+  z-index: 170;
   width: 375px;
-  height: 596px;
+  height: 560px;
   background-color: #ffffff;
   transform: translateY(-50%);
   border-radius: 5px;
@@ -213,8 +215,9 @@
   float: right;
 }
 .wrap .retrievalBox .retrievalBox-content {
-  width: 315px;
   height: 549px;
+  width: 315px;
+  height: 475px;
   padding: 0 30px;
   font-size: 14px;
 }
@@ -224,13 +227,17 @@
   line-height: 48px;
 }
 .wrap .retrievalBox .retrievalBox-content p.disasterType span {
+  font-size: 0;
   color: #999999;
   display: inline-block;
-  width: 94px;
+  width: 87px;
   text-align: right;
 }
 .wrap .retrievalBox .retrievalBox-content p.disasterType span:first-of-type {
-  width: 56px;
+  margin-left: -13px;
+}
+.wrap .retrievalBox .retrievalBox-content p.disasterType span a {
+  font-size: 14px;
 }
 .wrap .retrievalBox .retrievalBox-content p.disasterType span a:before {
   content: "";
@@ -239,17 +246,45 @@
   height: 14px;
   margin-right: -5px;
   vertical-align: -2px;
+}
+.wrap .retrievalBox .retrievalBox-content p.disasterType span a.checkFalse:before {
   background: 100% url("../img/check.png") no-repeat;
 }
-.wrap .retrievalBox .retrievalBox-content p.areaStreet {
+.wrap .retrievalBox .retrievalBox-content p.disasterType span a.checkTrue:before {
+  background: 100% url("../img/check-hide.png") no-repeat;
+}
+.wrap .retrievalBox .retrievalBox-content p.area {
   margin-top: 10px;
 }
-.wrap .retrievalBox .retrievalBox-content p.areaStreet select {
+.wrap .retrievalBox .retrievalBox-content p.area select {
   margin-left: 15px;
   width: 225px;
   height: 30px;
   border-radius: 3px;
   border: solid #d3d3d3 1px;
+}
+.wrap .retrievalBox .retrievalBox-content p.grade span {
+  color: #999999;
+  display: inline-block;
+  width: 70px;
+  text-align: right;
+}
+.wrap .retrievalBox .retrievalBox-content p.grade span:first-of-type {
+  width: 56px;
+}
+.wrap .retrievalBox .retrievalBox-content p.grade span a:before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 14px;
+  margin-right: -5px;
+  vertical-align: -2px;
+}
+.wrap .retrievalBox .retrievalBox-content p.grade span a.checkFalse:before {
+  background: 100% url("../img/check.png") no-repeat;
+}
+.wrap .retrievalBox .retrievalBox-content p.grade span a.checkTrue:before {
+  background: 100% url("../img/check-hide.png") no-repeat;
 }
 .wrap .retrievalBox .retrievalBox-content .button {
   width: 315px;
@@ -288,28 +323,87 @@
 }
 .wrap .retrievalBox .retrievalBox-content table thead tr td:last-of-type {
   text-align: right;
+  padding-right: 8px;
 }
 .wrap .retrievalBox .retrievalBox-content table tbody {
   padding-top: 24px;
+  border: none;
 }
 .wrap .retrievalBox .retrievalBox-content table tbody tr {
   line-height: 26px;
 }
+.wrap .retrievalBox .retrievalBox-content table tbody tr td {
+  color: #999999;
+}
+.wrap .retrievalBox .retrievalBox-content table tbody tr td:nth-of-type(2) {
+  display: inline-block;
+  width: 200px;
+  height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: 0;
+}
 .wrap .retrievalBox .retrievalBox-content table tbody tr td:last-of-type {
   text-align: right;
 }
-#container {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
+.wrap .retrievalBox .retrievalBox-content table tbody tr td.status1 {
+  color: #0aa2fa;
 }
-#loadingTip {
-  position: absolute;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  padding: 3px 10px;
-  background: red;
-  color: #fff;
-  font-size: 14px;
+.wrap .retrievalBox .retrievalBox-content table tbody tr td.status2 {
+  color: #ff0000;
+}
+.wrap .retrievalBox .retrievalBox-content table tbody tr td.status3 {
+  color: #fa9d0a;
+}
+.wrap .retrievalBox .paging .paging-content {
+  text-align: center;
+  overflow: hidden;
+}
+.wrap .retrievalBox .paging .paging-content .arrL {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url("../img/arrl.png") no-repeat;
+}
+.wrap .retrievalBox .paging .paging-content .arrR {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url("../img/arrR.png") no-repeat;
+}
+.wrap .retrievalBox .paging .paging-content .arrCenter a {
+  padding: 5px;
+  vertical-align: 5.5px;
+  color: #999999;
+  font-size: 12px;
+}
+.wrap .retrievalBox .paging .paging-content .arrCenter a.activeColor {
+  color: #0aa2fa;
+}
+.wrap .amap-info-outer {
+  border-radius: 5px;
+  overflow: hidden;
+}
+.wrap .ProjectileFrame {
+  font-size: 12px;
+}
+.wrap .ProjectileFrame p {
+  color: #666666;
+}
+.wrap .ProjectileFrame p a {
+  color: #999999;
+}
+.wrap .ProjectileFrame p a.goto {
+  color: blue;
+  cursor: pointer;
+}
+.wrap .ProjectileFrame p a.status1 {
+  color: #0aa2fa;
+}
+.wrap .ProjectileFrame p a.status2 {
+  color: #ff0000;
+}
+.wrap .ProjectileFrame p a.status3 {
+  color: #fa9d0a;
 }
