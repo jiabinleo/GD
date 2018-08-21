@@ -382,7 +382,97 @@ var indexPage = {
     });
   },
   detailsSpotHtml: function(etc, data) {
-    console.log(data);
+    // 获取天气
+    var weatherHtml = "";
+    $.ajax({
+      url: "http://14.116.184.77:8088/light/mobile/weather/getWeather",
+      type: "POST",
+      async: false,
+      dataType: "json",
+      data: {
+        lon: data.fzsite.lon,
+        lat: data.fzsite.lat
+      },
+      success: function(data) {
+        if (data.success == "0") {
+          console.log(data.result);
+          for (let i = 0; i < data.result.forecast.dailyArray.length; i++) {
+            var skycon = {};
+            console.log(data.result.forecast.dailyArray[i].skycon);
+            switch (data.result.forecast.dailyArray[i].skycon) {
+              case "CLEAR_DAY":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "晴天"
+                };
+                break;
+              case "CLEAR_NIGHT":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "晴夜"
+                };
+                break;
+              case "PARTLY_CLOUDY_DAY":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "多云"
+                };
+                break;
+              case "PARTLY_CLOUDY_NIGHT":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "多云"
+                };
+                break;
+              case "CLOUDY":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "阴"
+                };
+                break;
+              case "RAIN":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "雨"
+                };
+                break;
+              case "SNOW":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "雪"
+                };
+                break;
+              case "WIND":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "风"
+                };
+                break;
+              case "HAZE":
+                skycon = {
+                  weatherUrl: "../img/rainstorm.png",
+                  status: "雾霾沙尘"
+                };
+                break;
+              default:
+              skycon = {
+                weatherUrl: "",
+                status: ""
+              };
+                break;
+            }
+            weatherHtml += `<li>
+            <p>${data.result.forecast.dailyArray[i].date}</p>
+            <p>${data.result.forecast.dailyArray[i].tempMin}/${
+              data.result.forecast.dailyArray[i].tempMax
+            }℃</p>
+            <img src="${skycon.weatherUrl}" alt="">
+            <p>${skycon.status}</p>
+        </li>`;
+          }
+        }
+      }
+    });
     var detailsHtml = `<div class="details-header">
     <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
     <span>(编号：${data.fzsite.id})</span>
@@ -391,7 +481,9 @@ var indexPage = {
 <div class="details-content">
     <div class="address">
         <span class="lt">巡查地址：</span>
-        <span><img id='goto' data=${data.fzsite.addressname} src="img/goto.png" alt=""></span>
+        <span><img id='goto' data=${
+          data.fzsite.addressname
+        } src="img/goto.png" alt=""></span>
         <span class="rt">${data.fzsite.addressname}</span>
     </div>
     <div class="disasterPoint">
@@ -429,36 +521,7 @@ var indexPage = {
     <div class="weather">
         <p>未来天气</p>
         <ul>
-            <li>
-                <p>昨天</p>
-                <p>-2/3℃</p>
-                <img src="img/snow.png" alt="">
-                <p>下雪</p>
-            </li>
-            <li>
-                <p>昨天</p>
-                <p>-2/3℃</p>
-                <img src="img/snow.png" alt="">
-                <p>下雪</p>
-            </li>
-            <li>
-                <p>昨天</p>
-                <p>-2/3℃</p>
-                <img src="img/snow.png" alt="">
-                <p>下雪</p>
-            </li>
-            <li>
-                <p>昨天</p>
-                <p>-2/3℃</p>
-                <img src="img/snow.png" alt="">
-                <p>下雪</p>
-            </li>
-            <li>
-                <p>昨天</p>
-                <p>-2/3℃</p>
-                <img src="img/snow.png" alt="">
-                <p>下雪</p>
-            </li>
+            ${weatherHtml}
         </ul>
     </div>
     <div class="else">
