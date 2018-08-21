@@ -506,7 +506,7 @@
   position: absolute;
   top: 50px;
   left: 50px;
-  width: 567px;
+  width: 583px;
   border-radius: 5px;
 }
 .wrap .details .details-header {
@@ -528,7 +528,7 @@
   float: right;
 }
 .wrap .details .details-content {
-  width: 507px;
+  width: 523px;
   padding: 0 30px;
   background-color: #ffffff;
   max-height: 80vh;
@@ -580,6 +580,15 @@
 }
 .wrap .details .details-content .disasterPoint p:first-of-type span:first-of-type {
   color: #333333;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span:first-of-type a.status1 {
+  color: #0aa2fa;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span:first-of-type a.status2 {
+  color: #ff0000;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span:first-of-type a.status3 {
+  color: #fa9d0a;
 }
 .wrap .details .details-content .disasterPoint p:first-of-type span.pl30 {
   padding-left: 30px;
@@ -696,4 +705,31 @@
   right: 10px;
   width: 280px;
   z-index: 111;
+}
+.mask-wrap {
+  user-select: none;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  overflow: hidden;
+}
+.mask-wrap .mask-img {
+  position: absolute;
+  height: 80%;
+  background-color: #ffffff;
+  user-select: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  padding: 50px auto;
+  box-shadow: 2px 2px 5px 2px #333333;
+}
+.mask-wrap .mask-img img {
+  height: 100%;
 }

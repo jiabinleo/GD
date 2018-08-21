@@ -186,7 +186,6 @@ var indexPage = {
     });
     //周边详情
     $(document).on("click", ".aroundList", function() {
-      map.clearMap()
       indexPage.showPoint(jsonData, layers);
       var lat = $(this)
         .parent()
@@ -197,18 +196,29 @@ var indexPage = {
       var name = $(this).attr("data");
       indexPage.around(lat, lon, name);
       $(".close4").show();
-      $("#panel").show()
+      $("#panel").show();
     });
     $(document).on("click", ".close4", function() {
-      $(".close4").hide()
-      $("#panel").hide()
+      $(".close4").hide();
+      $("#panel").hide();
       indexPage.showPoint(jsonData, layers);
-    })
+    });
+    //放大图片
+    $(document).on("click", ".imgMin", function() {
+      $(".mask-img").html(`<img src="${$(this).attr("imgurl")}">`);
+      console.log($(".mask-img > img").height());
+      var maskImgHeight = $(".mask-img")[0].clientHeight;
+      console.log(maskImgHeight);
+      $(".mask-wrap").show();
+    });
+    $(document).on("click", ".mask-wrap", function() {
+      $(".mask-wrap").hide();
+    });
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
       resizeEnable: true,
-      zoom: 12,
+      zoom: 16,
       layers: layers
     });
   },
@@ -221,7 +231,6 @@ var indexPage = {
       data: data,
       jsonp: "callback",
       success: function(data) {
-        console.log(data);
         if (data.success === "0") {
           jsonData = data.result;
           numPage = 1; //重置为第一页
@@ -325,7 +334,6 @@ var indexPage = {
     });
   },
   clickColor: function(numPage) {
-    console.log(numPage);
     $("#arrCenter")
       .find("a")
       .eq(numPage)
@@ -495,7 +503,9 @@ var indexPage = {
     console.log(data);
     for (let i = 0; i < data.attachList.length; i++) {
       if (data.attachList[i].filetype === "1") {
-        imgHtml += `<li><img src="${data.attachList[i].url_path}" alt=""></li>`;
+        imgHtml += `<li class="imgMin" imgUrl="${
+          data.attachList[i].url_path
+        }"><img src="${data.attachList[i].url_path}" alt=""></li>`;
       }
     }
     var detailsHtml = `<div class="details-header">
@@ -513,14 +523,14 @@ var indexPage = {
     </div>
     <div class="disasterPoint">
         <p>
-            <span class="lt">灾情点： (${indexPage.status(
+            <span class="lt">灾情点： <a class="status${
               data.fzsite.managestate
-            )})</span>
+            }">( ${indexPage.status(data.fzsite.managestate)})</a></span>
             <span class="rt pl30">转发</span>
             <span class="rt">巡查</span>
         </p>
         <p>
-            <span class="lt">巡查时间</span>
+            <span class="lt">联系电话</span>
             <span class="rt">${data.fzsite.managertel}</span>
         </p>
         <p>
@@ -587,12 +597,9 @@ var indexPage = {
         map: map,
         panel: "panel"
       });
-
+      map.setZoomAndCenter(16, [lon, lat]);
       var cpoint = [lon, lat]; //中心点坐标
-      placeSearch.searchNearBy("", cpoint, 800, function(status, result) {
-        console.log(status)
-        console.log(result)
-      });
+      placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
     });
   }
 };
@@ -620,8 +627,6 @@ map.plugin("AMap.Geolocation", function() {
   function onComplete(data) {
     // data是具体的定位信息
     if (data.info == "SUCCESS") {
-      console.log(data.position.lat);
-      console.log(data.position.lng);
     }
   }
 
