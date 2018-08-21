@@ -556,7 +556,6 @@
     left: 50px;
     width: 567px;
     border-radius: 5px;
-    overflow: hidden;
     .details-header {
       padding: 0 30px;
       background-color: #50bbfb;
@@ -578,10 +577,13 @@
       }
     }
     .details-content {
-      width: 517px;
+      // width: 517px;
+      width: 507px;
       padding: 0 30px;
       background-color: #ffffff;
-      overflow: hidden;
+      max-height: 80vh;
+      overflow-y: auto;
+      overflow-x: hidden;
       .lt {
         float: left;
       }
@@ -655,9 +657,11 @@
               border-radius: 5px;
               overflow: hidden;
               float: left;
-              margin-right: 33px;
+              margin: 6px;
               &:last-of-type {
-                margin: 0;
+              }
+              img {
+                width: 150px;
               }
             }
           }
@@ -669,6 +673,7 @@
         p {
           color: #333333;
           font-size: 16px;
+          padding-bottom: 10px;
         }
         ul {
           overflow: hidden;
@@ -679,6 +684,7 @@
             p {
               line-height: 25px;
               font-size: 14px;
+              padding: 0;
               &:first-of-type {
                 color: #666666;
               }
@@ -688,6 +694,10 @@
               &:last-of-type {
                 color: #333333;
               }
+            }
+            img {
+              width: 48px;
+              height: 38px;
             }
           }
         }
@@ -701,7 +711,7 @@
             width: 25%;
             padding: 20px 0;
             img {
-              width: 60px;
+              width: 70px;
               height: 60px;
             }
             p {
@@ -714,6 +724,39 @@
       }
     }
   }
+  .panel-wrap{
+    overflow: hidden;
+    .close4{
+      display: none;
+      position: absolute;
+      background-color: white;
+      max-height: 90%;
+      top: 20px;
+      right: 10px;
+      width: 280px;
+      border-bottom: solid 1px silver;
+      z-index: 111;
+      background-color: #0aa2fa;
+      overflow: hidden;
+      height: 20px;
+      img{
+        text-align: right;
+        float: right;
+        padding: 5px;
+      }
+    }
+    #panel {
+      position: absolute;
+      background-color: white;
+      max-height: 90%;
+      overflow-y: auto;
+      top: 40px;
+      right: 10px;
+      width: 280px;
+      z-index: 111;
+  }
+  }
+  
 }
 
 // #container {

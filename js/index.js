@@ -17,6 +17,7 @@ var StartingPoint = "",
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 
 var header = "http://14.116.184.77:8098";
+var headerWeather = "http://14.116.184.77:8088";
 // var header = "http://192.168.1.240:8080";
 
 var indexPage = {
@@ -174,7 +175,6 @@ var indexPage = {
         warnlevel += gradename[i] + ",";
       }
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
-      console.log($(this).attr("data"));
       managestate = $(this).attr("data");
       var data = {
         dtype: dtypes,
@@ -184,6 +184,26 @@ var indexPage = {
       };
       indexPage.queryData(data, layers);
     });
+    //周边详情
+    $(document).on("click", ".aroundList", function() {
+      map.clearMap()
+      indexPage.showPoint(jsonData, layers);
+      var lat = $(this)
+        .parent()
+        .attr("lat");
+      var lon = $(this)
+        .parent()
+        .attr("lon");
+      var name = $(this).attr("data");
+      indexPage.around(lat, lon, name);
+      $(".close4").show();
+      $("#panel").show()
+    });
+    $(document).on("click", ".close4", function() {
+      $(".close4").hide()
+      $("#panel").hide()
+      indexPage.showPoint(jsonData, layers);
+    })
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
@@ -324,7 +344,7 @@ var indexPage = {
   showPoint: function(data) {
     var tData = "";
     //初始化地图对象，加载地图
-    infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
+    // infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
     map.clearMap(); // 清除地图覆盖物
     for (var i = 0, marker; i < data.length; i++) {
       var icon = "";
@@ -385,7 +405,7 @@ var indexPage = {
     // 获取天气
     var weatherHtml = "";
     $.ajax({
-      url: "http://14.116.184.77:8088/light/mobile/weather/getWeather",
+      url: headerWeather + "/light/mobile/weather/getWeather",
       type: "POST",
       async: false,
       dataType: "json",
@@ -395,70 +415,68 @@ var indexPage = {
       },
       success: function(data) {
         if (data.success == "0") {
-          console.log(data.result);
           for (let i = 0; i < data.result.forecast.dailyArray.length; i++) {
             var skycon = {};
-            console.log(data.result.forecast.dailyArray[i].skycon);
             switch (data.result.forecast.dailyArray[i].skycon) {
               case "CLEAR_DAY":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/CLEAR_DAY.png",
                   status: "晴天"
                 };
                 break;
               case "CLEAR_NIGHT":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/CLEAR_NIGHT.png",
                   status: "晴夜"
                 };
                 break;
               case "PARTLY_CLOUDY_DAY":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/PARTLY_CLOUDY_DAY.png",
                   status: "多云"
                 };
                 break;
               case "PARTLY_CLOUDY_NIGHT":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/PARTLY_CLOUDY_NIGHT.png",
                   status: "多云"
                 };
                 break;
               case "CLOUDY":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/CLOUDY.png",
                   status: "阴"
                 };
                 break;
               case "RAIN":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/RAIN.png",
                   status: "雨"
                 };
                 break;
               case "SNOW":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/SNOW.png",
                   status: "雪"
                 };
                 break;
               case "WIND":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/WIND.png",
                   status: "风"
                 };
                 break;
               case "HAZE":
                 skycon = {
-                  weatherUrl: "../img/rainstorm.png",
+                  weatherUrl: "../img/HAZE.png",
                   status: "雾霾沙尘"
                 };
                 break;
               default:
-              skycon = {
-                weatherUrl: "",
-                status: ""
-              };
+                skycon = {
+                  weatherUrl: "",
+                  status: ""
+                };
                 break;
             }
             weatherHtml += `<li>
@@ -473,6 +491,13 @@ var indexPage = {
         }
       }
     });
+    var imgHtml = "";
+    console.log(data);
+    for (let i = 0; i < data.attachList.length; i++) {
+      if (data.attachList[i].filetype === "1") {
+        imgHtml += `<li><img src="${data.attachList[i].url_path}" alt=""></li>`;
+      }
+    }
     var detailsHtml = `<div class="details-header">
     <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
     <span>(编号：${data.fzsite.id})</span>
@@ -509,12 +534,9 @@ var indexPage = {
     </div>
     <div class="fieldPhoto">
         <p>现场照片</p>
-        <p>2018年8月20日</p>
         <div class="fieldPhoto-wrap">
             <ul>
-                <li><img src="img/png.png" alt=""></li>
-                <li><img src="img/png.png" alt=""></li>
-                <li><img src="img/png.png" alt=""></li>
+                ${imgHtml}
             </ul>
         </div>
     </div>
@@ -525,25 +547,25 @@ var indexPage = {
         </ul>
     </div>
     <div class="else">
-        <ul>
-            <li>
+        <ul lat=${data.fzsite.lat} lon=${data.fzsite.lon}>
+            <li class="aroundList" data="学校">
                 <img src="img/school.png" alt="">
                 <p>学校</p>
             </li>
-            <li>
-                <img src="img/school.png" alt="">
+            <li class="aroundList" data="避乱所">
+                <img src="img/refuge.png" alt="">
                 <p>
                     避乱所
                 </p>
             </li>
-            <li>
-                <img src="img/school.png" alt="">
+            <li class="aroundList" data="重要场所">
+                <img src="img/ImportantPlace.png" alt="">
                 <p>
                     重要场所
                 </p>
             </li>
-            <li>
-                <img src="img/school.png" alt="">
+            <li class="aroundList" data="水库">
+                <img src="img/reservoir.png" alt="">
                 <p>
                     水库
                 </p>
@@ -553,6 +575,25 @@ var indexPage = {
 </div>`;
     $("#details").html(detailsHtml);
     $("#details").show();
+  },
+  //周围信息
+  around: function(lat, lon, name) {
+    AMap.service(["AMap.PlaceSearch"], function() {
+      var placeSearch = new AMap.PlaceSearch({
+        //构造地点查询类
+        pageSize: 3,
+        type: name,
+        pageIndex: 1,
+        map: map,
+        panel: "panel"
+      });
+
+      var cpoint = [lon, lat]; //中心点坐标
+      placeSearch.searchNearBy("", cpoint, 800, function(status, result) {
+        console.log(status)
+        console.log(result)
+      });
+    });
   }
 };
 indexPage.init();
