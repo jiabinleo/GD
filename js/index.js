@@ -67,6 +67,10 @@ var indexPage = {
     });
     $("#arrCenter").on("click", "a", function() {
       numPage = $(this).html();
+      $(this)
+        .addClass("activeColor")
+        .siblings()
+        .removeClass("activeColor");
       indexPage.tableList(jsonData, numPage);
     });
     //点击加载卫星图和普通图
@@ -268,7 +272,7 @@ var indexPage = {
     var numpage = "";
     numPageS = Math.ceil(num / 5);
     for (let i = 1; i < Math.ceil(num / 5) + 1; i++) {
-      numpage += "<a>" + i + "</a>";
+      numpage += "<a class='activeColor'>" + i + "</a>";
     }
     $("#arrCenter").html(numpage);
   },

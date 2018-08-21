@@ -127,7 +127,7 @@
   padding: 7px 0;
   margin-top: 15px;
   border-radius: 5px;
-  box-shadow: 5px 15px 15px rgba(51, 51, 51, 0.3);
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
 }
 .wrap .tool .quick .menu > div {
   width: 74px;
@@ -170,7 +170,7 @@
   width: 36px;
   height: 81px;
   border-radius: 5px;
-  box-shadow: 5px 5px 15px 15px rgba(51, 51, 51, 0.3);
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
   cursor: pointer;
 }
 .wrap .retrieval span {
@@ -209,7 +209,7 @@
   background-color: #ffffff;
   transform: translateY(-50%);
   border-radius: 5px;
-  box-shadow: 5px 5px 15px 15px rgba(51, 51, 51, 0.3);
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
   overflow: hidden;
 }
 .wrap .retrievalBox .retrievalBox-title {
@@ -447,7 +447,7 @@
   width: 375px;
   display: none;
   border-radius: 5px;
-  box-shadow: 5px 5px 15px 15px rgba(51, 51, 51, 0.3);
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
   overflow: hidden;
 }
 .wrap .tableList .tableList-header {
@@ -507,7 +507,9 @@
   top: 50px;
   left: 50px;
   width: 583px;
+  overflow: hidden;
   border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
 }
 .wrap .details .details-header {
   padding: 0 30px;
@@ -728,7 +730,8 @@
   transform: translate(-50%, -50%);
   overflow: hidden;
   padding: 50px auto;
-  box-shadow: 2px 2px 5px 2px #333333;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
 }
 .mask-wrap .mask-img img {
   height: 100%;
