@@ -209,14 +209,69 @@ var indexPage = {
     });
     //放大图片
     $(document).on("click", ".imgMin", function() {
-      $(".mask-img").html(`<img src="${$(this).attr("imgurl")}">`);
-      console.log($(".mask-img > img").height());
+      $(".mask-img").html(
+        `<div class="prevVideo" videourl="${$(this).attr("prevImg")}"></div>
+      <img id="vid" src="${$(this).attr("imgUrl")}" alt="暂无图片">
+      <div class="nextVideo" videourl="${$(this).attr("nextImg")}"></div>`
+      );
       var maskImgHeight = $(".mask-img")[0].clientHeight;
-      console.log(maskImgHeight);
       $(".mask-wrap").show();
     });
     $(document).on("click", ".mask-wrap", function() {
       $(".mask-wrap").hide();
+    });
+    $(document).on("click", ".mask-img > img", function() {
+      return false;
+    });
+    //放大视频
+    $(document).on("click", ".videoMin", function() {
+      $(".mask-img").html(
+        `<div class="prevVideo" videourl="${$(this).attr("prevVideo")}"></div>
+        <video id="vid" muted pause="" width="100%" src="${$(this).attr(
+          "videoUrl"
+        )}" class="pause">暂无视频</video>
+        <div class="nextVideo" videourl="${$(this).attr("nextVideo")}"></div>`
+      );
+      console.log($(".mask-img > video").height());
+      var maskImgHeight = $(".mask-img")[0].clientHeight;
+      console.log(maskImgHeight);
+      $(".mask-wrap").show();
+    });
+    //视频切换
+    $(document).on("click", ".prevVideo", function() {
+      $("#vid").attr("src", $(this).attr("videourl"));
+      return false;
+    });
+    $(document).on("click", ".nextVideo", function() {
+      $("#vid").attr("src", $(this).attr("videourl"));
+      return false;
+    });
+    //视频播放/暂停
+    $(document).on("click", "#vid", function() {
+      if ($(this).hasClass("pause")) {
+        $(this).trigger("play");
+        $(this).removeClass("pause");
+        $(this).addClass("play");
+      } else {
+        $(this).trigger("pause");
+        $(this).removeClass("play");
+        $(this).addClass("pause");
+      }
+      return false;
+    });
+    //巡查
+    $(document).on("click", "#inspecting", function() {
+      $("#inspectingDetail").show();
+    });
+    //关闭巡查历史
+    $(document).on("click", "#close5", function() {
+      $("#inspectingDetail").hide();
+    });
+    $(document).on("click", ".detailB", function() {
+      $(this)
+        .addClass("active")
+        .siblings()
+        .removeClass("active");
     });
   },
   changeMap: function(layers) {
@@ -393,6 +448,7 @@ var indexPage = {
     function markerClick(e) {
       var etc = e.target.content;
       indexPage.detailsSpot(etc);
+      indexPage.inspecting(etc);
     }
     map.setFitView();
   },
@@ -412,6 +468,121 @@ var indexPage = {
         }
       }
     });
+  },
+  //巡查详情
+  inspecting: function(etc) {
+    $.ajax({
+      type: "POST",
+      url: header + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
+      dataType: "json",
+      data: { uuid: etc.uuid },
+      success: function(data) {
+        if (data.success == "0") {
+          indexPage.inspectingHtml(data.result, etc);
+        }
+      }
+    });
+  },
+  inspectingHtml: function(data, etc) {
+    var inspectingDetailHtml = "";
+    if (data.length != 0) {
+      var lastData = data[data.length - 1];
+      console.log(data);
+      var detail_time = "";
+      for (let i = 0; i < data.length; i++) {
+        detail_time += ` <input class="detailB" type="button" value="${
+          data[i].check_datetime
+        }">`;
+      }
+      var detail_img = "";
+      for (let i = 0; i < lastData.attach.length; i++) {
+        detail_img += `<li><img src="${
+          lastData.attach[i].url_path
+        }" alt=""></li>`;
+      }
+
+      inspectingDetailHtml = `<div class="inspectingDetail-header">
+      <span>巡查历史</span>
+      <span>编号（${etc.id}）</span>
+      <span id="close5"><img src="img/close.png"></span>
+  </div>
+  <div class="inspectingDetail-content">
+  
+      <div class="inspectingDetail-address" title="${lastData.inspect_address}">
+          <span class="lt">签到地址</span>
+          <span class="rt">${lastData.inspect_address}</span>
+      </div>
+      <div class="inspectingDetail-time">
+      ${detail_time}
+      </div>
+      <div class="inspectingDetail-list">
+          <p><span class="lt">巡查人</span><span class="rt">${
+            lastData.manager
+          }</span></p>
+          <p><span class="lt">联系电话</span><span class="rt">${
+            lastData.managertel
+          }</span></p>
+          <p><span class="lt">治理现状</span><span class="rt status${
+            lastData.managestate
+          }">${indexPage.status(lastData.managestate)}</span></p>
+          <p><span class="lt">巡查情况</span><span class="rt">${
+            lastData.remark
+          }</span></p>
+          <p>巡查图片</p>
+          <div class="detailImg">
+              <ul>
+                  ${detail_img}
+              </ul>
+          </div>
+      </div>
+      <div class="patrolTrack-wrap" id="patrolTrack-wrap">
+          <p>巡查轨迹</p>
+          <div id="patrolTrack-inner" class="patrolTrack-inner">
+              <div id="containerTrack" class="containerTrack"></div>
+              <div id="panelTrack" class="panelTrack"></div>
+          </div>
+      </div>
+      </div>`;
+    } else {
+      inspectingDetailHtml = `<div class="inspectingDetail-header">
+      <span>巡查历史</span>
+      <span>编号（暂无）</span>
+      <span id="close5"><img src="img/close.png"></span>
+  </div>
+  <div class="inspectingDetail-null">
+      暂无数据
+      </div>`;
+    }
+    $("#inspectingDetail").html(inspectingDetailHtml);
+    console.log(lastData);
+    console.log(lastData.coordinate_set.replace(/\'/, '"'));
+
+    // function replaces(str){
+    // if(str.indexOf("'")==-1){
+    //   return str
+    // }
+    // replaces(str.replace(/\'/, "\""))
+    // }
+    // console.log(replaces(lastData.coordinate_set))
+
+    console.log(JSON.parse(lastData.coordinate_set));
+    // indexPage.walkings();
+    indexPage.walkings([113.965568, 22.570856], [113.965578, 22.570871]);
+  },
+  walkings: function(walkingStart, walkingEnd) {
+    //巡查轨迹
+    var map = new AMap.Map("containerTrack", {
+      resizeEnable: true,
+      center: walkingStart, //地图中心点
+      zoom: 12 //地图显示的缩放级别
+    });
+    //步行导航
+    var walking = new AMap.Walking({
+      map: map,
+      panel: "panelTrack"
+    });
+    //根据起终点坐标规划步行路线
+    walking.search(walkingStart, walkingEnd);
   },
   detailsSpotHtml: function(etc, data) {
     // 获取天气
@@ -504,53 +675,126 @@ var indexPage = {
       }
     });
     var imgHtml = "";
-    console.log(data);
+    var videoHtml = "";
     for (let i = 0; i < data.attachList.length; i++) {
       if (data.attachList[i].filetype === "1") {
-        imgHtml += `<li class="imgMin" imgUrl="${
+        if (data.attachList[i - 1] == undefined) {
+          var prevImg = data.attachList[i].url_path;
+        } else {
+          var prevImg = data.attachList[i - 1].url_path;
+        }
+        if (data.attachList[i + 1] == undefined) {
+          var nextImg = data.attachList[i].url_path;
+        } else {
+          var nextImg = data.attachList[i + 1].url_path;
+        }
+        imgHtml += `<li class="imgMin" 
+        imgUrl="${data.attachList[i].url_path}" 
+        prevImg="${prevImg}" 
+        nextImg="${nextImg}">
+        <img width="100%" src="${data.attachList[i].url_path}" alt="暂无图片">
+        <a>${indexPage.formatDate(data.attachList[i].createtime)}</a>
+        </li>`;
+      }
+      if (data.attachList[i].filetype === "2") {
+        if (data.attachList[i - 1] == undefined) {
+          var prevVideo = data.attachList[i].url_path;
+        } else {
+          var prevVideo = data.attachList[i - 1].url_path;
+        }
+        if (data.attachList[i + 1] == undefined) {
+          var nextVideo = data.attachList[i].url_path;
+        } else {
+          var nextVideo = data.attachList[i + 1].url_path;
+        }
+        videoHtml += `<li class="videoMin" 
+        videoUrl="${data.attachList[i].url_path}" 
+        prevVideo="${prevVideo}" 
+        nextVideo="${nextVideo}">
+        <video pause="" width="100%" src="${
           data.attachList[i].url_path
-        }"><img src="${data.attachList[i].url_path}" alt=""></li>`;
+        }" class="pause">暂无视频</video>
+        <a>${indexPage.formatDate(data.attachList[i].createtime)}</a>
+        </li>`;
       }
     }
+    // for (let i = 0; i < data.attachList.length; i++) {
+    // if (data.attachList[i].filetype === "2") {
+    //   console.log(data.attachList);
+    //   if (data.attachList[i - 1] == undefined) {
+    //     var prevVideo = data.attachList[i].url_path;
+    //   } else {
+    //     var prevVideo = data.attachList[i - 1].url_path;
+    //   }
+    //   if (data.attachList[i + 1] == undefined) {
+    //     var nextVideo = data.attachList[i].url_path;
+    //   } else {
+    //     var nextVideo = data.attachList[i + 1].url_path;
+    //   }
+
+    //   console.log(prevVideo);
+    //   console.log(nextVideo);
+    //   videoHtml += `<li class="videoMin" videoUrl="${
+    //     data.attachList[i].url_path
+    //   } prevVideo=${prevVideo} nextVideo=${nextVideo}"><video pause="" width="100%" src="${
+    //     data.attachList[i].url_path
+    //   }" class="pause">暂无视频</video></li>`;
+    // }
+    // }
     var detailsHtml = `<div class="details-header">
     <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
     <span>(编号：${data.fzsite.id})</span>
     <span id="close3"><img src="img/close.png" alt=""></span>
 </div>
 <div class="details-content">
-    <div class="address">
-        <span class="lt">巡查地址：</span>
+    <div class="address"  title="${data.fzsite.addressname}">
+        <span class="lt">灾情地址：</span>
         <span><img id='goto' data=${
           data.fzsite.addressname
         } src="img/goto.png" alt=""></span>
         <span class="rt">${data.fzsite.addressname}</span>
     </div>
+    <p class="quyujiedao rt">所属区（街道）：${data.fzsite.areaname}${
+      data.fzsite.street
+    }<p>
     <div class="disasterPoint">
         <p>
-            <span class="lt">灾情点： <a class="status${
+            <span class="lt">灾情概况： <a class="status${
               data.fzsite.managestate
             }">( ${indexPage.status(data.fzsite.managestate)})</a></span>
             <span class="rt pl30">转发</span>
-            <span class="rt">巡查</span>
+            <span class="rt" id="inspecting">巡查</span>
+        </p>
+        <p>
+            <span class="lt">上报者</span>
+            <span class="rt">${data.fzsite.manager}</span>
         </p>
         <p>
             <span class="lt">联系电话</span>
             <span class="rt">${data.fzsite.managertel}</span>
         </p>
         <p>
-            <span class="lt">巡查者</span>
-            <span class="rt">${data.fzsite.manager}</span>
+            <span class="lt">上报时间</span>
+            <span class="rt">${data.fzsite.checkdate}</span>
         </p>
-        <!-- <p>
-            <span class="lt">联系电话：</span>
-            <span class="rt">${data.fzsite.managertel}</span>
-        </p> -->
+        <p>
+            <span class="lt">灾情状况</span>
+            <span class="rt">${data.fzsite.remark}</span>
+        </p>
     </div>
     <div class="fieldPhoto">
         <p>现场照片</p>
         <div class="fieldPhoto-wrap">
             <ul>
                 ${imgHtml}
+            </ul>
+        </div>
+    </div>
+    <div class="fieldVideo">
+        <p>现场视频</p>
+        <div class="fieldVideo-wrap">
+            <ul>
+                ${videoHtml}
             </ul>
         </div>
     </div>
@@ -566,10 +810,10 @@ var indexPage = {
                 <img src="img/school.png" alt="">
                 <p>学校</p>
             </li>
-            <li class="aroundList" data="避乱所">
+            <li class="aroundList" data="避难场所">
                 <img src="img/refuge.png" alt="">
                 <p>
-                    避乱所
+                避难场所
                 </p>
             </li>
             <li class="aroundList" data="重要场所">
@@ -605,10 +849,42 @@ var indexPage = {
       var cpoint = [lon, lat]; //中心点坐标
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
     });
+  },
+  //时间转换
+  formatDate: function(now) {
+    var now = new Date(now);
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var date = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    return (
+      year +
+      "-" +
+      indexPage.fixZero(month, 2) +
+      "-" +
+      indexPage.fixZero(date, 2) +
+      " " +
+      indexPage.fixZero(hour, 2) +
+      ":" +
+      indexPage.fixZero(minute, 2) +
+      ":" +
+      indexPage.fixZero(second, 2)
+    );
+  },
+  //时间如果为单位数补0
+  fixZero: function(num, length) {
+    var str = "" + num;
+    var len = str.length;
+    var s = "";
+    for (var i = length; i-- > len; ) {
+      s += "0";
+    }
+    return s + str;
   }
 };
 indexPage.init();
-
 // 定位
 map.plugin("AMap.Geolocation", function() {
   var geolocation = new AMap.Geolocation({
@@ -641,3 +917,4 @@ map.plugin("AMap.Geolocation", function() {
     );
   }
 });
+
