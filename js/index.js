@@ -14,7 +14,12 @@ var StartingPoint = "",
   areaname = [],
   dtypes = "", //灾情
   warnlevel = "", //等级
-  historyData; //巡查历史记录数据
+  historyData, //巡查历史记录数据
+  imgArr = [], //存储照片视频上下切换
+  videoArr = [],
+  indexImgVideo = 0, // 当前显示第几张
+  nextNum = 0, //切换下一张的最大数量
+  imgYes = true; //当前弹框是img还是video
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 
 var header = "http://14.116.184.77:8098";
@@ -51,7 +56,6 @@ var indexPage = {
         warnlevel: warnlevel,
         managestate: "" //所有状态
       };
-      console.log(data, layers);
       indexPage.queryData(data, layers);
     });
     $("#arrL").on("click", function() {
@@ -76,7 +80,6 @@ var indexPage = {
     });
     //点击加载卫星图和普通图
     $("#satellite").on("click", function() {
-      console.log(satellite);
       //卫星图
       if (satellite) {
         layers = "";
@@ -210,41 +213,62 @@ var indexPage = {
     });
     //放大图片
     $(document).on("click", ".imgMin", function() {
+      imgYes = true;
+      nextNum = imgArr.length;
+      indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
-        `<div class="prevVideo" videourl="${$(this).attr("prevImg")}"></div>
-      <img id="vid" src="${$(this).attr("imgUrl")}" alt="暂无图片">
-      <div class="nextVideo" videourl="${$(this).attr("nextImg")}"></div>`
+        `<div class="prev"></div>
+      <img id="vid" src="${imgArr[indexImgVideo]}" alt="暂无图片">
+      <div class="next"></div>`
       );
-      var maskImgHeight = $(".mask-img")[0].clientHeight;
       $(".mask-wrap").show();
+      $(".mask-img").show();
     });
     $(document).on("click", ".mask-wrap", function() {
       $(".mask-wrap").hide();
+      $(".mask-img").hide();
+      $(".qrcode").hide();
     });
     $(document).on("click", ".mask-img > img", function() {
       return false;
     });
     //放大视频
     $(document).on("click", ".videoMin", function() {
+      imgYes = false;
+      nextNum = videoArr.length;
+      indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
-        `<div class="prevVideo" videourl="${$(this).attr("prevVideo")}"></div>
-        <video id="vid" muted pause="" width="100%" src="${$(this).attr(
-          "videoUrl"
-        )}" class="pause">暂无视频</video>
-        <div class="nextVideo" videourl="${$(this).attr("nextVideo")}"></div>`
+        `<div class="prev"></div>
+        <video id="vid" muted pause="" width="100%" 
+        src="${videoArr[indexImgVideo]}" 
+        class="pause">暂无视频</video>
+        <div class="next"></div>`
       );
-      console.log($(".mask-img > video").height());
       var maskImgHeight = $(".mask-img")[0].clientHeight;
-      console.log(maskImgHeight);
       $(".mask-wrap").show();
+      $(".mask-img").show();
     });
-    //视频切换
-    $(document).on("click", ".prevVideo", function() {
-      $("#vid").attr("src", $(this).attr("videourl"));
+    //视频图片切换
+    $(document).on("click", ".prev", function() {
+      if (indexImgVideo > 0) {
+        indexImgVideo--;
+        if (imgYes) {
+          $("#vid").attr("src", imgArr[indexImgVideo]);
+        } else {
+          $("#vid").attr("src", videoArr[indexImgVideo]);
+        }
+      }
       return false;
     });
-    $(document).on("click", ".nextVideo", function() {
-      $("#vid").attr("src", $(this).attr("videourl"));
+    $(document).on("click", ".next", function() {
+      if (indexImgVideo < nextNum - 1) {
+        indexImgVideo++;
+        if (imgYes) {
+          $("#vid").attr("src", imgArr[indexImgVideo]);
+        } else {
+          $("#vid").attr("src", videoArr[indexImgVideo]);
+        }
+      }
       return false;
     });
     //视频播放/暂停
@@ -270,10 +294,33 @@ var indexPage = {
     });
     //查询时间筛选
     $(document).on("click", ".detailB", function() {
-     
-      historyData.index=$(this).attr("ids")
-      
+      historyData.index = $(this).attr("ids");
+
       indexPage.inspectingHtml(historyData);
+    });
+    //分享
+    $(document).on("click", "#qrButton", function() {
+      $(".mask-wrap").show();
+      $(".qrcode").show();
+    });
+    $(document).on("click", "#qrcode", function() {
+      return false;
+    });
+    $(document).on("click", "#copy", function() {
+      console.log("///");
+      var Url2 = document.getElementById("copytxt").innerText;
+      var oInput = document.createElement("input");
+      oInput.value = Url2;
+      document.body.appendChild(oInput);
+      oInput.select(); // 选择对象
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      oInput.className = "oInput";
+      oInput.style.display = "none";
+      alert("复制成功");
+    });
+    $(document).on("click", ".close6", function() {
+      $(".mask-wrap").hide();
+      $(".qrcode").hide();
     });
   },
   changeMap: function(layers) {
@@ -480,7 +527,6 @@ var indexPage = {
       data: { uuid: etc.uuid },
       success: function(data) {
         if (data.success == "0") {
-          
           historyData = {
             data: data.result,
             etc: etc,
@@ -491,9 +537,8 @@ var indexPage = {
       }
     });
   },
-  inspectingHtml: function( historyData) {
+  inspectingHtml: function(historyData) {
     var inspectingDetailHtml = "";
-    console.log(historyData.data);
     if (historyData.data.length != 0) {
       var activeData = historyData.data[historyData.index];
       var detail_time = "";
@@ -503,10 +548,24 @@ var indexPage = {
         }">`;
       }
       var detail_img = "";
-      for (let i = 0; i < activeData.attach.length; i++) {
-        detail_img += `<li><img src="${
-          activeData.attach[i].url_path
-        }" alt=""></li>`;
+      var detail_video = "";
+      imgArr = [];
+      imgMini = 0;
+      videoMini = 0;
+      for (let i = 1; i < activeData.attach.length; i++) {
+        if (activeData.attach[i].filetype === "1") {
+          imgMini++;
+          imgArr.push(activeData.attach[i].url_path);
+          detail_img += `<li class="imgMin" index="${imgMini - 1}">
+          <img src="${activeData.attach[i].url_path}" alt=""></li>`;
+        } else if (activeData.attach[i].filetype === "2") {
+          videoMini++;
+          videoArr.push(activeData.attach[i].url_path);
+          detail_video += `<li class="videoMin" index="${videoMini - 1}">
+          <video pause="" width="100%" src="${
+            activeData.attach[i].url_path
+          }" class="pause">暂无视频</video></li>`;
+        }
       }
       inspectingDetailHtml = `<div class="inspectingDetail-header">
       <span>巡查历史</span>
@@ -515,7 +574,9 @@ var indexPage = {
   </div>
   <div class="inspectingDetail-content">
   
-      <div class="inspectingDetail-address" title="${activeData.inspect_address}">
+      <div class="inspectingDetail-address" title="${
+        activeData.inspect_address
+      }">
           <span class="lt">签到地址</span>
           <span class="rt">${activeData.inspect_address}</span>
       </div>
@@ -536,9 +597,15 @@ var indexPage = {
             activeData.remark
           }</span></p>
           <p>巡查图片</p>
-          <div class="detailImg">
+          <div class="detailImgVideo">
               <ul>
                   ${detail_img}
+              </ul>
+          </div>
+          <p>巡查视频</p>
+          <div class="detailImgVideo">
+              <ul>
+                  ${detail_video}
               </ul>
           </div>
       </div>
@@ -561,9 +628,12 @@ var indexPage = {
         parseFloat(walkingArr[walkingArr.length - 1].lon),
         parseFloat(walkingArr[walkingArr.length - 1].lat)
       ];
-      
+
       $("#inspectingDetail").html(inspectingDetailHtml);
-      $(".detailB"+historyData.index).css({color:"#ffffff","background-color":"#50bbfb"})
+      $(".detailB" + historyData.index).css({
+        color: "#ffffff",
+        "background-color": "#50bbfb"
+      });
       indexPage.walkings(walkingStart, walkingEnd);
     } else {
       inspectingDetailHtml = `<div class="inspectingDetail-header">
@@ -593,6 +663,7 @@ var indexPage = {
     walking.search(walkingStart, walkingEnd);
   },
   detailsSpotHtml: function(etc, data) {
+    $("#copytxt").html("http://www.kwantler.com?id=" + data.fzsite.id);
     // 获取天气
     var weatherHtml = "";
     $.ajax({
@@ -684,41 +755,23 @@ var indexPage = {
     });
     var imgHtml = "";
     var videoHtml = "";
+    imgArr = [];
+    videoArr = [];
+    imgMini = 0;
+    videoMini = 0;
+    console.log(data.attachList);
     for (let i = 0; i < data.attachList.length; i++) {
       if (data.attachList[i].filetype === "1") {
-        if (data.attachList[i - 1] == undefined) {
-          var prevImg = data.attachList[i].url_path;
-        } else {
-          var prevImg = data.attachList[i - 1].url_path;
-        }
-        if (data.attachList[i + 1] == undefined) {
-          var nextImg = data.attachList[i].url_path;
-        } else {
-          var nextImg = data.attachList[i + 1].url_path;
-        }
-        imgHtml += `<li class="imgMin" 
-        imgUrl="${data.attachList[i].url_path}" 
-        prevImg="${prevImg}" 
-        nextImg="${nextImg}">
+        imgMini++;
+        imgArr.push(data.attachList[i].url_path);
+        imgHtml += `<li class="imgMin" index="${imgMini - 1}">
         <img width="100%" src="${data.attachList[i].url_path}" alt="暂无图片">
         <a>${indexPage.formatDate(data.attachList[i].createtime)}</a>
         </li>`;
-      }
-      if (data.attachList[i].filetype === "2") {
-        if (data.attachList[i - 1] == undefined) {
-          var prevVideo = data.attachList[i].url_path;
-        } else {
-          var prevVideo = data.attachList[i - 1].url_path;
-        }
-        if (data.attachList[i + 1] == undefined) {
-          var nextVideo = data.attachList[i].url_path;
-        } else {
-          var nextVideo = data.attachList[i + 1].url_path;
-        }
-        videoHtml += `<li class="videoMin" 
-        videoUrl="${data.attachList[i].url_path}" 
-        prevVideo="${prevVideo}" 
-        nextVideo="${nextVideo}">
+      } else if (data.attachList[i].filetype === "2") {
+        videoMini++;
+        videoArr.push(data.attachList[i].url_path);
+        videoHtml += `<li class="videoMin" index="${videoMini - 1}">
         <video pause="" width="100%" src="${
           data.attachList[i].url_path
         }" class="pause">暂无视频</video>
@@ -726,29 +779,12 @@ var indexPage = {
         </li>`;
       }
     }
-    // for (let i = 0; i < data.attachList.length; i++) {
-    // if (data.attachList[i].filetype === "2") {
-    //   console.log(data.attachList);
-    //   if (data.attachList[i - 1] == undefined) {
-    //     var prevVideo = data.attachList[i].url_path;
-    //   } else {
-    //     var prevVideo = data.attachList[i - 1].url_path;
-    //   }
-    //   if (data.attachList[i + 1] == undefined) {
-    //     var nextVideo = data.attachList[i].url_path;
-    //   } else {
-    //     var nextVideo = data.attachList[i + 1].url_path;
-    //   }
-
-    //   console.log(prevVideo);
-    //   console.log(nextVideo);
-    //   videoHtml += `<li class="videoMin" videoUrl="${
-    //     data.attachList[i].url_path
-    //   } prevVideo=${prevVideo} nextVideo=${nextVideo}"><video pause="" width="100%" src="${
-    //     data.attachList[i].url_path
-    //   }" class="pause">暂无视频</video></li>`;
-    // }
-    // }
+    if (imgHtml.length == 0) {
+      imgHtml="<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无照片</p>"   
+    }
+    if (videoHtml.length == 0) {
+      videoHtml="<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无视频</p>"  
+    }
     var detailsHtml = `<div class="details-header">
     <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
     <span>(编号：${data.fzsite.id})</span>
@@ -770,7 +806,7 @@ var indexPage = {
             <span class="lt">灾情概况： <a class="status${
               data.fzsite.managestate
             }">( ${indexPage.status(data.fzsite.managestate)})</a></span>
-            <span class="rt pl30">转发</span>
+            <span id="qrButton" class="rt pl30">转发</span>
             <span class="rt" id="inspecting">巡查</span>
         </p>
         <p>
