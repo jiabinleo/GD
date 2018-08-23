@@ -13,7 +13,8 @@ var StartingPoint = "",
   gradename = [],
   areaname = [],
   dtypes = "", //灾情
-  warnlevel = ""; //等级
+  warnlevel = "", //等级
+  historyData; //巡查历史记录数据
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 
 var header = "http://14.116.184.77:8098";
@@ -267,11 +268,11 @@ var indexPage = {
     $(document).on("click", "#close5", function() {
       $("#inspectingDetail").hide();
     });
+    //查询时间筛选
     $(document).on("click", ".detailB", function() {
-      $(this)
-        .addClass("active")
-        .siblings()
-        .removeClass("active");
+     
+      historyData.index=$(this).attr("ids")
+      indexPage.inspectingHtml(historyData);
     });
   },
   changeMap: function(layers) {
@@ -478,55 +479,60 @@ var indexPage = {
       data: { uuid: etc.uuid },
       success: function(data) {
         if (data.success == "0") {
-          indexPage.inspectingHtml(data.result, etc);
+          
+          historyData = {
+            data: data.result,
+            etc: etc,
+            index: data.result.length - 1
+          };
+          indexPage.inspectingHtml(historyData);
         }
       }
     });
   },
-  inspectingHtml: function(data, etc) {
+  inspectingHtml: function( historyData) {
     var inspectingDetailHtml = "";
-    if (data.length != 0) {
-      var lastData = data[data.length - 1];
-      console.log(data);
+    console.log(historyData.data);
+    if (historyData.data.length != 0) {
+      var activeData = historyData.data[historyData.index];
       var detail_time = "";
-      for (let i = 0; i < data.length; i++) {
-        detail_time += ` <input class="detailB" type="button" value="${
-          data[i].check_datetime
+      for (let i = 0; i < historyData.data.length; i++) {
+        detail_time += ` <input class="detailB" ids="${i}" type="button" value="${
+          historyData.data[i].check_datetime
         }">`;
       }
       var detail_img = "";
-      for (let i = 0; i < lastData.attach.length; i++) {
+      for (let i = 0; i < activeData.attach.length; i++) {
         detail_img += `<li><img src="${
-          lastData.attach[i].url_path
+          activeData.attach[i].url_path
         }" alt=""></li>`;
       }
-
       inspectingDetailHtml = `<div class="inspectingDetail-header">
       <span>巡查历史</span>
-      <span>编号（${etc.id}）</span>
+      <span>编号（${historyData.etc.id}）</span>
       <span id="close5"><img src="img/close.png"></span>
   </div>
   <div class="inspectingDetail-content">
   
-      <div class="inspectingDetail-address" title="${lastData.inspect_address}">
+      <div class="inspectingDetail-address" title="${activeData.inspect_address}">
           <span class="lt">签到地址</span>
-          <span class="rt">${lastData.inspect_address}</span>
+          <span class="rt">${activeData.inspect_address}</span>
       </div>
       <div class="inspectingDetail-time">
       ${detail_time}
       </div>
       <div class="inspectingDetail-list">
           <p><span class="lt">巡查人</span><span class="rt">${
-            lastData.manager
+            activeData.manager
           }</span></p>
           <p><span class="lt">联系电话</span><span class="rt">${
-            lastData.managertel
+            activeData.managertel
           }</span></p>
           <p><span class="lt">治理现状</span><span class="rt status${
-            lastData.managestate
-          }">${indexPage.status(lastData.managestate)}</span></p>
+            activeData.managestate
+          }">${indexPage.status(activeData.managestate)}</span></p>
           <p><span class="lt">巡查情况</span><span class="rt">${
-            lastData.remark
+            activeData.remark
           }</span></p>
           <p>巡查图片</p>
           <div class="detailImg">
@@ -543,6 +549,21 @@ var indexPage = {
           </div>
       </div>
       </div>`;
+      var str = activeData.coordinate_set;
+      str = str.replace(/\'/g, '"');
+      var walkingArr = JSON.parse(str);
+      walkingStart = [
+        parseFloat(walkingArr[0].lon),
+        parseFloat(walkingArr[0].lat)
+      ];
+      walkingEnd = [
+        parseFloat(walkingArr[walkingArr.length - 1].lon),
+        parseFloat(walkingArr[walkingArr.length - 1].lat)
+      ];
+      
+      // $(this).addClass("active").siblings().removeClass("active");
+      $("#inspectingDetail").html(inspectingDetailHtml);
+      indexPage.walkings(walkingStart, walkingEnd);
     } else {
       inspectingDetailHtml = `<div class="inspectingDetail-header">
       <span>巡查历史</span>
@@ -552,22 +573,8 @@ var indexPage = {
   <div class="inspectingDetail-null">
       暂无数据
       </div>`;
+      $("#inspectingDetail").html(inspectingDetailHtml);
     }
-    $("#inspectingDetail").html(inspectingDetailHtml);
-    console.log(lastData);
-    console.log(lastData.coordinate_set.replace(/\'/, '"'));
-
-    // function replaces(str){
-    // if(str.indexOf("'")==-1){
-    //   return str
-    // }
-    // replaces(str.replace(/\'/, "\""))
-    // }
-    // console.log(replaces(lastData.coordinate_set))
-
-    console.log(JSON.parse(lastData.coordinate_set));
-    // indexPage.walkings();
-    indexPage.walkings([113.965568, 22.570856], [113.965578, 22.570871]);
   },
   walkings: function(walkingStart, walkingEnd) {
     //巡查轨迹
@@ -917,4 +924,3 @@ map.plugin("AMap.Geolocation", function() {
     );
   }
 });
-
