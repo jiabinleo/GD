@@ -941,6 +941,15 @@
   transform: translateY(-50%);
   background: url("../img/next.png") no-repeat;
 }
+.wrap .qrcode {
+  position: absolute;
+  top: 200px;
+  left: 100px;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background-color: #ffffff;
+}
 .wrap .lt {
   float: left;
 }

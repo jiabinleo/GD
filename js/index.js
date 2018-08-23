@@ -272,6 +272,7 @@ var indexPage = {
     $(document).on("click", ".detailB", function() {
      
       historyData.index=$(this).attr("ids")
+      
       indexPage.inspectingHtml(historyData);
     });
   },
@@ -497,7 +498,7 @@ var indexPage = {
       var activeData = historyData.data[historyData.index];
       var detail_time = "";
       for (let i = 0; i < historyData.data.length; i++) {
-        detail_time += ` <input class="detailB" ids="${i}" type="button" value="${
+        detail_time += ` <input class="detailB detailB${i}" ids="${i}" type="button" value="${
           historyData.data[i].check_datetime
         }">`;
       }
@@ -561,8 +562,8 @@ var indexPage = {
         parseFloat(walkingArr[walkingArr.length - 1].lat)
       ];
       
-      // $(this).addClass("active").siblings().removeClass("active");
       $("#inspectingDetail").html(inspectingDetailHtml);
+      $(".detailB"+historyData.index).css({color:"#ffffff","background-color":"#50bbfb"})
       indexPage.walkings(walkingStart, walkingEnd);
     } else {
       inspectingDetailHtml = `<div class="inspectingDetail-header">
