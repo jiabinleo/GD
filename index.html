@@ -22,7 +22,6 @@
     <script src="https://webapi.amap.com/maps?v=1.4.9&key=465c831c8323875841cda920ae24fd7b&plugin=AMap.Walking"></script>
     <script src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
 
-
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main.css?v=1.0" />
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css" />
@@ -40,14 +39,18 @@
         <div class="search">
             <div class="search-left">
                 <div class="search-left-wrap">
-                    <input type="text" placeholder="请输入您想搜索的内容">
+                    <input id="searchTxt" type="text" placeholder="请输入您想搜索的内容">
                 </div>
             </div>
             <div class="search-right">
-                <div class="search-logo">
+                <div class="search-logo" id="searchs">
 
                 </div>
             </div>
+        </div>
+        <div id="searchResult" class="searchResult">
+            <ul id="searchResultHtml">
+            </ul>
         </div>
         <div class="tool">
             <div id="satellite" data-if="true" class="satellite">卫星</div>

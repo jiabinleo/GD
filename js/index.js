@@ -19,7 +19,8 @@ var StartingPoint = "",
   videoArr = [],
   indexImgVideo = 0, // 当前显示第几张
   nextNum = 0, //切换下一张的最大数量
-  imgYes = true; //当前弹框是img还是video
+  imgYes = true, //当前弹框是img还是video
+  allData; //搜索部分所有数据
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 
 var header = "http://14.116.184.77:8098";
@@ -34,6 +35,7 @@ var indexPage = {
     indexPage.getGovernance("");
     indexPage.clickColor(numPage);
     indexPage.queryData("", layers);
+    indexPage.queryAllData();
   },
   listen: function() {
     //查询按钮
@@ -322,12 +324,54 @@ var indexPage = {
       $(".mask-wrap").hide();
       $(".qrcode").hide();
     });
+    $(document).on("click", "#searchs", function() {
+      // $("#searchTxt").keydown(function(){
+        if(allData){
+          var searchVal = $("#searchTxt").val();
+          var searchResultHtml = "";
+          console.log(allData);
+          for (let i = 0; i < allData.length; i++) {
+            if (allData[i].addressname.indexOf(searchVal) != -1) {
+              searchResultHtml += `<li lon=${allData[i].lon} lat=${
+                allData[i].lat
+              } title="${allData[i].addressname}">${allData[i].addressname}</li>`;
+            }
+          }
+          $("#searchResultHtml").html(searchResultHtml);
+        }
+    });
+    $(document).on("click", "#searchResultHtml > li", function() {
+      map.setZoomAndCenter(16, [$(this).attr("lon"), $(this).attr("lat")]);
+      return false;
+    });
+    $(document).on("click",".search",function(){
+      return false
+    })
+    $(document).on("click", function() {
+      $("#searchResult").hide()
+    });
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
       resizeEnable: true,
       zoom: 16,
       layers: layers
+    });
+  },
+  //查询所有数据
+  queryAllData: function() {
+    $.ajax({
+      type: "GET",
+      url: header + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
+      dataType: "jsonp",
+      data: {},
+      jsonp: "callback",
+      success: function(data) {
+        if (data.success === "0") {
+          allData = data.result;
+          console.log(allData)
+        }
+      }
     });
   },
   //根据条件查询数据
@@ -780,10 +824,12 @@ var indexPage = {
       }
     }
     if (imgHtml.length == 0) {
-      imgHtml="<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无照片</p>"   
+      imgHtml =
+        "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无照片</p>";
     }
     if (videoHtml.length == 0) {
-      videoHtml="<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无视频</p>"  
+      videoHtml =
+        "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无视频</p>";
     }
     var detailsHtml = `<div class="details-header">
     <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
