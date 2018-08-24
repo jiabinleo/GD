@@ -58,14 +58,14 @@
             <div id="quick" class="quick">
                 <div class="title">快捷</div>
                 <div class="menu">
-                    <div>
+                    <!-- <div>
                         <a href="javascript:;">消息中心</a>
-                    </div>
+                    </div> -->
                     <div>
                         <a href="javascript:;">灾情上报</a>
                     </div>
                     <div>
-                        <a href="javascript:;">进度管理</a>
+                        <a href="javascript:;">项目管控</a>
                     </div>
                 </div>
             </div>
@@ -136,27 +136,7 @@
                             <td>图表列表</td>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>323445</td>
-                            <td>列表列表列表列表列表</td>
-                        </tr>
-                        <tr>
-                            <td>323445</td>
-                            <td>列表列表列表列表列表</td>
-                        </tr>
-                        <tr>
-                            <td>323445</td>
-                            <td>列表列表列表列表列表</td>
-                        </tr>
-                        <tr>
-                            <td>323445</td>
-                            <td>列表列表列表列表列表</td>
-                        </tr>
-                        <tr>
-                            <td>323445</td>
-                            <td>列表列表列表列表列表</td>
-                        </tr>
+                    <tbody id="tableListHtml">
                         <tr>
                             <td>323445</td>
                             <td>列表列表列表列表列表</td>
@@ -178,14 +158,26 @@
                 <h3>转发信息</h3>
                 <span class="closegray close6"></span>
                 <div class="qrcode-center">
-                    <span id="copytxt">http://www.kwantler.com</span>
+                    <span id="copytxt">http://127.0.0.1:5500/share.html</span>
                     <input type="button" id="copy" value="复制">
                     <input class="close6" type="button" value="取消">
                 </div>
                 <p>复制链接，可以任意粘贴到聊天工具，或者邮件当中，分享给朋友</p>
             </div>
         </div>
+        <div class="mask-copy" id="mask_copy">
+            <div class="mask-inner-copy" id="maskInnerCopy">
+                <p>消息提示：</p>
+                <p>
+                    复制成功
+                </p>
+                <p>
+                    <input id="maskCopyYes" type="button" value="确定">
+                </p>
+            </div>
+        </div>
     </div>
     <script src="js/index.js"></script>
 </body>
+
 </html>

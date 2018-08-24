@@ -51,7 +51,7 @@
       }
     }
   }
-  .searchResult{
+  .searchResult {
     position: absolute;
     width: 268px;
     max-height: 50vh;
@@ -61,13 +61,18 @@
     border-radius: 5px;
     box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
     overflow-y: auto;
-    ul{
-      li{
-        padding:0 30px;
+    ul {
+      li {
+        padding: 0 10px 0 23px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         line-height: 30px;
+        font-size: 14px;
+        color: #666666;
+        &:hover{
+          color: #0aa2fa;
+        }
       }
     }
   }
@@ -457,7 +462,7 @@
           display: inline-block;
           width: 20px;
           height: 20px;
-          background: url("../img/arrR.png") no-repeat;
+          background: url("../img/arrr.png") no-repeat;
         }
         .arrCenter {
           a {
@@ -991,7 +996,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: 666;
     overflow: hidden;
     .mask-img {
       display: none;
@@ -1046,8 +1051,8 @@
       border-radius: 5px;
       padding: 30px;
       h3 {
-        font-size: #333333;
-        color: 24px;
+        font-size: 24px;
+        color: #333333;
         font-weight: bold;
         font-family: "PingFang-SC-Bold";
       }
@@ -1095,7 +1100,62 @@
       }
     }
   }
-
+  .mask-copy {
+    user-select: none;
+    display: none;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    overflow: hidden;
+    .mask-inner-copy {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 1000;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
+      opacity:0;
+      p {
+        &:first-of-type {
+          font-size: 24px;
+          color: #333333;
+          font-weight: bold;
+          margin: 0;
+          padding: 0;
+        }
+        &:nth-of-type(2) {
+          font-size: 16px;
+          color: #666666;
+          line-height: 30px;
+        }
+        &:last-of-type {
+          font-size: 16px;
+          input {
+            float: right;
+            color: #ffffff;
+            width: 76px;
+            height: 42px;
+            background-color: #50bbfb;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            margin-left: 15px;
+            outline: none;
+          }
+        }
+      }
+    }
+  }
   .lt {
     float: left;
   }

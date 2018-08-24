@@ -1,0 +1,68 @@
+{
+  "key": "4a8406513b1e46e984e52b24be3e99aa",
+  "msg": "数据获取成功！",
+  "result": [
+    {
+      "createby": 0,
+      "created": "2018-08-24 16:34:44",
+      "datacode": "http://14.116.184.77:8098/KT_DFB_Web/charts/1.html",
+      "dataname": "灾害点分布图",
+      "datavalue": "1011001",
+      "dicttypeid": "1011",
+      "dicttypename": "统计图表",
+      "id": 67,
+      "orderid": 0,
+      "remark": ""
+    },
+    {
+      "createby": 0,
+      "created": "2018-08-24 16:39:39",
+      "datacode": "http://14.116.184.77:8098/KT_DFB_Web/charts/2.html",
+      "dataname": "灾险情统计表",
+      "datavalue": "1011002",
+      "dicttypeid": "1011",
+      "dicttypename": "统计图表",
+      "id": 68,
+      "orderid": 0,
+      "remark": ""
+    },
+    {
+      "createby": 0,
+      "created": "2018-08-24 16:40:30",
+      "datacode": "http://14.116.184.77:8098/KT_DFB_Web/charts/3.html",
+      "dataname": "坍塌原因统计表",
+      "datavalue": "1011003",
+      "dicttypeid": "1011",
+      "dicttypename": "统计图表",
+      "id": 69,
+      "orderid": 0,
+      "remark": ""
+    },
+    {
+      "createby": 0,
+      "created": "2018-08-24 16:41:45",
+      "datacode": "http://14.116.184.77:8098/KT_DFB_Web/charts/4.html",
+      "dataname": "治理情况统计",
+      "datavalue": "1011004",
+      "dicttypeid": "1011",
+      "dicttypename": "统计图表",
+      "id": 70,
+      "orderid": 0,
+      "remark": ""
+    },
+    {
+      "createby": 0,
+      "created": "2018-08-24 16:42:53",
+      "datacode": "http://14.116.184.77:8098/KT_DFB_Web/charts/5.html",
+      "dataname": "区域防治形式图",
+      "datavalue": "1011005",
+      "dicttypeid": "1011",
+      "dicttypename": "统计图表",
+      "id": 71,
+      "orderid": 0,
+      "remark": ""
+    }
+  ],
+  "success": "0",
+  "uuid": ""
+}
