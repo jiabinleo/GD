@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.wrap {
+  width: 800px;
+  margin: 0 auto;
+}
+.wrap h1 {
+  text-align: center;
+}
+input {
+  border: none;
+  border-bottom: solid  1px #333333;
+  outline: none;
+}
+input.w20 {
+  width: 80px;
+}
+table {
+  border-collapse: collapse;
+}
+td {
+  line-height: 2;
+}
+.duty {
+  line-height: 2;
+}
