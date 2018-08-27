@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/view/retrievalBox/css/retrievalBox.css">
+</head>
+
+<body>
+    <div class="retrievalBox-title">
+        <span>检索</span>
+        <span id="close1"><img src="img/close.png" alt=""></span>
+    </div>
+    <div class="retrievalBox-content" id="retrievalBox_content">
+        <p class="disasterType">灾情类型：
+            <span><a name="check" class="checkFalse" data="1">隐患点</a></span>
+            <span><a name="check" class="checkFalse" data="2">灾情点</a></span>
+        </p>
+        <p class="area">所在区域：
+            <select name="" id="getAreaName">
+                <option value="全部">全部</option>
+            </select>
+        </p>
+        <p class="grade">等级:
+            <span><a name="check" class="checkFalse" data="1">一级</a></span>
+            <span><a name="check" class="checkFalse" data="2">二级</a></span>
+            <span><a name="check" class="checkFalse" data="3">三级</a></span>
+            <span><a name="check" class="checkFalse" data="4">四级</a></span>
+        </p>
+        <input id="search" class="button" type="button" value="查询">
+        <p class="status">
+            <span class="span1" data="2">未治理：<a id="ungovern">9</a></span>
+            <span class="span2" data="3">治理中：<a id="hasgovern">9</a></span>
+            <span class="span3" data="1">已治理：<a id="ingovern">9</a></span>
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <td>编号</td>
+                    <td>地址</td>
+                    <td>状态</td>
+                </tr>
+            </thead>
+            <tbody id="tbodyHtml">
+            </tbody>
+        </table>
+    </div>
+    <div class="paging">
+        <div class="paging-content">
+            <span id="arrL" class="arrL"></span>
+            <span class="arrCenter" id="arrCenter">
+
+            </span>
+            <span id="arrR" class="arrR"></span>
+        </div>
+    </div>
+    <script src="/js/config.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/view/retrievalBox/js/retrievalBox.js"></script>
+</body>
+
+</html>

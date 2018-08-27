@@ -2,7 +2,6 @@ var header = "http://14.116.184.77:8098";
 var headerWeather = "http://14.116.184.77:8088";
 var header240 = "http://192.168.1.240:8080";
 
-
 //时间转换
 var config = {
   formatDate: function(now) {
@@ -36,18 +35,21 @@ var config = {
       s += "0";
     }
     return s + str;
+  },
+  getRequest: function() {
+    var url = window.location.search; //获取url中"?"符后的字串
+    var theRequest = new Object();
+    if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for (var i = 0; i < strs.length; i++) {
+        theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+      }
+    }
+    return theRequest;
+  },
+  // 转移视觉目标
+  setZoomAndCenter: function(lon, lat) {
+    map.setZoomAndCenter(16, [lon, lat]);
   }
 };
-
-function getRequest() {
-  var url = window.location.search; //获取url中"?"符后的字串
-  var theRequest = new Object();
-  if (url.indexOf("?") != -1) {
-    var str = url.substr(1);
-    strs = str.split("&");
-    for (var i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
-    }
-  }
-  return theRequest;
-}

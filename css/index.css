@@ -473,58 +473,6 @@
   box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
   overflow: hidden;
 }
-.wrap .tableList .tableList-header {
-  padding: 0 30px;
-  background-color: #50bbfb;
-  width: 315px;
-  height: 47px;
-  line-height: 47px;
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: bold;
-}
-.wrap .tableList .tableList-header span {
-  float: left;
-  line-height: 47px;
-}
-.wrap .tableList .tableList-header span:nth-of-type(2) {
-  float: right;
-}
-.wrap .tableList .tableList-content {
-  background-color: #ffffff;
-  padding: 10px 30px 15px 30px;
-}
-.wrap .tableList .tableList-content table {
-  width: 100%;
-}
-.wrap .tableList .tableList-content table thead tr {
-  line-height: 43px;
-  font-size: 14px;
-  color: #666666;
-}
-.wrap .tableList .tableList-content table thead tr td:first-of-type {
-  text-align: left;
-}
-.wrap .tableList .tableList-content table thead tr td:last-of-type {
-  text-align: right;
-}
-.wrap .tableList .tableList-content table tbody tr {
-  line-height: 43px;
-  font-size: 14px;
-  color: #999999;
-}
-.wrap .tableList .tableList-content table tbody tr td {
-  border-bottom: solid 1px #eeeeee;
-}
-.wrap .tableList .tableList-content table tbody tr td:first-of-type {
-  text-align: left;
-}
-.wrap .tableList .tableList-content table tbody tr td:last-of-type {
-  text-align: right;
-}
-.wrap .tableList .tableList-content table tbody tr:last-of-type td {
-  border: none;
-}
 .wrap .details {
   position: absolute;
   top: 50px;

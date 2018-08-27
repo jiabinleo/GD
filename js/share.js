@@ -8,7 +8,7 @@ $.ajax({
   url: header240 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
   type: "POST",
   dataType: "json",
-  data: { disasterid: getRequest().uuid },
+  data: { disasterid: config.getRequest().uuid },
   success: function(data) {
     console.log(data);
     if (data.success == "0") {

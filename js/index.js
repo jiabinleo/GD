@@ -1,79 +1,13 @@
-var StartingPoint = "",
-  endPoint = "",
-  layers = [new AMap.TileLayer.Satellite()],
-  map,
-  ruler1,
-  ruler2,
-  infoWindow,
-  satellite = true,
-  jsonData,
-  numPage = 1,
-  numPageS,
-  dtype = [],
-  gradename = [],
-  areaname = [],
-  dtypes = "", //灾情
-  warnlevel = "", //等级
-  historyData, //巡查历史记录数据
-  imgArr = [], //存储照片视频上下切换
-  videoArr = [],
-  indexImgVideo = 0, // 当前显示第几张
-  nextNum = 0, //切换下一张的最大数量
-  imgYes = true, //当前弹框是img还是video
-  allData; //搜索部分所有数据
-map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 var indexPage = {
   init: function() {
     indexPage.changeMap([new AMap.TileLayer.Satellite()]);
-    indexPage.queryGetGisAreaName();
     indexPage.listen();
     indexPage.getGovernance("");
     indexPage.clickColor(numPage);
-    indexPage.queryData("", layers);
+    common.queryData("", layers);
   },
   listen: function() {
-    //查询按钮
-    $("#search").on("click", function() {
-      $(".status span").removeClass("insetActive");
-      areaname = $("#getAreaName option:selected").val();
-      if (dtype.length == 0 || dtype.length == 2) {
-        dtypes = "";
-      } else {
-        dtypes = dtype[0];
-      }
-      warnlevel = "";
-      for (let i = 0; i < gradename.length; i++) {
-        warnlevel += gradename[i] + ",";
-      }
-      warnlevel = warnlevel.substring(0, warnlevel.length - 1);
-      data = {
-        dtype: dtypes,
-        areaid: areaname == "全部" ? "" : areaname,
-        warnlevel: warnlevel,
-        managestate: "" //所有状态
-      };
-      indexPage.queryData(data, layers);
-    });
-    $("#arrL").on("click", function() {
-      if (numPage > 1) {
-        numPage--;
-        indexPage.tableList(jsonData, numPage);
-      }
-    });
-    $("#arrR").on("click", function() {
-      if (numPage < numPageS) {
-        numPage++;
-        indexPage.tableList(jsonData, numPage);
-      }
-    });
-    $("#arrCenter").on("click", "a", function() {
-      numPage = $(this).html();
-      $(this)
-        .addClass("activeColor")
-        .siblings()
-        .removeClass("activeColor");
-      indexPage.tableList(jsonData, numPage);
-    });
+   
     //点击加载卫星图和普通图
     $("#satellite").on("click", function() {
       //卫星图
@@ -84,7 +18,7 @@ var indexPage = {
       }
       satellite = !satellite;
       indexPage.changeMap(layers);
-      indexPage.queryData("", layers);
+      common.queryData("", layers);
     });
     //路径规划
     $(document).on("click", "#goto", function() {
@@ -92,6 +26,7 @@ var indexPage = {
     });
     //点击检索
     $("#retrieval").on("click", function() {
+      $("#retrievalBox").load("/view/retrievalBox/retrievalBox.html");
       if ($("#retrievalBox").css("display") == "none") {
         $("#retrievalBox").show();
         $(".retrieval")
@@ -104,87 +39,22 @@ var indexPage = {
           .removeClass("retrieval-hide");
       }
     });
-    //关闭检索
-    $("#close1").on("click", function() {
-      $("#retrievalBox").hide();
-      $(".retrieval")
-        .removeClass("retrieval-hide")
-        .addClass("retrieval-show");
-    });
+
     // 显示图表
     $("#chart").on("click", function() {
       if ($("#tableList").css("display") == "none") {
-        indexPage.queryTable();
+        $("#tableList").load("../view/tableList/tableList.html");
         $("#tableList").show();
       } else {
         $("#tableList").hide();
       }
     });
-    //关闭图表列表
-    $("#close2").on("click", function() {
-      $("#tableList").hide();
-      $(".tableList")
-        .removeClass("retrieval-hide")
-        .addClass("retrieval-show");
-    });
+
     //关闭详情
     $(document).on("click", "#close3", function() {
       $("#details").hide();
     });
-    //灾情类型
-    $(".disasterType").on("click", "[name='check']", function() {
-      if ($(this).prop("className") == "checkFalse") {
-        $(this).removeClass("checkFalse");
-        $(this).addClass("checkTrue");
-        dtype.push($(this).attr("data"));
-      } else if ($(this).prop("className") == "checkTrue") {
-        $(this).removeClass("checkTrue");
-        $(this).addClass("checkFalse");
-        dtype.splice($.inArray($(this).attr("data"), dtype), 1);
-      }
-    });
-    //灾害等级
-    $(".grade").on("click", "[name='check']", function() {
-      if ($(this).prop("className") == "checkFalse") {
-        $(this).removeClass("checkFalse");
-        $(this).addClass("checkTrue");
-        gradename.push($(this).attr("data"));
-      } else if ($(this).prop("className") == "checkTrue") {
-        $(this).removeClass("checkTrue");
-        $(this).addClass("checkFalse");
-        gradename.splice($.inArray($(this).attr("data"), gradename), 1);
-      }
-    });
-    //转移视觉目标
-    $("#tbodyHtml").on("click", "tr", function() {
-      map.setZoomAndCenter(16, [$(this).attr("lon"), $(this).attr("lat")]);
-    });
-    //根据状态筛选
-    $(".status").on("click", "span", function() {
-      $(this)
-        .addClass("insetActive")
-        .siblings()
-        .removeClass("insetActive");
-      areaname = $("#getAreaName option:selected").val();
-      if (dtype.length == 0 || dtype.length == 2) {
-        dtypes = "";
-      } else {
-        dtypes = dtype[0];
-      }
-      warnlevel = "";
-      for (let i = 0; i < gradename.length; i++) {
-        warnlevel += gradename[i] + ",";
-      }
-      warnlevel = warnlevel.substring(0, warnlevel.length - 1);
-      managestate = $(this).attr("data");
-      var data = {
-        dtype: dtypes,
-        areaid: areaname == "全部" ? "" : areaname,
-        warnlevel: warnlevel,
-        managestate: managestate
-      };
-      indexPage.queryData(data, layers);
-    });
+
     //周边详情
     $(document).on("click", ".aroundList", function() {
       indexPage.showPoint(jsonData, layers);
@@ -358,7 +228,7 @@ var indexPage = {
       }
     });
     $(document).on("click", "#searchResultHtml > li", function() {
-      map.setZoomAndCenter(16, [$(this).attr("lon"), $(this).attr("lat")]);
+      config.setZoomAndCenter($(this).attr("lon"), $(this).attr("lat"));
       return false;
     });
     $(document).on("click", ".search", function() {
@@ -380,48 +250,7 @@ var indexPage = {
       layers: layers
     });
   },
-  //根据条件查询数据
-  queryData: function(data, layers) {
-    $.ajax({
-      type: "GET",
-      url: header + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
-      dataType: "jsonp",
-      data: data,
-      jsonp: "callback",
-      success: function(data) {
-        if (data.success === "0") {
-          jsonData = data.result;
-          allData = data.result;
-          numPage = 1; //重置为第一页
-          indexPage.paging(data.result.length);
-          indexPage.tableList(jsonData, numPage);
-          indexPage.showPoint(data.result, layers);
-        }
-      }
-    });
-  },
-  // 获取所在区域
-  queryGetGisAreaName: function() {
-    $.ajax({
-      type: "GET",
-      url: header + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
-      dataType: "jsonp",
-      jsonp: "callback",
-      success: function(data) {
-        var result = data.result;
-        var selectconten = "<option value='全部'>全部</option>";
-        for (var i = 0; i < result.length; i++) {
-          selectconten +=
-            "<option value='" +
-            result[i].id +
-            "'>" +
-            result[i].name +
-            "</option>";
-        }
-        $("#getAreaName").html(selectconten);
-      }
-    });
-  },
+
   //分页
   paging: function(num) {
     var numpage = "";
@@ -446,30 +275,6 @@ var indexPage = {
         break;
     }
     return sta;
-  },
-  // 获取图表列表
-  queryTable: function() {
-    $.ajax({
-      url: "http://192.168.1.240:8080/dfbinterface//mobile/statistic/sysdict",
-      dataType: "json",
-      type: "GET",
-      success: function(data) {
-        if (data.success === "0") {
-          // tableListHtml
-          indexPage.createTable(data.result);
-        }
-      }
-    });
-  },
-  createTable: function(data) {
-    var tableListHtml = "";
-    for (let i = 0; i < data.length; i++) {
-      tableListHtml += `<tr url="${data[i].datacode}">
-      <td>${data[i].id}</td>
-      <td>${data[i].dataname}</td>
-  </tr>`;
-    }
-    $("#tableListHtml").html(tableListHtml);
   },
   //查询列表warnlevel
   tableList: function(data, numPage) {
@@ -973,7 +778,7 @@ var indexPage = {
         map: map,
         panel: "panel"
       });
-      map.setZoomAndCenter(16, [lon, lat]);
+      config.setZoomAndCenter(lon, lat);
       var cpoint = [lon, lat]; //中心点坐标
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
     });
