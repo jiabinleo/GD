@@ -15,7 +15,7 @@ var retrievalBox = {
   listen: function() {
     //转移视觉目标
     $("#tbodyHtml").on("click", "tr", function() {
-      config.setZoomAndCenter(16, lon,lat);
+      config.setZoomAndCenter($(this).attr("lon"), $(this).attr("lat"));
     });
     //灾情类型
     $(".disasterType").on("click", "[name='check']", function() {

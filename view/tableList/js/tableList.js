@@ -15,7 +15,7 @@ var tableList = {
   },
   queryTable: function() {
     $.ajax({
-      url: header240 + "/dfbinterface//mobile/statistic/sysdict",
+      url: header240 + "/dfbinterface/mobile/statistic/sysdict",
       dataType: "json",
       type: "GET",
       success: function(data) {
