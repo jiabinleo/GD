@@ -22,11 +22,6 @@ var StartingPoint = "",
   imgYes = true, //当前弹框是img还是video
   allData; //搜索部分所有数据
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
-
-var header = "http://14.116.184.77:8098";
-var headerWeather = "http://14.116.184.77:8088";
-var header240 = "http://192.168.1.240:8080";
-
 var indexPage = {
   init: function() {
     indexPage.changeMap([new AMap.TileLayer.Satellite()]);
@@ -211,9 +206,11 @@ var indexPage = {
     });
     //放大图片
     $(document).on("click", ".imgMin", function() {
+      console.log(imgArr);
       imgYes = true;
       nextNum = imgArr.length;
       indexImgVideo = $(this).attr("index");
+
       $(".mask-img").html(
         `<div class="prev"></div>
       <img id="vid" src="${imgArr[indexImgVideo]}" alt="暂无图片">
@@ -468,7 +465,7 @@ var indexPage = {
     var tableListHtml = "";
     for (let i = 0; i < data.length; i++) {
       tableListHtml += `<tr url="${data[i].datacode}">
-      <td>${data[i].dicttypeid}</td>
+      <td>${data[i].id}</td>
       <td>${data[i].dataname}</td>
   </tr>`;
     }
@@ -645,6 +642,7 @@ var indexPage = {
           }" class="pause">暂无视频</video></li>`;
         }
       }
+      console.log(detail_img);
       inspectingDetailHtml = `<div class="inspectingDetail-header">
       <span>巡查历史</span>
       <span>编号（${historyData.etc.id}）</span>
@@ -741,7 +739,8 @@ var indexPage = {
     walking.search(walkingStart, walkingEnd);
   },
   detailsSpotHtml: function(etc, data) {
-    $("#copytxt").html("http://127.0.0.1:5500/share.html?id=" + data.fzsite.id);
+    console.log(data);
+    $("#copytxt").html("http://127.0.0.1:5500/share.html?uuid=" + etc.uuid);
     // 获取天气
     var weatherHtml = "";
     $.ajax({
@@ -757,6 +756,7 @@ var indexPage = {
         lat: data.fzsite.lat
       },
       success: function(data) {
+        console.log(data);
         if (data.success == "0") {
           for (let i = 0; i < data.result.forecast.dailyArray.length; i++) {
             var skycon = {};
@@ -834,20 +834,20 @@ var indexPage = {
         }
       }
     });
+    var imgHtml = "";
+    var videoHtml = "";
+    imgArr = [];
+    videoArr = [];
+    imgMini = 0;
+    videoMini = 0;
     setTimeout(() => {
-      var imgHtml = "";
-      var videoHtml = "";
-      imgArr = [];
-      videoArr = [];
-      imgMini = 0;
-      videoMini = 0;
       for (let i = 0; i < data.attachList.length; i++) {
         if (data.attachList[i].filetype === "1") {
           imgMini++;
           imgArr.push(data.attachList[i].url_path);
           imgHtml += `<li class="imgMin" index="${imgMini - 1}">
         <img width="100%" src="${data.attachList[i].url_path}" alt="暂无图片">
-        <a>${indexPage.formatDate(data.attachList[i].createtime)}</a>
+        <a>${config.formatDate(data.attachList[i].createtime)}</a>
         </li>`;
         } else if (data.attachList[i].filetype === "2") {
           videoMini++;
@@ -856,7 +856,7 @@ var indexPage = {
         <video pause="" width="100%" src="${
           data.attachList[i].url_path
         }" class="pause">暂无视频</video>
-        <a>${indexPage.formatDate(data.attachList[i].createtime)}</a>
+        <a>${config.formatDate(data.attachList[i].createtime)}</a>
         </li>`;
         }
       }
@@ -977,39 +977,6 @@ var indexPage = {
       var cpoint = [lon, lat]; //中心点坐标
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
     });
-  },
-  //时间转换
-  formatDate: function(now) {
-    var now = new Date(now);
-    var year = now.getFullYear();
-    var month = now.getMonth() + 1;
-    var date = now.getDate();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var second = now.getSeconds();
-    return (
-      year +
-      "-" +
-      indexPage.fixZero(month, 2) +
-      "-" +
-      indexPage.fixZero(date, 2) +
-      " " +
-      indexPage.fixZero(hour, 2) +
-      ":" +
-      indexPage.fixZero(minute, 2) +
-      ":" +
-      indexPage.fixZero(second, 2)
-    );
-  },
-  //时间如果为单位数补0
-  fixZero: function(num, length) {
-    var str = "" + num;
-    var len = str.length;
-    var s = "";
-    for (var i = length; i-- > len; ) {
-      s += "0";
-    }
-    return s + str;
   }
 };
 indexPage.init();
