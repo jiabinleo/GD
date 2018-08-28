@@ -36,23 +36,22 @@ var config = {
       s += "0";
     }
     return s + str;
+  },
+  //获取url中"?"符后的字串
+  getRequest: function() {
+    var url = window.location.search;
+    var theRequest = new Object();
+    if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for (var i = 0; i < strs.length; i++) {
+        theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+      }
+    }
+    return theRequest;
+  },
+  // 高德转移视觉目标
+  setZoomAndCenter: function(lonLat) {
+    map.setZoomAndCenter(18, lonLat);
   }
 };
-
-function getRequest() {
-  var url = window.location.search; //获取url中"?"符后的字串
-  var theRequest = new Object();
-  if (url.indexOf("?") != -1) {
-    var str = url.substr(1);
-    strs = str.split("&");
-    for (var i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
-    }
-  }
-  return theRequest;
-}
-
-// 转移视觉目标
-function setZoomAndCenter(lonLat) {
-  map.setZoomAndCenter(18, lonLat);
-}

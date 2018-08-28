@@ -156,8 +156,7 @@ var indexPage = {
     });
     //转移视觉目标
     $("#tbodyHtml").on("click", "tr", function() {
-      //   map.setZoomAndCenter(16, [$(this).attr("lon"), $(this).attr("lat")]);
-      setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
+      config.setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
     });
     //根据状态筛选
     $(".status").on("click", "span", function() {
@@ -358,8 +357,7 @@ var indexPage = {
       }
     });
     $(document).on("click", "#searchResultHtml > li", function() {
-      //   map.setZoomAndCenter(16, [$(this).attr("lon"), $(this).attr("lat")]);
-      setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
+      config.setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
       return false;
     });
     $(document).on("click", ".search", function() {
@@ -1054,8 +1052,7 @@ var indexPage = {
         map: map,
         panel: "panel"
       });
-      //   map.setZoomAndCenter(16, [lon, lat]);
-      setZoomAndCenter([lon, lat]);
+      config.setZoomAndCenter([lon, lat]);
       var cpoint = [lon, lat]; //中心点坐标
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
     });
