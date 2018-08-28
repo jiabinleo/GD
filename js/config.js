@@ -1,6 +1,6 @@
-// var header = "http://14.116.184.77:8098";
+var header = "http://14.116.184.77:8098";
 var headerWeather = "http://14.116.184.77:8088";
-var header = "http://192.168.1.240:8080";
+// var header = "http://192.168.1.240:8080";
 var share = "http://127.0.0.1:5500/view/share.html";
 var shareMobile = "http://127.0.0.1:5500/view/shareMobile.html";
 //时间转换

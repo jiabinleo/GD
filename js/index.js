@@ -472,8 +472,8 @@ var indexPage = {
       success: function(data) {
         if (data.success == "0") {
           $("#ungovern").html(data.result.suspending);
-          $("#hasgovern").html(data.result.solved);
-          $("#ingovern").html(data.result.handling);
+          $("#ingovern").html(data.result.solved);
+          $("#hasgovern").html(data.result.handling);
         }
       }
     });

@@ -22,7 +22,7 @@ body {
     margin-left: 335px;
   }
   .wrap section .photo ul li {
-    width: 24%;
+    width: 22%;
   }
   .wrap section .photo ul li:nth-of-type(4n + 1) {
     margin-left: 0;
@@ -48,7 +48,7 @@ body {
     float: right;
   }
   .wrap section .photo ul li {
-    width: 32%;
+    width: 30%;
   }
   .wrap section .photo ul li:nth-of-type(3n + 1) {
     margin-left: 0;
@@ -68,7 +68,7 @@ body {
     padding: 2%;
   }
   .wrap section .photo ul li {
-    width: 49%;
+    width: 47%;
   }
   .wrap section .photo ul li:nth-of-type(2n + 1) {
     margin-left: 0;
@@ -160,6 +160,8 @@ body {
   margin-top: 10px;
   list-style: none;
   border-radius: 5px;
+  padding: 0 1%;
+  height: 20vh;
   overflow: hidden;
 }
 .wrap section .photo ul li:first-of-type {
@@ -213,6 +215,47 @@ body {
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10;
+}
+.mask-wrap .mask-IV {
+  display: none;
+  position: absolute;
+  width: 50%;
+  user-select: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  padding: 50px 50px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
+}
+.mask-wrap .mask-IV img {
+  display: none;
+  width: 100%;
+}
+.mask-wrap .mask-IV video {
+  display: none;
+  height: 100%;
+}
+.mask-wrap .mask-IV .prev {
+  background-color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 35px;
+  height: 61px;
+  transform: translateY(-50%);
+  background: url("/img/prev.png") no-repeat;
+}
+.mask-wrap .mask-IV .next {
+  background-color: #ffffff;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 35px;
+  height: 61px;
+  transform: translateY(-50%);
+  background: url("/img/next.png") no-repeat;
 }
 .mask-wrap .qrcode {
   display: none;
