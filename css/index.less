@@ -70,7 +70,7 @@
         line-height: 30px;
         font-size: 14px;
         color: #666666;
-        &:hover{
+        &:hover {
           color: #0aa2fa;
         }
       }
@@ -513,7 +513,6 @@
     border-radius: 5px;
     box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
     overflow: hidden;
-    
   }
   .details {
     position: absolute;
@@ -1009,6 +1008,9 @@
         font-size: 0;
         span {
           display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           width: 563px;
           height: 42px;
           border: solid 1px #d3d3d3;
@@ -1038,6 +1040,7 @@
       p {
         color: #999999;
         font-size: 12px;
+        margin-top: -20px;
       }
     }
   }
@@ -1065,7 +1068,7 @@
       background-color: #ffffff;
       border-radius: 5px;
       box-shadow: 5px 5px 15px RGBA(51, 51, 51, 0.3);
-      opacity:0;
+      opacity: 0;
       p {
         &:first-of-type {
           font-size: 24px;
@@ -1102,6 +1105,11 @@
   }
   .rt {
     float: right;
+  }
+  .amap-marker-label {
+    border: none;
+    color: #333333;
+    border-radius: 5px;
   }
 }
 

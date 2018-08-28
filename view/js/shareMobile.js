@@ -7,7 +7,7 @@ $("#PublicNumber").qrcode({
 
 var swiperIdHTML = "";
 for (let i = 0; i < 10; i++) {
-  swiperIdHTML += `<div class="swiper-slide"><img src="img/CLEAR_DAY.png" alt=""></div>`;
+  swiperIdHTML += `<div class="swiper-slide"><img src="/img/png.png" alt=""></div>`;
 }
 $("#swiperId").html(swiperIdHTML);
 window.onload = function() {

@@ -946,6 +946,9 @@
 }
 .wrap .mask-wrap .qrcode .qrcode-center span {
   display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 563px;
   height: 42px;
   border: solid 1px #d3d3d3;
@@ -974,6 +977,7 @@
 .wrap .mask-wrap .qrcode p {
   color: #999999;
   font-size: 12px;
+  margin-top: -20px;
 }
 .wrap .mask-copy {
   user-select: none;
@@ -1034,4 +1038,9 @@
 }
 .wrap .rt {
   float: right;
+}
+.wrap .amap-marker-label {
+  border: none;
+  color: #333333;
+  border-radius: 5px;
 }
