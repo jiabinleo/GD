@@ -67,8 +67,35 @@ var share = {
     });
   },
   htmlL: function(data) {
-    console.log(data.handle);
+    console.log(data);
     var handle = data.handle;
+    var attachList = data.attachList;
+    console.log(attachList);
+    var imgUrl = [];
+    console.log(imgUrl);
+    var videoUrl = [];
+    for (let i = 0; i < attachList.length; i++) {
+      console.log(attachList[i].url_path);
+      if (attachList[i].filetype === "1") {
+        imgUrl.push(attachList[i].url_path);
+      } else if (attachList[i].filetype === "2") {
+        videoUrl[i].push(attachList[i].url_path);
+      }
+    }
+    imgHTML = "";
+    for (let i = 0; i < imgUrl.length; i++) {
+      imgHTML += ` <li imgSrc="${imgUrl[i]}">
+        <img src="${imgUrl[i]}" alt="">
+    </li>`;
+    }
+
+    videoHTML = "";
+    for (let i = 0; i < videoUrl.length; i++) {
+      videoHTML += ` <li imgSrc="${videoUrl[i]}">
+        <img src="${videoUrl[i]}" alt="">
+    </li>`;
+    }
+
     var headerHTML = `
             <span></span>
             <h2>${handle.disastername}</h2>
@@ -88,7 +115,7 @@ var share = {
     </div>
     <p>
         <span>上报时间：</span>
-        <span id="time">2018年8月23日10点59分30秒</span>
+        <span id="time">${config.formatDate(handle.createtime)}</span>
     </p>
     <p>
         <span>灾情描述：</span>
@@ -126,32 +153,16 @@ var share = {
 <div class="photo" id="photoImg">
     <p>现场图片：</p>
     <ul>
-        <li imgSrc="/img/png.png">
-            <img src="/img/png.png" alt="">
-        </li>
-        <li imgSrc="/img/png.png">
-            <img src="/img/png.png" alt="">
-        </li>
-        <li imgSrc="/img/png.png">
-            <img src="/img/png.png" alt="">
-        </li>
+        ${imgHTML}
     </ul>
 </div>
 <div class="photo">
     <p>现场视频：</p>
     <ul>
-        <li>
-            <img src="/img/png.png" alt="">
-        </li>
-        <li>
-            <img src="/img/png.png" alt="">
-        </li>
-        <li>
-            <img src="/img/png.png" alt="">
-        </li>
+        ${videoHTML}
     </ul>
 </div>`;
-$("#sectionHTML").html(sectionHTML)
+    $("#sectionHTML").html(sectionHTML);
   },
   erCode: function() {
     $("#downloadApp").qrcode({

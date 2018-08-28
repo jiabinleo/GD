@@ -37,22 +37,22 @@ var config = {
     }
     return s + str;
   },
-    //状态
-    status: function(key) {
-      var sta = "";
-      switch (key) {
-        case "1":
-          sta = "已治理";
-          break;
-        case "2":
-          sta = "未治理";
-          break;
-        case "3":
-          sta = "治理中";
-          break;
-      }
-      return sta;
-    },
+  //状态
+  status: function(key) {
+    var sta = "";
+    switch (key) {
+      case "1":
+        sta = "已治理";
+        break;
+      case "2":
+        sta = "未治理";
+        break;
+      case "3":
+        sta = "治理中";
+        break;
+    }
+    return sta;
+  }
 };
 
 function getRequest() {
