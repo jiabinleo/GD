@@ -24,7 +24,7 @@
             var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
             if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
                 // 移动
-                location.href = shareMobile + '?uiid=' + getRequest().uiid
+                location.href = shareMobile + '?uiid=' + config.getRequest().uiid
             } else {
             }
         }

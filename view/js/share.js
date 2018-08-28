@@ -4,12 +4,12 @@ $("#downloadApp").qrcode({
 $("#PublicNumber").qrcode({
   text: "http://a3.rabbitpre.com/m2/aUe1ZjN35c?&lc=1&sui=TmugHNBC#from=share"
 });
-console.log(getRequest().uuid);
+console.log(config.getRequest().uuid);
 $.ajax({
   url: header + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
   type: "POST",
   dataType: "json",
-  data: { disasterid: getRequest().uuid },
+  data: { disasterid: config.getRequest().uuid },
   success: function(data) {
     if (data.success == "0") {
       htmlL(data.result);
