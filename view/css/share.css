@@ -227,15 +227,18 @@ body {
   overflow: hidden;
   padding: 50px 50px;
   border-radius: 5px;
-  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
 }
 .mask-wrap .mask-IV img {
   display: none;
   width: 100%;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
 }
 .mask-wrap .mask-IV video {
   display: none;
   height: 100%;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
 }
 .mask-wrap .mask-IV .prev {
   background-color: #ffffff;

@@ -94,21 +94,27 @@ var share = {
     $(document).on("click", ".mask-IV", function() {
       return false;
     });
-    $(document).on("click", "#prev", function() {
-      indexNum--;
+    //预览左右切换
+    $(document).on("click", ".arr", function() {
+      var IVUrlArrNow = [], //当前数组
+        $maskNow; //当前元素
       if ($(this).attr("filetype") == "1") {
-        $(".mask-IV > img").attr("src", imgUrlArr[indexNum]);
+        IVUrlArrNow = imgUrlArr;
+        $maskNow = $(".mask-IV > img");
       } else if ($(this).attr("filetype") == "2") {
-        $(".mask-IV > video").attr("src", videoUrlArr[indexNum]);
+        IVUrlArrNow = videoUrlArr;
+        $maskNow = $(".mask-IV > video");
       }
-    });
-    $(document).on("click", "#next", function() {
-      indexNum++;
-      if ($(this).attr("filetype") == "1") {
-        $(".mask-IV > img").attr("src", imgUrlArr[indexNum]);
-      } else if ($(this).attr("filetype") == "2") {
-        $(".mask-IV > video").attr("src", videoUrlArr[indexNum]);
+      if ($(this).attr("id") === "prev") {
+        if (indexNum > 0) {
+          indexNum--;
+        }
+      } else if ($(this).attr("id") === "next") {
+        if (indexNum < IVUrlArrNow.length - 1) {
+          indexNum++;
+        }
       }
+      $maskNow.attr("src", IVUrlArrNow[indexNum]);
     });
   },
   queryData: function() {
