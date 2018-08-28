@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        input {
+            border: none;
+            border-bottom: 1px solid #333333;
+            outline: none;
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="inputId" type="text">
+</body>
+<script>
+    function inputAutoWidthId(_aaa) {
+        var _span = document.createElement("span")
+        _aaa.after(_span)
+        _span.style.opacity = "0"
+        _aaa.onkeyup = function () {
+            _span.innerText = _aaa.value
+            _aaa.style.fontSize = getComputedStyle(_span, null).fontSize
+            console.log(_aaa.value)
+            _aaa.style.width = _span.offsetWidth + 10 + "px"
+        }
+    }
+    inputId = document.getElementById("inputId")
+    inputAutoWidthId(inputId)
+</script>
+
+</html>
