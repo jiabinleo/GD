@@ -15,7 +15,7 @@ var table = {
   // 获取图表列表
   queryTable: function() {
     $.ajax({
-      url: header + "/dfbinterface//mobile/statistic/sysdict",
+      url: fileUrl.header + "/dfbinterface//mobile/statistic/sysdict",
       dataType: "json",
       type: "GET",
       success: function(data) {

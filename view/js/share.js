@@ -119,7 +119,7 @@ var share = {
   },
   queryData: function() {
     $.ajax({
-      url: header + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
+      url: fileUrl.header + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "POST",
       dataType: "json",
       data: { disasterid: getRequest().uuid },

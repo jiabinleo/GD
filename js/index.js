@@ -158,8 +158,7 @@ var indexPage = {
     });
     //转移视觉目标
     $("#tbodyHtml").on("click", "tr", function() {
-      //   map.setZoomAndCenter(16, [$(this).attr("lon"), $(this).attr("lat")]);
-      setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
+      aMapConfig.setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
     });
     //根据状态筛选
     $(".status").on("click", "span", function() {
@@ -180,9 +179,12 @@ var indexPage = {
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       managestate = $(this).attr("data");
       var data = {
-        dtype: dtypes,
-        areaid: areaname == "全部" ? "" : areaname,
-        warnlevel: warnlevel,
+        // dtype: dtypes,
+        // areaid: areaname == "全部" ? "" : areaname,
+        // warnlevel: warnlevel,
+        dtype: "",
+        areaid: "",
+        warnlevel: "",
         managestate: managestate
       };
       indexPage.queryData(data, layers);
@@ -341,8 +343,7 @@ var indexPage = {
       }
     });
     $(document).on("click", "#searchResultHtml > li", function() {
-      //   map.setZoomAndCenter(16, [$(this).attr("lon"), $(this).attr("lat")]);
-      setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
+      aMapConfig.setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
       return false;
     });
     $(document).on("click", ".search", function() {
@@ -356,24 +357,6 @@ var indexPage = {
       console.log($(this).attr("url"));
       window.open($(this).attr("url"));
     });
-    // $(document).on("click", function() {
-    // AMapUI.loadUI(["overlay/SimpleInfoWindow"], function(SimpleInfoWindow) {
-    //   var marker = new AMap.Marker({
-    //     map: map,
-    //     zIndex: 9999999,
-    //     position: map.getCenter()
-    //   });
-    //   var infoWindow = new SimpleInfoWindow({
-    //     infoBody: "123",
-    //     //基点指向marker的头部位置
-    //     offset: new AMap.Pixel(0, -31)
-    //   });
-    //   function openInfoWin() {
-    //     infoWindow.open(map, marker.getPosition());
-    //   }
-    //   openInfoWin();
-    // });
-    // });
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
@@ -386,11 +369,12 @@ var indexPage = {
   queryData: function(data, layers) {
     $.ajax({
       type: "GET",
-      url: header + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
+      url: fileUrl.header + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
       success: function(data) {
+        console.log(data);
         if (data.success === "0") {
           jsonData = data.result;
           allData = data.result;
@@ -406,7 +390,7 @@ var indexPage = {
   queryGetGisAreaName: function() {
     $.ajax({
       type: "GET",
-      url: header + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
+      url: fileUrl.header + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
       dataType: "jsonp",
       jsonp: "callback",
       success: function(data) {
@@ -465,7 +449,7 @@ var indexPage = {
   getGovernance: function(data) {
     $.ajax({
       type: "POST",
-      url: header + "/dfbinterface/mobile/gisshow/Getypecount",
+      url: fileUrl.header + "/dfbinterface/mobile/gisshow/Getypecount",
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
@@ -633,7 +617,7 @@ var indexPage = {
     };
     $.ajax({
       type: "GET",
-      url: header + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
+      url: fileUrl.header + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
@@ -648,7 +632,7 @@ var indexPage = {
   inspecting: function(etc) {
     $.ajax({
       type: "POST",
-      url: header + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
+      url: fileUrl.header + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
       dataType: "json",
       data: { uuid: etc.uuid },
       success: function(data) {
@@ -799,17 +783,18 @@ var indexPage = {
     var weatherHtml = "";
     var description = ""; //短临预报
     $.ajax({
-      url: header + "/light/mobile/weather/getJsonpWeather",
+      url: fileUrl.weather + "/light/mobile/weather/getWeather",
       type: "POST",
       async: false,
-      dataType: "jsonp",
-      jsonp: "callback",
-      // dataType: "json",
+      // dataType: "jsonp",
+      // jsonp: "callback",
+      dataType: "json",
       data: {
         lon: data.fzsite.lon,
         lat: data.fzsite.lat
       },
       success: function(data) {
+        console.log(data);
         if (data.success == "0") {
           for (let i = 0; i < data.result.forecast.dailyArray.length; i++) {
             description = data.result.forecast.description;
@@ -888,13 +873,14 @@ var indexPage = {
         }
       }
     });
-    var imgHtml = "";
-    var videoHtml = "";
-    imgArr = [];
-    videoArr = [];
-    imgMini = 0;
-    videoMini = 0;
+
     setTimeout(() => {
+      var imgHtml = "";
+      var videoHtml = "";
+      imgArr = [];
+      videoArr = [];
+      imgMini = 0;
+      videoMini = 0;
       for (let i = 0; i < data.attachList.length; i++) {
         if (data.attachList[i].filetype === "1") {
           imgMini++;
@@ -1026,7 +1012,7 @@ var indexPage = {
 </div>`;
       $("#details").html(detailsHtml);
       $("#details").show();
-    }, 300);
+    }, 500);
   },
   //周围信息
   around: function(lat, lon, name) {
@@ -1039,8 +1025,7 @@ var indexPage = {
         map: map,
         panel: "panel"
       });
-      //   map.setZoomAndCenter(16, [lon, lat]);
-      setZoomAndCenter([lon, lat]);
+      aMapConfig.setZoomAndCenter([lon, lat]);
       var cpoint = [lon, lat]; //中心点坐标
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
     });

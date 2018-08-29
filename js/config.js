@@ -1,12 +1,17 @@
-var header = "http://14.116.184.77:8098";
-var headerWeather = "http://14.116.184.77:8088";
-// var header = "http://192.168.1.240:8080";
-var share = "http://127.0.0.1:5500/view/share.html";
-var shareMobile = "http://127.0.0.1:5500/view/shareMobile.html";
-//时间转换
+var fileUrl = {
+  header: "http://14.116.184.77:8098",
+  weather: "http://14.116.184.77:8088",
+  header240: "http://192.168.1.240:8080"
+};
+var filePath = {
+  share: "http://127.0.0.1:5500/view/share.html",
+  shareMobile: "http://127.0.0.1:5500/view/shareMobile.html"
+};
 var config = {
+  //时间转换
   formatDate: function(now) {
     var now = new Date(now);
+
     var year = now.getFullYear();
     var month = now.getMonth() + 1;
     var date = now.getDate();
@@ -60,15 +65,16 @@ function getRequest() {
   var theRequest = new Object();
   if (url.indexOf("?") != -1) {
     var str = url.substr(1);
-    strs = str.split("&");
-    for (var i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+    strS = str.split("&");
+    for (var i = 0; i < strS.length; i++) {
+      theRequest[strS[i].split("=")[0]] = decodeURI(strS[i].split("=")[1]);
     }
   }
   return theRequest;
 }
-
-// 转移视觉目标
-function setZoomAndCenter(lonLat) {
-  map.setZoomAndCenter(18, lonLat);
-}
+var aMapConfig = {
+  // 转移视觉目标
+  setZoomAndCenter: function(lonLat) {
+    map.setZoomAndCenter(18, lonLat);
+  }
+};
