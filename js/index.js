@@ -32,6 +32,7 @@ var indexPage = {
     indexPage.getGovernance("");
     indexPage.clickColor(numPage);
     indexPage.queryData("", layers);
+    $("#msgWrap").load("/view/message.html")
   },
   listen: function() {
     //查询按钮
@@ -356,6 +357,15 @@ var indexPage = {
     $(document).on("click", "#tableListHtml > tr", function() {
       console.log($(this).attr("url"));
       window.open($(this).attr("url"));
+    });
+    $(document).on("click", "#message", function() {
+      msg.queryData();
+      $("#msgWrap").load("/view/message.html")
+      if ($("#msgWrap").css("display") == "none") {
+        $("#msgWrap").show();
+      } else if ($("#msgWrap").css("display") == "block") {
+        $("#msgWrap").hide();
+      }
     });
   },
   changeMap: function(layers) {
