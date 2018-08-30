@@ -57,6 +57,56 @@ var config = {
         break;
     }
     return sta;
+  },
+  //拖拽
+  zIndex: 1,
+  drag: function(IdName) {
+    var box = document.getElementById(IdName);
+    var eleP = { left: 0, top: 0 };
+    var startP = { left: 0, top: 0 };
+    box.onmousedown = function(event) {
+      config.zIndex += 1;
+      box.style.zIndex = config.zIndex;
+      event = event || window.event;
+      eleP.left = box.offsetLeft;
+      eleP.top = box.offsetTop;
+      startP.left = event.clientX;
+      startP.top = event.clientY;
+      document.onmousemove = function(event) {
+        event = event || window.event;
+        var endP = { left: 0, top: 0 };
+        endP.left = event.clientX;
+        endP.top = event.clientY;
+        var disX = endP.left - startP.left;
+        var disY = endP.top - startP.top;
+        var left = disX + eleP.left;
+        var top = disY + eleP.top;
+        if (left < 15) {
+          left = 0;
+        } else if (
+          left >
+          document.documentElement.clientWidth - box.offsetWidth - 15
+        ) {
+          left = document.documentElement.clientWidth - box.offsetWidth;
+        }
+        if (top < 15) {
+          top = 0;
+        } else if (
+          top >
+          document.documentElement.clientHeight - box.offsetHeight - 15
+        ) {
+          top = document.documentElement.clientHeight - box.offsetHeight;
+        }
+
+        box.style.left = left + "px";
+        box.style.top = top + "px";
+      };
+      document.onmouseup = function() {
+        document.onmousemove = null;
+        document.onmouseup = null;
+      };
+      return false;
+    };
   }
 };
 

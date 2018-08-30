@@ -1,6 +1,6 @@
 var StartingPoint = "",
   endPoint = "",
-  layers = [new AMap.TileLayer.Satellite()],
+  layers = [new AMap.TileLayer.Satellite()], //, new AMap.TileLayer.RoadNet()
   map,
   ruler1,
   ruler2,
@@ -25,7 +25,9 @@ var StartingPoint = "",
   nextNum = 0, //切换下一张的最大数量
   imgYes = true, //当前弹框是img还是video
   allData, //搜索部分所有数据
-  newOpenUuid; //左侧弹框地址编号
+  newOpenUuid, //左侧弹框地址编号
+  pageNum = 5; //每页显示的数量
+
 var markers = [];
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 var indexPage = {
@@ -37,6 +39,12 @@ var indexPage = {
     indexPage.clickColor(numPage);
     indexPage.queryData("", layers);
     $("#msgWrap").load("/view/message.html");
+    //拖拽
+      config.drag("tableList");
+      config.drag("retrievalBox");
+      config.drag("details");
+      config.drag("msgWrap");
+      config.drag("inspectingDetail");
   },
   listen: function() {
     //查询按钮
@@ -65,8 +73,8 @@ var indexPage = {
       if (numPage > 1) {
         numPage--;
         indexPage.tableList(jsonData, numPage);
-
         $(this)
+          .prev()
           .addClass("activeColor")
           .siblings()
           .removeClass("activeColor");
@@ -76,6 +84,11 @@ var indexPage = {
       if (numPage < numPageS) {
         numPage++;
         indexPage.tableList(jsonData, numPage);
+        $(this)
+          .next()
+          .addClass("activeColor")
+          .siblings()
+          .removeClass("activeColor");
       }
     });
     $("#arrCenter").on("click", "a", function() {
@@ -216,7 +229,7 @@ var indexPage = {
     //放大图片
     $(document).on("click", ".imgMin", function() {
       imgYes = true;
-      imgTanArr = imgArr
+      imgTanArr = imgArr;
       nextNum = imgTanArr.length;
       indexImgVideo = $(this).attr("index");
 
@@ -231,7 +244,7 @@ var indexPage = {
     //放大巡查图片
     $(document).on("click", ".imgMinDetail", function() {
       imgYes = true;
-      imgTanArr = detailImgArr
+      imgTanArr = detailImgArr;
       nextNum = imgTanArr.length;
       indexImgVideo = $(this).attr("index");
 
@@ -255,7 +268,7 @@ var indexPage = {
     //放大视频
     $(document).on("click", ".videoMin", function() {
       imgYes = false;
-      videoTanArr = videoArr
+      videoTanArr = videoArr;
       nextNum = videoTanArr.length;
       indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
@@ -272,7 +285,7 @@ var indexPage = {
     //放大巡查视频
     $(document).on("click", ".videoMinDetail", function() {
       imgYes = false;
-      videoTanArr = detailVideoArr
+      videoTanArr = detailVideoArr;
       nextNum = videoTanArr.length;
       indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
@@ -464,8 +477,8 @@ var indexPage = {
   //分页
   paging: function(num) {
     var numpage = "";
-    numPageS = Math.ceil(num / 5);
-    for (let i = 1; i < Math.ceil(num / 5) + 1; i++) {
+    numPageS = Math.ceil(num / pageNum);
+    for (let i = 1; i < Math.ceil(num / pageNum) + 1; i++) {
       numpage += "<a class='activeColor'>" + i + "</a>";
     }
     $("#arrCenter").html(numpage);
@@ -474,11 +487,11 @@ var indexPage = {
   //查询列表warnlevel
   tableList: function(data, numPage) {
     var tbodyHtml = "";
-    var nums = numPage * 5;
-    if (data.length < numPage * 5) {
+    var nums = numPage * pageNum;
+    if (data.length < numPage * pageNum) {
       nums = data.length;
     }
-    for (let i = (numPage - 1) * 5; i < nums; i++) {
+    for (let i = (numPage - 1) * pageNum; i < nums; i++) {
       tbodyHtml +=
         "<tr lat=" +
         data[i].lat +
@@ -714,8 +727,7 @@ var indexPage = {
       var detail_img = "";
       var detail_video = "";
       detailImgArr = [];
-      detailVideoArr = [],
-      imgMini = 0;
+      (detailVideoArr = []), (imgMini = 0);
       videoMini = 0;
       for (let i = 1; i < activeData.attach.length; i++) {
         if (activeData.attach[i].filetype === "1") {

@@ -1,15 +1,5 @@
-var imgUrlArr = [
-  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455267411&di=11c0c9ade3824fe58be97aa2def6ed3d&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8694a4c27d1ed21b3c778fdda06eddc451da3f4f.jpg",
-  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455337129&di=81982ecc52cda17cc1b16e8ad1e4da02&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8c1001e93901213f5480ffe659e736d12f2e955d.jpg",
-  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455361598&di=e552cd3e9ac2e69724e55fb9fdcd9ba6&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F2fdda3cc7cd98d104a601b0a2c3fb80e7bec9050.jpg",
-  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455267411&di=11c0c9ade3824fe58be97aa2def6ed3d&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8694a4c27d1ed21b3c778fdda06eddc451da3f4f.jpg"
-];
-var videoUrlArr = [
-  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
-  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
-  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
-  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4"
-];
+var imgUrlArr = [];
+var videoUrlArr = [];
 var indexNum = 0; //当前图片或视频的下标
 var share = {
   init: function() {
@@ -21,6 +11,7 @@ var share = {
   listen: function() {
     $(document).on("click", ".mask-wrap", function() {
       $(".mask-wrap").hide();
+      $(".mask-IV").hide();
       $("#qrcode").hide();
     });
     $(document).on("click", "#shareBtn", function() {
@@ -54,13 +45,10 @@ var share = {
         500,
         function() {
           $("#mask_copy").hide();
-          setTimeout(function() {
-            $(".mask-wrap").hide();
-            $("#qrcode").hide();
-          }, 3000);
         }
       );
     });
+
     //视频播放/暂停
     $(document).on("click", "#vid", function() {
       if ($(this).hasClass("pause")) {
