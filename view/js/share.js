@@ -1,14 +1,14 @@
 var imgUrlArr = [
-  "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455267411&di=11c0c9ade3824fe58be97aa2def6ed3d&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8694a4c27d1ed21b3c778fdda06eddc451da3f4f.jpg",
-  "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455337129&di=81982ecc52cda17cc1b16e8ad1e4da02&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8c1001e93901213f5480ffe659e736d12f2e955d.jpg",
-  "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455361598&di=e552cd3e9ac2e69724e55fb9fdcd9ba6&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F2fdda3cc7cd98d104a601b0a2c3fb80e7bec9050.jpg",
-  "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455267411&di=11c0c9ade3824fe58be97aa2def6ed3d&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8694a4c27d1ed21b3c778fdda06eddc451da3f4f.jpg"
+  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455267411&di=11c0c9ade3824fe58be97aa2def6ed3d&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8694a4c27d1ed21b3c778fdda06eddc451da3f4f.jpg",
+  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455337129&di=81982ecc52cda17cc1b16e8ad1e4da02&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8c1001e93901213f5480ffe659e736d12f2e955d.jpg",
+  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455361598&di=e552cd3e9ac2e69724e55fb9fdcd9ba6&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F2fdda3cc7cd98d104a601b0a2c3fb80e7bec9050.jpg",
+  //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535455267411&di=11c0c9ade3824fe58be97aa2def6ed3d&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8694a4c27d1ed21b3c778fdda06eddc451da3f4f.jpg"
 ];
 var videoUrlArr = [
-  "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
-  "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
-  "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
-  "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4"
+  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
+  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
+  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4",
+  // "http://192.168.1.240:8080/site/dfbinterface/20180801/b856cb4128a84254a05eebfe5ae103d5.mp4"
 ];
 var indexNum = 0; //当前图片或视频的下标
 var share = {
@@ -119,14 +119,15 @@ var share = {
   },
   queryData: function() {
     $.ajax({
-      url: fileUrl.header + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
+      url: fileUrl.header240 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "POST",
       dataType: "json",
-      data: { disasterid: getRequest().uuid },
+      data: { disasterid: getRequest().disasterid },
       success: function(data) {
-        console.log(data);
         if (data.success == "0") {
-          share.htmlL(data.result);
+          if (data.hasOwnProperty("result")) {
+            share.htmlL(data.result);
+          }
         }
       },
       error: function(err) {
@@ -136,31 +137,33 @@ var share = {
   },
   htmlL: function(data) {
     console.log(data);
-    var handle = data.handle;
-    var attachList = data.attachList;
+    handle = data.handle;
+    attachList = data.attachList;
     console.log(attachList);
-    var imgUrl = [];
-    console.log(imgUrl);
-    var videoUrl = [];
+    imgUrlArr = [];
+    videoUrlArr = [];
     for (let i = 0; i < attachList.length; i++) {
       console.log(attachList[i].url_path);
       if (attachList[i].filetype === "1") {
-        imgUrl.push(attachList[i].url_path);
+        imgUrlArr.push(attachList[i].url_path);
       } else if (attachList[i].filetype === "2") {
-        videoUrl[i].push(attachList[i].url_path);
+        videoUrlArr.push(attachList[i].url_path);
       }
     }
+    console.log(imgUrlArr, videoUrlArr);
     imgHTML = "";
-    for (let i = 0; i < imgUrl.length; i++) {
-      imgHTML += ` <li fileTYpe = "1" class="minIV" urlSrc="${imgUrl[i]}">
-        <img src="${imgUrl[i]}" alt="">
+    for (let i = 0; i < imgUrlArr.length; i++) {
+      imgHTML += ` <li fileTYpe = "1" class="minIV" urlSrc="${imgUrlArr[i]}">
+        <img src="${imgUrlArr[i]}" alt="">
     </li>`;
     }
 
     videoHTML = "";
-    for (let i = 0; i < videoUrl.length; i++) {
-      videoHTML += ` <li fileTYpe = "2" class="minIV" urlSrc="${videoUrl[i]}">
-        <img src="${videoUrl[i]}" alt="">
+    for (let i = 0; i < videoUrlArr.length; i++) {
+      videoHTML += ` <li fileTYpe = "2" class="minIV" urlSrc="${
+        videoUrlArr[i]
+      }">
+        <video  src="${videoUrlArr[i]}"  width="100%" src="" >暂无视频</video>
     </li>`;
     }
 
@@ -230,7 +233,7 @@ var share = {
         ${videoHTML}
     </ul>
 </div>`;
-    // $("#sectionHTML").html(sectionHTML);
+    $("#sectionHTML").html(sectionHTML);
   },
   erCode: function() {
     $("#downloadApp").qrcode({

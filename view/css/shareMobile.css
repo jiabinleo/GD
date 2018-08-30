@@ -13,7 +13,7 @@ body {
   background-color: #ffffff;
   border-radius: 0.21333333rem;
   box-shadow: 0.21333333rem 0.21333333rem 0.64rem rgba(0, 0, 0, 0.1);
-  padding: 0 0.21333333rem;
+  padding: 0.21333333rem;
 }
 .wrap header {
   border-bottom: solid 0.04266667rem #eeeeee;
@@ -38,9 +38,6 @@ body {
   color: #999999;
   font-weight: 500;
   padding: 0.55466667rem 0 1.28rem 0.42666667rem;
-}
-.wrap section div {
-  padding: 0.64rem 0;
 }
 .wrap section p {
   line-height: 1.664rem;

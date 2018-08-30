@@ -17,6 +17,10 @@ var StartingPoint = "",
   historyData, //巡查历史记录数据
   imgArr = [], //存储照片视频上下切换
   videoArr = [],
+  detailImgArr = [],
+  detailVideoArr = [],
+  imgTanArr = [],
+  videoTanArr = [],
   indexImgVideo = 0, // 当前显示第几张
   nextNum = 0, //切换下一张的最大数量
   imgYes = true, //当前弹框是img还是video
@@ -32,7 +36,7 @@ var indexPage = {
     indexPage.getGovernance("");
     indexPage.clickColor(numPage);
     indexPage.queryData("", layers);
-    $("#msgWrap").load("/view/message.html")
+    $("#msgWrap").load("/view/message.html");
   },
   listen: function() {
     //查询按钮
@@ -211,19 +215,35 @@ var indexPage = {
     });
     //放大图片
     $(document).on("click", ".imgMin", function() {
-      console.log(imgArr);
       imgYes = true;
-      nextNum = imgArr.length;
+      imgTanArr = imgArr
+      nextNum = imgTanArr.length;
       indexImgVideo = $(this).attr("index");
 
       $(".mask-img").html(
         `<div class="prev"></div>
-      <img id="vid" src="${imgArr[indexImgVideo]}" alt="暂无图片">
+      <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
       <div class="next"></div>`
       );
       $(".mask-wrap").show();
       $(".mask-img").show();
     });
+    //放大巡查图片
+    $(document).on("click", ".imgMinDetail", function() {
+      imgYes = true;
+      imgTanArr = detailImgArr
+      nextNum = imgTanArr.length;
+      indexImgVideo = $(this).attr("index");
+
+      $(".mask-img").html(
+        `<div class="prev"></div>
+      <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
+      <div class="next"></div>`
+      );
+      $(".mask-wrap").show();
+      $(".mask-img").show();
+    });
+
     $(document).on("click", ".mask-wrap", function() {
       $(".mask-wrap").hide();
       $(".mask-img").hide();
@@ -235,12 +255,30 @@ var indexPage = {
     //放大视频
     $(document).on("click", ".videoMin", function() {
       imgYes = false;
-      nextNum = videoArr.length;
+      videoTanArr = videoArr
+      nextNum = videoTanArr.length;
       indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
         `<div class="prev"></div>
         <video id="vid" muted pause="" width="100%" 
-        src="${videoArr[indexImgVideo]}" 
+        src="${videoTanArr[indexImgVideo]}" 
+        class="pause">暂无视频</video>
+        <div class="next"></div>`
+      );
+      var maskImgHeight = $(".mask-img")[0].clientHeight;
+      $(".mask-wrap").show();
+      $(".mask-img").show();
+    });
+    //放大巡查视频
+    $(document).on("click", ".videoMinDetail", function() {
+      imgYes = false;
+      videoTanArr = detailVideoArr
+      nextNum = videoTanArr.length;
+      indexImgVideo = $(this).attr("index");
+      $(".mask-img").html(
+        `<div class="prev"></div>
+        <video id="vid" muted pause="" width="100%" 
+        src="${videoTanArr[indexImgVideo]}" 
         class="pause">暂无视频</video>
         <div class="next"></div>`
       );
@@ -253,9 +291,9 @@ var indexPage = {
       if (indexImgVideo > 0) {
         indexImgVideo--;
         if (imgYes) {
-          $("#vid").attr("src", imgArr[indexImgVideo]);
+          $("#vid").attr("src", imgTanArr[indexImgVideo]);
         } else {
-          $("#vid").attr("src", videoArr[indexImgVideo]);
+          $("#vid").attr("src", videoTanArr[indexImgVideo]);
         }
       }
       return false;
@@ -264,9 +302,9 @@ var indexPage = {
       if (indexImgVideo < nextNum - 1) {
         indexImgVideo++;
         if (imgYes) {
-          $("#vid").attr("src", imgArr[indexImgVideo]);
+          $("#vid").attr("src", imgTanArr[indexImgVideo]);
         } else {
-          $("#vid").attr("src", videoArr[indexImgVideo]);
+          $("#vid").attr("src", videoTanArr[indexImgVideo]);
         }
       }
       return false;
@@ -297,6 +335,8 @@ var indexPage = {
       historyData.index = $(this).attr("ids");
 
       indexPage.inspectingHtml(historyData);
+
+      console.log($(".inspectingDetail-time").find("input").size);
     });
     //分享
     // $(document).on("click", "#qrButton", function() {
@@ -305,7 +345,8 @@ var indexPage = {
     // });
     //更多详情
     $(document).on("click", "#openNew", function() {
-      var src = "http://127.0.0.1:5500/view/share.html?uuid=" + newOpenUuid;
+      var src =
+        "http://127.0.0.1:5500/view/share.html?disasterid=" + newOpenUuid;
       window.open(src);
     });
     $(document).on("click", "#qrcode", function() {
@@ -360,7 +401,7 @@ var indexPage = {
     });
     $(document).on("click", "#message", function() {
       msg.queryData();
-      $("#msgWrap").load("/view/message.html")
+      $("#msgWrap").load("/view/message.html");
       if ($("#msgWrap").css("display") == "none") {
         $("#msgWrap").show();
       } else if ($("#msgWrap").css("display") == "block") {
@@ -379,11 +420,13 @@ var indexPage = {
   queryData: function(data, layers) {
     $.ajax({
       type: "GET",
-      url: fileUrl.header + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
+      url:
+        fileUrl.header240 + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
       success: function(data) {
+        console.log(data);
         console.log(data);
         if (data.success === "0") {
           jsonData = data.result;
@@ -627,7 +670,7 @@ var indexPage = {
     };
     $.ajax({
       type: "GET",
-      url: fileUrl.header + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
+      url: fileUrl.header240 + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
@@ -642,10 +685,11 @@ var indexPage = {
   inspecting: function(etc) {
     $.ajax({
       type: "POST",
-      url: fileUrl.header + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
+      url: fileUrl.header240 + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
       dataType: "json",
       data: { uuid: etc.uuid },
       success: function(data) {
+        console.log(data);
         if (data.success == "0") {
           historyData = {
             data: data.result,
@@ -669,25 +713,25 @@ var indexPage = {
       }
       var detail_img = "";
       var detail_video = "";
-      imgArr = [];
+      detailImgArr = [];
+      detailVideoArr = [],
       imgMini = 0;
       videoMini = 0;
       for (let i = 1; i < activeData.attach.length; i++) {
         if (activeData.attach[i].filetype === "1") {
           imgMini++;
-          imgArr.push(activeData.attach[i].url_path);
-          detail_img += `<li class="imgMin" index="${imgMini - 1}">
+          detailImgArr.push(activeData.attach[i].url_path);
+          detail_img += `<li class="imgMinDetail" index="${imgMini - 1}">
           <img src="${activeData.attach[i].url_path}" alt=""></li>`;
         } else if (activeData.attach[i].filetype === "2") {
           videoMini++;
-          videoArr.push(activeData.attach[i].url_path);
+          detailVideoArr.push(activeData.attach[i].url_path);
           detail_video += `<li class="videoMin" index="${videoMini - 1}">
           <video pause="" width="100%" src="${
             activeData.attach[i].url_path
           }" class="pause">暂无视频</video></li>`;
         }
       }
-      console.log(detail_img);
       inspectingDetailHtml = `<div class="inspectingDetail-header">
       <span>巡查历史</span>
       <span>编号（${historyData.etc.id}）</span>
@@ -776,17 +820,16 @@ var indexPage = {
       zoom: 12 //地图显示的缩放级别
     });
     //步行导航
-    // try {
     var walking = new AMap.Walking({
       map: map,
       panel: "panelTrack"
     });
     //根据起终点坐标规划步行路线
     walking.search(walkingStart, walkingEnd);
-    // } catch (error) {}
   },
   detailsSpotHtml: function(etc, data) {
     console.log(data);
+    console.log(etc);
     // $("#copytxt").html("127.0.0.1:5500/view/share.html?uuid=" + etc.uuid);
     newOpenUuid = etc.uuid;
     // 获取天气

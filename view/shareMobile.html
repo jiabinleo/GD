@@ -26,76 +26,80 @@
                 // 移动
             } else {
                 // PC
-                location.href = share + '?uuid=' + getRequest().uuid
+                // location.href = filePath.share + '?disasterid=' + getRequest().disasterid
             }
         }
+        (function () {
+            var width = document.documentElement.clientWidth;
+            var style = document.createElement("style")
+            style.innerHTML = "html{font-size: " + width / 16 + "px !important;}"
+            document.head.appendChild(style)
+        })();
         browserRedirect()
     </script>
 </head>
 
 <body>
     <div class="wrap">
-        <header>
+        <header id="headerHTML">
             <span></span>
-            <h2>珠光创新科技西南门路面坍塌</h2>
-            <p>编号（201808-299）</p>
+            <h2>编号</h2>
+            <p id="ids">编号（00）</p>
         </header>
-        <section>
+        <section id="sectionHTML">
             <div class="address">
                 <div class="address1">
                     <p>
                         <span>地址：</span>
-                        <span>深圳市南山区珠光创新科技园西南门</span>
+                        <span id="address">深圳市昆特科技有限公司</span>
                     </p>
                     <p>
                         <span>隶属：</span>
-                        <span>南山区西丽街道办</span>
+                        <span id="liShu">深圳昆特</span>
                     </p>
                 </div>
                 <p>
                     <span>上报时间：</span>
-                    <span>2018年8月23日10点59分30秒</span>
+                    <span id="time">2018年8月30日</span>
                 </p>
                 <p>
                     <span>灾情描述：</span>
-                    <span>西南门的路中间发生一处长1.2米，宽1.1米，深30公分的地坑，暂无人员伤亡。</span>
+                    <span>这里没灾情</span>
                 </p>
             </div>
             <div class="details">
                 <p>
                     <span>坍塌规模：</span>
-                    <span>长2.8米，宽30米，深100公分，面积约88平方米。</span>
+                    <span>无</span>
                 </p>
                 <p>
                     <span>坍塌危害：</span>
-                    <span>财务损失100万元，人员伤亡5人，死亡0人。</span>
+                    <span>误</span>
                 </p>
                 <p>
                     <span>灾情等级：</span>
-                    <span>一般（<a class="lve">Ⅳ级</a>）</span>
+                    <span>无</span>
                 </p>
             </div>
             <div class="reason">
                 <p>
                     <span>引发因素：</span>
-                    <span>排水管道</span>
+                    <span>无</span>
                 </p>
                 <p>
                     <span>坍塌原因：</span>
-                    <span>排水管道破损导致，由街道办组织施工队抢修排水管道。</span>
+                    <span>无</span>
                 </p>
                 <p>
                     <span>应急处理：</span>
-                    <span>警戒围挡</span>
+                    <span>无</span>
                 </p>
             </div>
             <div class="photo">
                 <p>现场图片：</p>
                 <div class="swiper-container">
                     <div id="swiperId" class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="/img/png.png" alt=""></div>
-                        <div class="swiper-slide"><img src="/img/png.png" alt=""></div>
-                        <div class="swiper-slide"><img src="/img/png.png" alt=""></div>
+
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
@@ -104,9 +108,7 @@
                 <p>现场视频：</p>
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="/img/png.png" alt=""></div>
-                        <div class="swiper-slide"><img src="/img/png.png" alt=""></div>
-                        <div class="swiper-slide"><img src="/img/png.png" alt=""></div>
+
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
@@ -125,7 +127,7 @@
         </footer>
     </div>
 
-    <script src="/js/jquery.qrcode.min.js"></script>
+    <script src="  /js/jquery.qrcode.min.js"></script>
     <script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js"></script>
     <script src="/view/js/shareMobile.js"></script>
     <script>

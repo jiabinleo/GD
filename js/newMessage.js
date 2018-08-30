@@ -35,5 +35,5 @@ var newMessage = {
 $(function() {
   setInterval(function() {
     newMessage.queryData();
-  }, 300000);
+  }, 30000);
 });
