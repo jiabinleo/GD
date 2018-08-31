@@ -593,6 +593,14 @@
   font-size: 14px;
   color: #666666;
 }
+.wrap .details .details-content .disasterPoint p:last-of-type {
+  overflow: hidden;
+  height: auto;
+}
+.wrap .details .details-content .disasterPoint p:last-of-type span:last-of-type {
+  display: inline-block;
+  width: 392px;
+}
 .wrap .details .details-content .fieldPhoto {
   border-bottom: solid 1px #eeeeee;
   padding: 20px 0;
@@ -607,8 +615,38 @@
   font-size: 16px;
   margin-top: -15px;
 }
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap {
+  width: 506px;
+  position: relative;
+}
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrLeft {
+  position: absolute;
+  left: -30px;
+  top: 6px;
+  z-index: 9999;
+  width: 70px;
+  height: 107px;
+  text-align: center;
+  background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+}
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrLeft img {
+  transform: translateY(37px);
+}
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrRight {
+  position: absolute;
+  right: -30px;
+  top: 6px;
+  z-index: 9999;
+  width: 70px;
+  height: 107px;
+  background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+}
+.wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrRight img {
+  transform: translateY(37px);
+}
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul {
   overflow: hidden;
+  transition: 300ms;
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul li {
   position: relative;
@@ -621,6 +659,8 @@
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul li img {
   width: 150px;
+  height: 107px;
+  background-color: #000000;
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul li a {
   position: absolute;
@@ -643,8 +683,38 @@
   font-size: 16px;
   margin-top: -15px;
 }
+.wrap .details .details-content .fieldVideo .fieldVideo-wrap {
+  position: relative;
+  width: 506px;
+}
+.wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrLeft {
+  position: absolute;
+  left: -30px;
+  top: 6px;
+  z-index: 9999;
+  width: 70px;
+  height: 107px;
+  text-align: center;
+  background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+}
+.wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrLeft img {
+  transform: translateY(37px);
+}
+.wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrRight {
+  position: absolute;
+  right: -30px;
+  top: 6px;
+  z-index: 9999;
+  width: 70px;
+  height: 107px;
+  background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+}
+.wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrRight img {
+  transform: translateY(37px);
+}
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap ul {
   overflow: hidden;
+  transition: 300ms;
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap ul li {
   position: relative;
@@ -664,6 +734,11 @@
   left: -20px;
   color: #ffffff;
   transform: scale(0.7);
+}
+.wrap .details .details-content .fieldVideo .fieldVideo-wrap ul li video {
+  height: 107px;
+  width: 150px;
+  background-color: #000000;
 }
 .wrap .details .details-content .weather {
   border-bottom: solid 1px #eeeeee;
@@ -761,7 +836,7 @@
   background: #ffffff;
   position: absolute;
   left: 28%;
-  top: 50%;
+  top: 6%;
   z-index: 111;
 }
 .wrap .inspectingDetail .inspectingDetail-header {
@@ -842,24 +917,58 @@
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list p span:last-of-type.status3 {
   color: #fa9d0a;
 }
-.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImgVideo {
-  width: 100%;
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo {
+  width: 506px;
+  position: relative;
 }
-.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImgVideo ul {
-  width: 100%;
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailLeft,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailLeft {
+  position: absolute;
+  left: -30px;
+  top: 6px;
+  z-index: 9999;
+  width: 70px;
+  height: 107px;
+  text-align: center;
+  background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailLeft img,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailLeft img {
+  transform: translateY(37px);
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailRight,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailRight {
+  position: absolute;
+  right: -30px;
+  top: 6px;
+  z-index: 9999;
+  width: 70px;
+  height: 107px;
+  background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailRight img,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailRight img {
+  transform: translateY(37px);
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg ul,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo ul {
   overflow: hidden;
+  transition: 300ms;
 }
-.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImgVideo ul li {
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg ul li,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo ul li {
   float: left;
-  width: 100px;
-  height: 100px;
-  margin: 5px 1%;
+  width: 150px;
+  height: 107px;
+  margin: 5px;
   text-align: center;
   border: solid 1px #cccccc;
   border-radius: 5px;
   overflow: hidden;
 }
-.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImgVideo ul li img {
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg ul li img,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo ul li img {
   width: 100%;
 }
 .wrap .inspectingDetail .inspectingDetail-content .patrolTrack-wrap {

@@ -40,11 +40,11 @@ var indexPage = {
     indexPage.queryData("", layers);
     $("#msgWrap").load("/view/message.html");
     //拖拽
-      config.drag("tableList");
-      config.drag("retrievalBox");
-      config.drag("details");
-      config.drag("msgWrap");
-      config.drag("inspectingDetail");
+    config.drag("tableList");
+    config.drag("retrievalBox");
+    config.drag("details");
+    config.drag("msgWrap");
+    config.drag("inspectingDetail");
   },
   listen: function() {
     //查询按钮
@@ -421,6 +421,58 @@ var indexPage = {
         $("#msgWrap").hide();
       }
     });
+    $(document).on("click", "#fieldPhoto_wrap > div", function() {
+      var fieldPhotoMarginLeft = 0;
+      if ($(this).attr("class") === "imgArrRight") {
+        fieldPhotoMarginLeft =
+          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) - 162;
+      } else if ($(this).attr("class") === "imgArrLeft") {
+        fieldPhotoMarginLeft =
+          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) + 162;
+      }
+      if (
+        fieldPhotoMarginLeft >= (imgArr.length - 3) * -162 &&
+        fieldPhotoMarginLeft <= 0
+      ) {
+        $(".fieldPhoto-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
+      }
+    });
+    $(document).on("click", "#fieldVideo_wrap > div", function() {
+      console.log($(this).attr("class"));
+      console.log($(".fieldVideo-wrap > ul").css("marginLeft"));
+      var fieldPhotoMarginLeft = 0;
+      if ($(this).attr("class") === "videoArrRight") {
+        fieldPhotoMarginLeft =
+          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) - 162;
+      } else if ($(this).attr("class") === "videoArrLeft") {
+        fieldPhotoMarginLeft =
+          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) + 162;
+      }
+      if (
+        fieldPhotoMarginLeft >= (videoArr.length - 3) * -162 &&
+        fieldPhotoMarginLeft <= 0
+      ) {
+        $(".fieldVideo-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
+      }
+    });
+    //巡查图片左右滑动
+    // $(document).on("click", "#detailImg > div", function() {
+    //   var photoMarginLeft = 0;
+    //   if ($(this).attr("class") === "imgArrDetailRight") {
+    //     photoMarginLeft =
+    //       parseInt($("#detailImg > ul").css("marginLeft")) - 162;
+    //   } else if ($(this).attr("class") === "imgArrDetailLeft") {
+    //     photoMarginLeft =
+    //       parseInt($("#detailImg > ul").css("marginLeft")) + 162;
+    //   }
+    //   console.log(photoMarginLeft);
+    //   if (
+    //     photoMarginLeft >= (imgArr.length - 3) * -162 &&
+    //     photoMarginLeft <= 0
+    //   ) {
+    //     $(".detailImg > ul").css("marginLeft", photoMarginLeft);
+    //   }
+    // });
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
@@ -774,13 +826,15 @@ var indexPage = {
             activeData.remark
           }</span></p>
           <p>巡查图片</p>
-          <div class="detailImgVideo">
+          <div id="detailImg" class="detailImg">
+              <div class="imgArrDetailLeft"><img src="./img/graypre.png" /></div>
+              <div class="imgArrDetailRight"><img src="./img/graynext.png" /></div>
               <ul>
                   ${detail_img}
               </ul>
           </div>
           <p>巡查视频</p>
-          <div class="detailImgVideo">
+          <div class="detailVideo">
               <ul>
                   ${detail_video}
               </ul>
@@ -821,7 +875,28 @@ var indexPage = {
   <div class="inspectingDetail-null">
       暂无数据
       </div>`;
-      $("#inspectingDetail").html(inspectingDetailHtml);
+    }
+    console.log(detailImgArr.length);
+    $("#inspectingDetail").html(inspectingDetailHtml);
+    $(".detailImg > ul").css({
+      width: detailImgArr.length * 162,
+      "min-width": "486px"
+    });
+    $(".detailVideo > ul").css({
+      width: detailVideoArr.length * 162,
+      "min-width": "486px"
+    });
+    if (
+      parseInt($("#fieldPhoto_wrap > ul").css("width")) <=
+      parseInt($("#fieldPhoto_wrap").css("width"))
+    ) {
+      $(".fieldPhoto-wrap > div").css({ display: "none" });
+    }
+    if (
+      parseInt($("#fieldVideo_wrap > ul").css("width")) <=
+      parseInt($("#fieldVideo_wrap").css("width"))
+    ) {
+      $(".fieldVideo-wrap > div").css({ display: "none" });
     }
   },
   walkings: function(walkingStart, walkingEnd) {
@@ -1016,7 +1091,9 @@ var indexPage = {
     </div>
     <div class="fieldPhoto">
         <p>现场照片</p>
-        <div class="fieldPhoto-wrap">
+        <div id="fieldPhoto_wrap" class="fieldPhoto-wrap">
+            <div class="imgArrLeft"><img src="./img/graypre.png" /></div>
+            <div class="imgArrRight"><img src="./img/graynext.png" /></div>
             <ul>
                 ${imgHtml}
             </ul>
@@ -1024,7 +1101,9 @@ var indexPage = {
     </div>
     <div class="fieldVideo">
         <p>现场视频</p>
-        <div class="fieldVideo-wrap">
+        <div id="fieldVideo_wrap" class="fieldVideo-wrap">
+            <div class="videoArrLeft"><img src="./img/graypre.png" /></div>
+            <div class="videoArrRight"><img src="./img/graynext.png" /></div>
             <ul>
                 ${videoHtml}
             </ul>
@@ -1075,7 +1154,30 @@ var indexPage = {
         </ul>
     </div>
 </div>`;
+
       $("#details").html(detailsHtml);
+
+      $(".fieldPhoto-wrap > ul").css({
+        width: imgArr.length * 162,
+        "min-width": "486px"
+      });
+      $(".fieldVideo-wrap > ul").css({
+        width: videoArr.length * 162,
+        "min-width": "486px"
+      });
+      if (
+        parseInt($("#fieldPhoto_wrap > ul").css("width")) <=
+        parseInt($("#fieldPhoto_wrap").css("width"))
+      ) {
+        $(".fieldPhoto-wrap > div").css({ display: "none" });
+      }
+      if (
+        parseInt($("#fieldVideo_wrap > ul").css("width")) <=
+        parseInt($("#fieldVideo_wrap").css("width"))
+      ) {
+        $(".fieldVideo-wrap > div").css({ display: "none" });
+      }
+
       $("#details").show();
     }, 500);
   },
