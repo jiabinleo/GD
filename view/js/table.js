@@ -16,21 +16,24 @@ var table = {
   queryTable: function() {
     $.ajax({
       url: fileUrl.header + "/dfbinterface//mobile/statistic/sysdict",
+      // url: fileUrl.header + "/dfbinterface//mobile/statistic/sysdict",
+
       dataType: "json",
       type: "GET",
       success: function(data) {
+        console.log(data);
         if (data.success === "0") {
-          // tableListHtml
           table.createTable(data.result);
         }
       }
     });
   },
   createTable: function(data) {
+    console.log(data);
     var tableListHtml = "";
     for (let i = 0; i < data.length; i++) {
       tableListHtml += `<tr url="${data[i].datacode}">
-      <td>${data[i].id}</td>
+      <td>${i+1}</td>
       <td>${data[i].dataname}</td>
   </tr>`;
     }

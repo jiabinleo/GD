@@ -27,7 +27,7 @@ var StartingPoint = "",
   allData, //搜索部分所有数据
   newOpenUuid, //左侧弹框地址编号
   pageNum = 5; //每页显示的数量
-
+var asd = [];
 var markers = [];
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 var indexPage = {
@@ -45,6 +45,7 @@ var indexPage = {
     config.drag("details");
     config.drag("msgWrap");
     config.drag("inspectingDetail");
+    config.drag("tableWrap");
   },
   listen: function() {
     //查询按钮
@@ -136,6 +137,7 @@ var indexPage = {
         .removeClass("retrieval-hide")
         .addClass("retrieval-show");
     });
+
     // 显示图表
     $("#chart").on("click", function() {
       $("#tableList").load("/view/table.html");
@@ -410,7 +412,10 @@ var indexPage = {
     // 表单跳转
     $(document).on("click", "#tableListHtml > tr", function() {
       console.log($(this).attr("url"));
-      window.open($(this).attr("url"));
+      // window.open($(this).attr("url"));
+      // $("#tableWrap").load($(this).attr("url"))
+      $("#tableWrap").load("/view/zxfbt.html");
+      $("#tableWrap").show();
     });
     $(document).on("click", "#message", function() {
       msg.queryData();
@@ -421,17 +426,18 @@ var indexPage = {
         $("#msgWrap").hide();
       }
     });
+    //灾害点图片
     $(document).on("click", "#fieldPhoto_wrap > div", function() {
       var fieldPhotoMarginLeft = 0;
       if ($(this).attr("class") === "imgArrRight") {
         fieldPhotoMarginLeft =
-          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) - 162;
+          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) - 144;
       } else if ($(this).attr("class") === "imgArrLeft") {
         fieldPhotoMarginLeft =
-          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) + 162;
+          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) + 144;
       }
       if (
-        fieldPhotoMarginLeft >= (imgArr.length - 3) * -162 &&
+        fieldPhotoMarginLeft >= (imgArr.length - 3) * -144 &&
         fieldPhotoMarginLeft <= 0
       ) {
         $(".fieldPhoto-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
@@ -443,36 +449,58 @@ var indexPage = {
       var fieldPhotoMarginLeft = 0;
       if ($(this).attr("class") === "videoArrRight") {
         fieldPhotoMarginLeft =
-          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) - 162;
+          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) - 144;
       } else if ($(this).attr("class") === "videoArrLeft") {
         fieldPhotoMarginLeft =
-          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) + 162;
+          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) + 144;
       }
       if (
-        fieldPhotoMarginLeft >= (videoArr.length - 3) * -162 &&
+        fieldPhotoMarginLeft >= (videoArr.length - 3) * -144 &&
         fieldPhotoMarginLeft <= 0
       ) {
         $(".fieldVideo-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
       }
     });
-    //巡查图片左右滑动
-    // $(document).on("click", "#detailImg > div", function() {
-    //   var photoMarginLeft = 0;
-    //   if ($(this).attr("class") === "imgArrDetailRight") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailImg > ul").css("marginLeft")) - 162;
-    //   } else if ($(this).attr("class") === "imgArrDetailLeft") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailImg > ul").css("marginLeft")) + 162;
-    //   }
-    //   console.log(photoMarginLeft);
-    //   if (
-    //     photoMarginLeft >= (imgArr.length - 3) * -162 &&
-    //     photoMarginLeft <= 0
-    //   ) {
-    //     $(".detailImg > ul").css("marginLeft", photoMarginLeft);
-    //   }
-    // });
+    // 巡查图片左右滑动
+    $(document).on("click", "#detailImg > div", function() {
+      var photoMarginLeft = 0;
+      if ($(this).attr("class") === "imgArrDetailRight") {
+        photoMarginLeft =
+          parseInt($("#detailImg > ul").css("marginLeft")) - 144;
+      } else if ($(this).attr("class") === "imgArrDetailLeft") {
+        photoMarginLeft =
+          parseInt($("#detailImg > ul").css("marginLeft")) + 144;
+      }
+      console.log(parseInt($("#detailImg > ul").css("marginLeft")));
+      console.log(photoMarginLeft);
+      if (
+        photoMarginLeft >= (detailImgArr.length - 3) * -144 &&
+        photoMarginLeft <= 0
+      ) {
+        $("#detailImg > ul").css("marginLeft", photoMarginLeft);
+      }
+    });
+    $(document).on("click", "#detailVideo > div", function() {
+      var photoMarginLeft = 0;
+      if ($(this).attr("class") === "videoArrDetailRight") {
+        photoMarginLeft =
+          parseInt($("#detailVideo > ul").css("marginLeft")) - 144;
+      } else if ($(this).attr("class") === "videoArrDetailLeft") {
+        photoMarginLeft =
+          parseInt($("#detailVideo > ul").css("marginLeft")) + 144;
+      }
+      console.log(photoMarginLeft);
+      if (
+        photoMarginLeft >= (detailVideoArr.length - 3) * -144 &&
+        photoMarginLeft <= 0
+      ) {
+        $("#detailVideo > ul").css("marginLeft", photoMarginLeft);
+      }
+    });
+    //关闭表单页面
+    $(document).on("click", ".closeTable", function() {
+      $("#tableWrap").hide();
+    });
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
@@ -491,8 +519,6 @@ var indexPage = {
       data: data,
       jsonp: "callback",
       success: function(data) {
-        console.log(data);
-        console.log(data);
         if (data.success === "0") {
           jsonData = data.result;
           allData = data.result;
@@ -719,10 +745,13 @@ var indexPage = {
             });
             markers.push(marker);
           }
+          varsss = marker.setAnimation("AMAP_ANIMATION_BOUNCE");
+          asd.push(varsss);
         }
       });
     }
     function markerClick(e) {
+      // map.remove(asd);
       var etc = e.target.content;
       indexPage.detailsSpot(etc);
       indexPage.inspecting(etc);
@@ -790,7 +819,7 @@ var indexPage = {
         } else if (activeData.attach[i].filetype === "2") {
           videoMini++;
           detailVideoArr.push(activeData.attach[i].url_path);
-          detail_video += `<li class="videoMin" index="${videoMini - 1}">
+          detail_video += `<li class="videoMinDetail" index="${videoMini - 1}">
           <video pause="" width="100%" src="${
             activeData.attach[i].url_path
           }" class="pause">暂无视频</video></li>`;
@@ -834,7 +863,9 @@ var indexPage = {
               </ul>
           </div>
           <p>巡查视频</p>
-          <div class="detailVideo">
+          <div id="detailVideo" class="detailVideo">
+              <div class="videoArrDetailLeft"><img src="./img/graypre.png" /></div>
+              <div class="videoArrDetailRight"><img src="./img/graynext.png" /></div>
               <ul>
                   ${detail_video}
               </ul>
@@ -865,6 +896,26 @@ var indexPage = {
         color: "#ffffff",
         "background-color": "#50bbfb"
       });
+      $(".detailImg > ul").css({
+        width: detailImgArr.length * 146,
+        "min-width": "438px"
+      });
+      $(".detailVideo > ul").css({
+        width: detailVideoArr.length * 146,
+        "min-width": "438px"
+      });
+      if (
+        parseInt($("#detailImg > ul").css("width")) <=
+        parseInt($("#detailImg").css("width"))
+      ) {
+        $(".detailImg > div").css({ display: "none" });
+      }
+      if (
+        parseInt($("#detailVideo > ul").css("width")) <=
+        parseInt($("#detailVideo").css("width"))
+      ) {
+        $(".detailVideo > div").css({ display: "none" });
+      }
       indexPage.walkings(walkingStart, walkingEnd);
     } else {
       inspectingDetailHtml = `<div class="inspectingDetail-header">
@@ -875,29 +926,9 @@ var indexPage = {
   <div class="inspectingDetail-null">
       暂无数据
       </div>`;
+      $("#inspectingDetail").html(inspectingDetailHtml);
     }
     console.log(detailImgArr.length);
-    $("#inspectingDetail").html(inspectingDetailHtml);
-    $(".detailImg > ul").css({
-      width: detailImgArr.length * 162,
-      "min-width": "486px"
-    });
-    $(".detailVideo > ul").css({
-      width: detailVideoArr.length * 162,
-      "min-width": "486px"
-    });
-    if (
-      parseInt($("#fieldPhoto_wrap > ul").css("width")) <=
-      parseInt($("#fieldPhoto_wrap").css("width"))
-    ) {
-      $(".fieldPhoto-wrap > div").css({ display: "none" });
-    }
-    if (
-      parseInt($("#fieldVideo_wrap > ul").css("width")) <=
-      parseInt($("#fieldVideo_wrap").css("width"))
-    ) {
-      $(".fieldVideo-wrap > div").css({ display: "none" });
-    }
   },
   walkings: function(walkingStart, walkingEnd) {
     //巡查轨迹
@@ -915,8 +946,6 @@ var indexPage = {
     walking.search(walkingStart, walkingEnd);
   },
   detailsSpotHtml: function(etc, data) {
-    console.log(data);
-    console.log(etc);
     // $("#copytxt").html("127.0.0.1:5500/view/share.html?uuid=" + etc.uuid);
     newOpenUuid = etc.uuid;
     // 获取天气
@@ -1158,13 +1187,15 @@ var indexPage = {
       $("#details").html(detailsHtml);
 
       $(".fieldPhoto-wrap > ul").css({
-        width: imgArr.length * 162,
-        "min-width": "486px"
+        width: imgArr.length * 154,
+        "min-width": "438px"
       });
       $(".fieldVideo-wrap > ul").css({
-        width: videoArr.length * 162,
-        "min-width": "486px"
+        width: videoArr.length * 154,
+        "min-width": "438px"
       });
+      console.log($("#fieldPhoto_wrap > ul").css("width"));
+      console.log($("#fieldPhoto_wrap").css("width"));
       if (
         parseInt($("#fieldPhoto_wrap > ul").css("width")) <=
         parseInt($("#fieldPhoto_wrap").css("width"))
@@ -1200,32 +1231,32 @@ var indexPage = {
 };
 indexPage.init();
 // 定位
-map.plugin("AMap.Geolocation", function() {
-  var geolocation = new AMap.Geolocation({
-    // 是否使用高精度定位，默认：true
-    enableHighAccuracy: true,
-    // 设置定位超时时间，默认：无穷大
-    timeout: 10000,
-    // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
-    buttonOffset: new AMap.Pixel(10, 20),
-    //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-    zoomToAccuracy: true,
-    //  定位按钮的排放位置,  RB表示右下
-    buttonPosition: "RB"
-  });
-  geolocation.getCurrentPosition();
-  AMap.event.addListener(geolocation, "complete", onComplete);
-  AMap.event.addListener(geolocation, "error", onError);
+// map.plugin("AMap.Geolocation", function() {
+//   var geolocation = new AMap.Geolocation({
+//     // 是否使用高精度定位，默认：true
+//     enableHighAccuracy: true,
+//     // 设置定位超时时间，默认：无穷大
+//     timeout: 10000,
+//     // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+//     buttonOffset: new AMap.Pixel(10, 20),
+//     //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+//     zoomToAccuracy: true,
+//     //  定位按钮的排放位置,  RB表示右下
+//     buttonPosition: "RB"
+//   });
+//   geolocation.getCurrentPosition();
+//   AMap.event.addListener(geolocation, "complete", onComplete);
+//   AMap.event.addListener(geolocation, "error", onError);
 
-  function onComplete(data) {
-    // data是具体的定位信息
-    if (data.info == "SUCCESS") {
-    }
-  }
-  function onError(data) {
-    // 定位出错
-    console.log(
-      "由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。"
-    );
-  }
-});
+//   function onComplete(data) {
+//     // data是具体的定位信息
+//     if (data.info == "SUCCESS") {
+//     }
+//   }
+//   function onError(data) {
+//     // 定位出错
+//     console.log(
+//       "由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。"
+//     );
+//   }
+// });

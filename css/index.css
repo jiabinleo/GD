@@ -482,7 +482,7 @@
   position: absolute;
   top: 194px;
   right: 77px;
-  width: 375px;
+  width: 330px;
   display: none;
   border-radius: 5px;
   box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
@@ -536,6 +536,7 @@
   height: 20px;
   vertical-align: -11px;
   padding: 3px 0 12px 8px;
+  cursor: pointer;
 }
 .wrap .details .details-content .address span:last-of-type {
   max-width: 400px;
@@ -586,6 +587,12 @@
 .wrap .details .details-content .disasterPoint p:first-of-type span:first-of-type a.status3 {
   color: #fa9d0a;
 }
+.wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(2) {
+  cursor: pointer;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(3) {
+  cursor: pointer;
+}
 .wrap .details .details-content .disasterPoint p:first-of-type span.pl30 {
   padding-left: 10px;
 }
@@ -616,30 +623,34 @@
   margin-top: -15px;
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap {
-  width: 506px;
+  width: 438px;
   position: relative;
+  padding: 0 34px;
+  overflow: hidden;
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrLeft {
   position: absolute;
-  left: -30px;
+  left: 0px;
   top: 6px;
   z-index: 9999;
-  width: 70px;
+  width: 34px;
   height: 107px;
   text-align: center;
-  background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+  background-color: #ffffff;
+  cursor: pointer;
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrLeft img {
   transform: translateY(37px);
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrRight {
   position: absolute;
-  right: -30px;
+  right: 0px;
   top: 6px;
   z-index: 9999;
-  width: 70px;
+  width: 34px;
   height: 107px;
-  background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+  background-color: #ffffff;
+  cursor: pointer;
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap .imgArrRight img {
   transform: translateY(37px);
@@ -650,7 +661,7 @@
 }
 .wrap .details .details-content .fieldPhoto .fieldPhoto-wrap ul li {
   position: relative;
-  width: 150px;
+  width: 134px;
   height: 107px;
   border-radius: 5px;
   overflow: hidden;
@@ -685,29 +696,33 @@
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap {
   position: relative;
-  width: 506px;
+  width: 438px;
+  padding: 0 34px;
+  overflow: hidden;
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrLeft {
   position: absolute;
-  left: -30px;
+  left: 0px;
   top: 6px;
   z-index: 9999;
-  width: 70px;
+  width: 34px;
   height: 107px;
   text-align: center;
-  background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+  background-color: #ffffff;
+  cursor: pointer;
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrLeft img {
   transform: translateY(37px);
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrRight {
   position: absolute;
-  right: -30px;
+  right: 0px;
   top: 6px;
   z-index: 9999;
-  width: 70px;
+  width: 34px;
   height: 107px;
-  background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+  background-color: #ffffff;
+  cursor: pointer;
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap .videoArrRight img {
   transform: translateY(37px);
@@ -718,7 +733,7 @@
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap ul li {
   position: relative;
-  width: 150px;
+  width: 134px;
   height: 107px;
   border-radius: 5px;
   overflow: hidden;
@@ -737,7 +752,7 @@
 }
 .wrap .details .details-content .fieldVideo .fieldVideo-wrap ul li video {
   height: 107px;
-  width: 150px;
+  width: 134px;
   background-color: #000000;
 }
 .wrap .details .details-content .weather {
@@ -830,8 +845,7 @@
   border-radius: 5px;
   overflow: hidden;
   display: none;
-  width: 47%;
-  min-width: 600px;
+  width: 600px;
   max-height: 85vh;
   background: #ffffff;
   position: absolute;
@@ -887,6 +901,7 @@
   margin: 5px 1%;
   border-radius: 3px;
   text-align: center;
+  cursor: pointer;
 }
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-time input.active {
   background-color: #0aa2fa;
@@ -919,19 +934,22 @@
 }
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg,
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo {
-  width: 506px;
+  width: 438px;
   position: relative;
+  padding: 0 34px;
+  overflow: hidden;
 }
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailLeft,
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailLeft {
   position: absolute;
-  left: -30px;
-  top: 6px;
+  left: 0px;
+  top: 5px;
   z-index: 9999;
-  width: 70px;
-  height: 107px;
+  width: 34px;
+  height: 109px;
   text-align: center;
-  background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+  background-color: #ffffff;
+  cursor: pointer;
 }
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailLeft img,
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailLeft img {
@@ -940,15 +958,47 @@
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailRight,
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailRight {
   position: absolute;
-  right: -30px;
-  top: 6px;
+  right: 0px;
+  top: 5px;
   z-index: 9999;
-  width: 70px;
-  height: 107px;
-  background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+  width: 34px;
+  height: 109px;
+  background-color: #ffffff;
+  cursor: pointer;
 }
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .imgArrDetailRight img,
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .imgArrDetailRight img {
+  transform: translateY(37px);
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .videoArrDetailLeft,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .videoArrDetailLeft {
+  position: absolute;
+  left: 0px;
+  top: 5px;
+  z-index: 9999;
+  width: 34px;
+  height: 109px;
+  text-align: center;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .videoArrDetailLeft img,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .videoArrDetailLeft img {
+  transform: translateY(37px);
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .videoArrDetailRight,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .videoArrDetailRight {
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  z-index: 9999;
+  width: 34px;
+  height: 109px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg .videoArrDetailRight img,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo .videoArrDetailRight img {
   transform: translateY(37px);
 }
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg ul,
@@ -959,7 +1009,7 @@
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg ul li,
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo ul li {
   float: left;
-  width: 150px;
+  width: 134px;
   height: 107px;
   margin: 5px;
   text-align: center;
@@ -970,6 +1020,11 @@
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg ul li img,
 .wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo ul li img {
   width: 100%;
+}
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailImg ul li video,
+.wrap .inspectingDetail .inspectingDetail-content .inspectingDetail-list .detailVideo ul li video {
+  height: 107px;
+  background-color: #000000;
 }
 .wrap .inspectingDetail .inspectingDetail-content .patrolTrack-wrap {
   width: 100%;
@@ -1062,4 +1117,10 @@
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 5px 5px 15px 15px rgba(51, 51, 51, 0.1);
+}
+.wrap .tableWrap {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  background-color: #ffffff;
 }

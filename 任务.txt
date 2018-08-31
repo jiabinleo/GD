@@ -1,0 +1,15 @@
+1.全市灾害点分布图(zxfbt.html)
+	1.zxfbt.png
+	2.2.html(灾险情统计表)
+2.全市隐患点分布图(yhfbt.html)
+	1.yhdfbt.jpg
+3.重点防治分布图(zdfzfbt.html)
+	1.zdfzfbt.jpg
+	2.
+	3.
+4.治理情况统计图(zlqktjt.html)
+	1.zlqktjt.html
+	2.4.html(深圳市地面坍塌灾害治理情况统计)
+5.地面坍塌成因分析(cyfx.html)
+	1.饼图
+	2.3.html(深圳市地面坍塌灾害治理情况统计)
