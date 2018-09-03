@@ -409,14 +409,6 @@ var indexPage = {
     $(document).on("click", function() {
       $("#searchResult").hide();
     });
-    // 表单跳转
-    $(document).on("click", "#tableListHtml > tr", function() {
-      console.log($(this).attr("url"));
-      // window.open($(this).attr("url"));
-      // $("#tableWrap").load($(this).attr("url"))
-      $("#tableWrap").load("/view/zxfbt.html");
-      $("#tableWrap").show();
-    });
     $(document).on("click", "#message", function() {
       msg.queryData();
       $("#msgWrap").load("/view/message.html");

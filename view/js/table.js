@@ -8,9 +8,17 @@ $("#close2").on("click", function() {
 var table = {
   init: function() {
     table.listen();
+    table.queryTable();
   },
   listen: function() {
-    table.queryTable();
+    // 表单跳转
+    $(document).on("click", "#tableListHtml > tr", function() {
+      console.log($(this).attr("url"));
+      // window.open($(this).attr("url"));
+      // $("#tableWrap").load($(this).attr("url"))
+      $("#tableWrap").load("/view/zxfbt.html");
+      $("#tableWrap").show();
+    });
   },
   // 获取图表列表
   queryTable: function() {
@@ -33,7 +41,7 @@ var table = {
     var tableListHtml = "";
     for (let i = 0; i < data.length; i++) {
       tableListHtml += `<tr url="${data[i].datacode}">
-      <td>${i+1}</td>
+      <td>${i + 1}</td>
       <td>${data[i].dataname}</td>
   </tr>`;
     }

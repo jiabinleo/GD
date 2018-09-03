@@ -1,21 +1,25 @@
 .wrapTable {
-    width: 600px;
-    height: 500px;
+  width: 100%;
+  height: 500px;
+  // .mapSearch{
+  //   position: absolute;
+  // }
   header {
     font-size: 30px;
     height: 80px;
     background-color: #50bbfb;
     text-align: center;
     line-height: 80px;
-    color: #FFFFFF;
-    span{
-        float: right;
-        margin-right: 30px;
+    color: #ffffff;
+    span {
+      float: right;
+      margin-right: 30px;
     }
   }
   section {
+    height: 500px;
     .table1 {
-      display: none;
+      display: block;
       .inner {
         margin: 0 auto;
         text-align: center;
@@ -25,82 +29,60 @@
       }
     }
     .table2 {
-        display: block;
-      @rem: 1920/16rem;
-      .phone {
-        display: none;
-      }
-      .pc {
-        display: none;
-        overflow: hidden;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        background-color: rgba(242, 241, 246, 1);
-        font-family: "PingFang-SC-Medium";
-        position: relative;
-        height: 100vh;
-      }
+      display: none;
+      height: 500px;
       header {
-        height: 100 / @rem;
+        height: 100px;
         background-color: #313343;
-        padding: 22 / @rem 10 / @rem;
+        padding: 22px 10px;
         overflow: hidden;
         h1 {
-          width: 100 / @rem;
-          height: 100 / @rem;
+          width: 100 px;
+          height: 100 px;
           background: url("../img/logo.png") no-repeat;
           background-size: 100%;
           float: left;
-          margin-top: -20 / @rem;
+          margin-top: -20 px;
         }
         h2 {
-          padding-left: 80 / @rem;
-          font-size: 46 / @rem;
+          padding-left: 80 px;
+          font-size: 46 px;
           color: #ffffff;
         }
       }
       section {
         position: absolute;
-        top: 100 / @rem;
+        top: 100 px;
         bottom: 0;
         left: 0;
         right: 0;
-        margin: 30 / @rem;
-        padding: 30 / @rem;
+        margin: 30 px;
+        padding: 30 px;
         background-color: #ffffff;
         box-shadow: 5px 15px 15px RGBA(51, 51, 51, 0.1);
         menu {
           font-size: 0;
           h3 {
-            font-size: 32 / @rem;
-            padding-bottom: 29 / @rem;
+            font-size: 32 px;
+            padding-bottom: 29 px;
           }
           overflow: hidden;
           select {
-            width: 240 / @rem;
-            height: 47 / @rem;
-            margin-right: 30 / @rem;
-            border-radius: 5 / @rem;
+            width: 240 px;
+            height: 47 px;
+            margin-right: 30 px;
+            border-radius: 5 px;
             border: RGBA(211, 211, 211, 1) 1px solid;
             outline: none;
             option {
-              padding: 50 / @rem;
+              padding: 50 px;
             }
           }
           input {
-            width: 94 / @rem;
-            height: 47 / @rem;
+            width: 94 px;
+            height: 47 px;
             background-color: RGBA(20, 99, 255, 1);
-            border-radius: 5 / @rem;
+            border-radius: 5 px;
             outline: none;
             color: #ffffff;
             font-weight: bold;
@@ -109,7 +91,7 @@
         }
         table {
           font-size: 10px;
-          margin-top: 30 / @rem;
+          margin-top: 30 px;
           text-align: center;
           border: solid 1px RGBA(209, 209, 209, 1);
           border-top: none;
@@ -121,59 +103,59 @@
           thead {
             tr {
               &:first-of-type {
-                font-size: 24 / @rem;
-                height: 67 / @rem;
+                font-size: 24 px;
+                height: 67 px;
                 font-weight: 500;
                 color: #333333;
                 td {
                   border-top: none;
                   &:first-of-type {
-                    border-top: solid 4 / @rem #7aaae3;
+                    border-top: solid 4 px #7aaae3;
                     // &::after {
                     //   content: "Serial number";
                     //   display: block;
-                    //   font-size: 18 / @rem;
+                    //   font-size: 18 px;
                     //   color: #999999;
-                    //   padding-top: 18 / @rem;
+                    //   padding-top: 18 px;
                     // }
                   }
                   &:nth-of-type(2) {
-                    border-top: solid 4 / @rem #55c2b0;
+                    border-top: solid 4 px #55c2b0;
                     // &::after {
                     //   content: "Administrative area";
                     //   display: block;
-                    //   font-size: 18 / @rem;
+                    //   font-size: 18 px;
                     //   color: #999999;
-                    //   padding-top: 18 / @rem;
+                    //   padding-top: 18 px;
                     // }
                   }
                   &:nth-of-type(3) {
-                    border-top: solid 4 / @rem #eebf75;
+                    border-top: solid 4 px #eebf75;
                     // &::after {
                     //   content: "Disaster Number";
                     //   display: block;
-                    //   font-size: 18 / @rem;
+                    //   font-size: 18 px;
                     //   color: #999999;
-                    //   padding-top: 18 / @rem;
+                    //   padding-top: 18 px;
                     // }
                   }
                   &:nth-of-type(4) {
-                    border-top: solid 4 / @rem #e47f7f;
+                    border-top: solid 4 px #e47f7f;
                   }
                 }
               }
               &:nth-of-type(2) {
-                height: 59 / @rem;
-                font-size: 22 / @rem;
+                height: 59 px;
+                font-size: 22 px;
                 color: #666666;
               }
             }
           }
           tbody {
             tr {
-              height: 56 / @rem;
-              line-height: 56 / @rem;
-              font-size: 18 / @rem;
+              height: 56 px;
+              line-height: 56 px;
+              font-size: 18 px;
               color: #666666;
               &:nth-of-type(odd) {
                 background-color: RGBA(242, 242, 246, 1);
@@ -185,8 +167,8 @@
           }
         }
         p {
-          padding-top: 29 / @rem;
-          font-size: 14 / @rem;
+          padding-top: 29 px;
+          font-size: 14 px;
           text-align: right;
           color: #999999;
         }

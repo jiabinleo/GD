@@ -1,5 +1,5 @@
 .wrapTable {
-  width: 600px;
+  width: 100%;
   height: 500px;
 }
 .wrapTable header {
@@ -8,14 +8,17 @@
   background-color: #50bbfb;
   text-align: center;
   line-height: 80px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .wrapTable header span {
   float: right;
   margin-right: 30px;
 }
+.wrapTable section {
+  height: 500px;
+}
 .wrapTable section .table1 {
-  display: none;
+  display: block;
 }
 .wrapTable section .table1 .inner {
   margin: 0 auto;
@@ -25,57 +28,36 @@
   width: 100%;
 }
 .wrapTable section .table2 {
-  display: block;
-}
-.wrapTable section .table2 .phone {
   display: none;
-}
-.wrapTable section .table2 .pc {
-  display: none;
-  overflow: hidden;
-}
-.wrapTable section .table2 * {
-  margin: 0;
-  padding: 0;
-}
-.wrapTable section .table2 html,
-.wrapTable section .table2 body {
-  margin: 0;
-  padding: 0;
-}
-.wrapTable section .table2 body {
-  background-color: #f2f1f6;
-  font-family: "PingFang-SC-Medium";
-  position: relative;
-  height: 100vh;
+  height: 500px;
 }
 .wrapTable section .table2 header {
-  height: 0.83333333rem;
+  height: 100px;
   background-color: #313343;
-  padding: 0.18333333rem 0.08333333rem;
+  padding: 22px 10px;
   overflow: hidden;
 }
 .wrapTable section .table2 header h1 {
-  width: 0.83333333rem;
-  height: 0.83333333rem;
+  width: 100 px;
+  height: 100 px;
   background: url("../img/logo.png") no-repeat;
   background-size: 100%;
   float: left;
-  margin-top: -0.16666667rem;
+  margin-top: -20 px;
 }
 .wrapTable section .table2 header h2 {
-  padding-left: 0.66666667rem;
-  font-size: 0.38333333rem;
+  padding-left: 80 px;
+  font-size: 46 px;
   color: #ffffff;
 }
 .wrapTable section .table2 section {
   position: absolute;
-  top: 0.83333333rem;
+  top: 100 px;
   bottom: 0;
   left: 0;
   right: 0;
-  margin: 0.25rem;
-  padding: 0.25rem;
+  margin: 30 px;
+  padding: 30 px;
   background-color: #ffffff;
   box-shadow: 5px 15px 15px rgba(51, 51, 51, 0.1);
 }
@@ -84,25 +66,25 @@
   overflow: hidden;
 }
 .wrapTable section .table2 section menu h3 {
-  font-size: 0.26666667rem;
-  padding-bottom: 0.24166667rem;
+  font-size: 32 px;
+  padding-bottom: 29 px;
 }
 .wrapTable section .table2 section menu select {
-  width: 2rem;
-  height: 0.39166667rem;
-  margin-right: 0.25rem;
-  border-radius: 0.04166667rem;
+  width: 240 px;
+  height: 47 px;
+  margin-right: 30 px;
+  border-radius: 5 px;
   border: #d3d3d3 1px solid;
   outline: none;
 }
 .wrapTable section .table2 section menu select option {
-  padding: 0.41666667rem;
+  padding: 50 px;
 }
 .wrapTable section .table2 section menu input {
-  width: 0.78333333rem;
-  height: 0.39166667rem;
+  width: 94 px;
+  height: 47 px;
   background-color: #1463ff;
-  border-radius: 0.04166667rem;
+  border-radius: 5 px;
   outline: none;
   color: #ffffff;
   font-weight: bold;
@@ -110,7 +92,7 @@
 }
 .wrapTable section .table2 section table {
   font-size: 10px;
-  margin-top: 0.25rem;
+  margin-top: 30 px;
   text-align: center;
   border: solid 1px #d1d1d1;
   border-top: none;
@@ -121,8 +103,8 @@
   border-spacing: none;
 }
 .wrapTable section .table2 section table thead tr:first-of-type {
-  font-size: 0.2rem;
-  height: 0.55833333rem;
+  font-size: 24 px;
+  height: 67 px;
   font-weight: 500;
   color: #333333;
 }
@@ -130,26 +112,26 @@
   border-top: none;
 }
 .wrapTable section .table2 section table thead tr:first-of-type td:first-of-type {
-  border-top: solid 0.03333333rem #7aaae3;
+  border-top: solid 4 px #7aaae3;
 }
 .wrapTable section .table2 section table thead tr:first-of-type td:nth-of-type(2) {
-  border-top: solid 0.03333333rem #55c2b0;
+  border-top: solid 4 px #55c2b0;
 }
 .wrapTable section .table2 section table thead tr:first-of-type td:nth-of-type(3) {
-  border-top: solid 0.03333333rem #eebf75;
+  border-top: solid 4 px #eebf75;
 }
 .wrapTable section .table2 section table thead tr:first-of-type td:nth-of-type(4) {
-  border-top: solid 0.03333333rem #e47f7f;
+  border-top: solid 4 px #e47f7f;
 }
 .wrapTable section .table2 section table thead tr:nth-of-type(2) {
-  height: 0.49166667rem;
-  font-size: 0.18333333rem;
+  height: 59 px;
+  font-size: 22 px;
   color: #666666;
 }
 .wrapTable section .table2 section table tbody tr {
-  height: 0.46666667rem;
-  line-height: 0.46666667rem;
-  font-size: 0.15rem;
+  height: 56 px;
+  line-height: 56 px;
+  font-size: 18 px;
   color: #666666;
 }
 .wrapTable section .table2 section table tbody tr:nth-of-type(odd) {
@@ -159,8 +141,8 @@
   background-color: #ffffff;
 }
 .wrapTable section .table2 section p {
-  padding-top: 0.24166667rem;
-  font-size: 0.11666667rem;
+  padding-top: 29 px;
+  font-size: 14 px;
   text-align: right;
   color: #999999;
 }
