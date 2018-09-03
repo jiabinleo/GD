@@ -13,10 +13,14 @@ var table = {
   listen: function() {
     // 表单跳转
     $(document).on("click", "#tableListHtml > tr", function() {
-      console.log($(this).attr("url"));
+      // console.log($(this).attr("url"));
       // window.open($(this).attr("url"));
       // $("#tableWrap").load($(this).attr("url"))
       $("#tableWrap").load("/view/zxfbt.html");
+      // $("#tableWrap").load("/view/yhfbt.html");
+      // $("#tableWrap").load("/view/zdfzfbt.html");
+      // $("#tableWrap").load("/view/zlqktjt.html");
+      // $("#tableWrap").load("/view/cyfx.html");
       $("#tableWrap").show();
     });
   },

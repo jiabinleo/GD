@@ -1,7 +1,8 @@
 var fileUrl = {
   header: "http://14.116.184.77:8098",
   weather: "http://14.116.184.77:8088",
-  header240: "http://192.168.1.240:8080"
+  // header240: "http://192.168.1.240:8080",
+  header240: "http://14.116.184.77:8098"
 };
 var filePath = {
   share: "http://127.0.0.1:5500/view/share.html",
