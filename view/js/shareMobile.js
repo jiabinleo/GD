@@ -127,7 +127,6 @@ var share = {
       data: { disasterid: getRequest().disasterid },
       success: function(data) {
         if (data.success == "0") {
-          console.log(data);
           if (data.hasOwnProperty("result")) {
             share.htmlL(data.result);
           }
@@ -139,21 +138,17 @@ var share = {
     });
   },
   htmlL: function(data) {
-    console.log(data);
     handle = data.handle;
     attachList = data.attachList;
-    console.log(attachList);
     imgUrlArr = [];
     videoUrlArr = [];
     for (let i = 0; i < attachList.length; i++) {
-      console.log(attachList[i].url_path);
       if (attachList[i].filetype === "1") {
         imgUrlArr.push(attachList[i].url_path);
       } else if (attachList[i].filetype === "2") {
         videoUrlArr.push(attachList[i].url_path);
       }
     }
-    console.log(imgUrlArr, videoUrlArr);
     imgHTML = "";
     for (let i = 0; i < imgUrlArr.length; i++) {
       imgHTML += ` <div class="swiper-slide"><img src="${
@@ -171,7 +166,6 @@ var share = {
             <h2>${handle.disastername}</h2>
             <p id="ids">编号（${handle.id}）</p>`;
     $("#headerHTML").html(headerHTML);
-    console.log(handle);
     var sectionHTML = `<div class="address">
     <div class="address1">
         <p>

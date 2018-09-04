@@ -1,11 +1,14 @@
 var fileUrl = {
   header: "http://14.116.184.77:8098",
   weather: "http://14.116.184.77:8088",
-  // header240: "http://192.168.1.240:8080",
-  header240: "http://14.116.184.77:8098"
+  header240: "http://192.168.1.240:8080",
+  // header240: "http://14.116.184.77:8098"
+  header: "http://192.168.1.240:8080"
 };
 var filePath = {
+  // http://127.0.0.1:5500/view/share
   share: "http://127.0.0.1:5500/view/share.html",
+  // share: "http://192.168.1.240:8080/KT_DFB_Web/mapgis/view/share.html",
   shareMobile: "http://127.0.0.1:5500/view/shareMobile.html"
 };
 var config = {
@@ -55,6 +58,9 @@ var config = {
         break;
       case "3":
         sta = "治理中";
+        break;
+      case "4":
+        sta = "已结案";
         break;
     }
     return sta;

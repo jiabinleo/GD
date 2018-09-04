@@ -124,21 +124,17 @@ var share = {
     });
   },
   htmlL: function(data) {
-    console.log(data);
     handle = data.handle;
     attachList = data.attachList;
-    console.log(attachList);
     imgUrlArr = [];
     videoUrlArr = [];
     for (let i = 0; i < attachList.length; i++) {
-      console.log(attachList[i].url_path);
       if (attachList[i].filetype === "1") {
         imgUrlArr.push(attachList[i].url_path);
       } else if (attachList[i].filetype === "2") {
         videoUrlArr.push(attachList[i].url_path);
       }
     }
-    console.log(imgUrlArr, videoUrlArr);
     imgHTML = "";
     for (let i = 0; i < imgUrlArr.length; i++) {
       imgHTML += ` <li fileTYpe = "1" class="minIV" urlSrc="${imgUrlArr[i]}">

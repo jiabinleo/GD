@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>share</title>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-    <script src="/js/config.js"></script>
+    <script src="../js/config.js"></script>
     <link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/view/css/share.css">
+    <link rel="stylesheet" href="../view/css/share.css">
     <script>
 
         function browserRedirect() {
@@ -24,7 +24,7 @@
             var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
             if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
                 // 移动
-                location.href = filePath.shareMobile + '?disasterid=' + getRequest().disasterid
+                // location.href = filePath.shareMobile + '?disasterid=' + getRequest().disasterid
             } else {
             }
         }
@@ -143,9 +143,9 @@
             </p>
         </div>
     </div>
-    <script src="/js/jquery.qrcode.min.js"></script>
+    <script src="../js/jquery.qrcode.min.js"></script>
     <script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js"></script>
-    <script src="/view/js/share.js"></script>
+    <script src="../view/js/share.js"></script>
 </body>
 
 </html>

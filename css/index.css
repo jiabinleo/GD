@@ -480,8 +480,8 @@
 }
 .wrap .tableList {
   position: absolute;
-  top: 194px;
-  right: 77px;
+  top: 189px;
+  right: 464px;
   width: 330px;
   display: none;
   border-radius: 5px;
@@ -606,7 +606,7 @@
 }
 .wrap .details .details-content .disasterPoint p:last-of-type span:last-of-type {
   display: inline-block;
-  width: 392px;
+  max-width: 392px;
 }
 .wrap .details .details-content .fieldPhoto {
   border-bottom: solid 1px #eeeeee;
