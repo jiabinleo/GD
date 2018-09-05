@@ -5,7 +5,7 @@ var StartingPoint = "",
   ruler1,
   ruler2,
   infoWindow,
-  satellite = true,
+  satellite = false,
   jsonData,
   numPage = 1,
   numPageS,
@@ -35,7 +35,7 @@ var markers = [];
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 var indexPage = {
   init: function() {
-    indexPage.changeMap([new AMap.TileLayer.Satellite()]);
+    indexPage.changeMap([]);
     indexPage.queryGetGisAreaName();
     indexPage.listen();
     indexPage.getGovernance("");
@@ -105,15 +105,19 @@ var indexPage = {
     });
     //点击加载卫星图和普通图
     $("#satellite").on("click", function() {
+      $("#search").trigger("click");
       //卫星图
       if (satellite) {
-        layers = "";
+        layers = [];
       } else {
         layers = [new AMap.TileLayer.Satellite()];
       }
       satellite = !satellite;
-      indexPage.changeMap(layers);
-      indexPage.queryData("", layers);
+
+      setTimeout(function() {
+        indexPage.changeMap(layers);
+        $("#search").trigger("click");
+      }, 300);
     });
     //路径规划
     $(document).on("click", "#goto", function() {
@@ -181,7 +185,10 @@ var indexPage = {
     });
     //转移视觉目标
     $("#tbodyHtml").on("click", "tr", function() {
-      aMapConfig.setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
+      aMapConfig.setZoomAndCenter(
+        [$(this).attr("lon"), $(this).attr("lat")],
+        17
+      );
     });
     //根据状态筛选
     $(".status").on("click", "span", function() {
@@ -394,7 +401,10 @@ var indexPage = {
       }
     });
     $(document).on("click", "#searchResultHtml > li", function() {
-      aMapConfig.setZoomAndCenter([$(this).attr("lon"), $(this).attr("lat")]);
+      aMapConfig.setZoomAndCenter(
+        [$(this).attr("lon"), $(this).attr("lat")],
+        17
+      );
       return false;
     });
     $(document).on("click", ".search", function() {
@@ -581,7 +591,7 @@ var indexPage = {
   getGovernance: function(data) {
     $.ajax({
       type: "POST",
-      url: fileUrl.header + "/dfbinterface/mobile/gisshow/Getypecount",
+      url: fileUrl.header240 + "/dfbinterface/mobile/gisshow/Getypecount",
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
@@ -621,28 +631,28 @@ var indexPage = {
       if (data[i].managestate == 1) {
         icon = new AMap.Icon({
           size: new AMap.Size(40, 50), //图标大小
-          image: "../img/led_green.png",
+          image: "img/led_green.png",
           imageOffset: new AMap.Pixel(0, 0)
         });
       }
       if (data[i].managestate == 2) {
         icon = new AMap.Icon({
           size: new AMap.Size(40, 50), //图标大小
-          image: "../img/led_red.png",
+          image: "img/led_red.png",
           imageOffset: new AMap.Pixel(0, 0)
         });
       }
       if (data[i].managestate == 3) {
         icon = new AMap.Icon({
           size: new AMap.Size(40, 50), //图标大小
-          image: "../img/led_orange.png",
+          image: "img/led_orange.png",
           imageOffset: new AMap.Pixel(0, 0)
         });
       }
       if (data[i].managestate == 4) {
         icon = new AMap.Icon({
           size: new AMap.Size(40, 50), //图标大小
-          image: "../img/led_green.png",
+          image: "img/led_green.png",
           imageOffset: new AMap.Pixel(0, 0)
         });
       }
@@ -667,28 +677,28 @@ var indexPage = {
             if (data[i].managestate == 1) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_green.png",
+                image: "img/led_green.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
             if (data[i].managestate == 2) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_red.png",
+                image: "img/led_red.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
             if (data[i].managestate == 3) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_orange.png",
+                image: "img/led_orange.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
             if (data[i].managestate == 4) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_green.png",
+                image: "img/led_green.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
@@ -714,28 +724,28 @@ var indexPage = {
             if (data[i].managestate == 1) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_green.png",
+                image: "img/led_green.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
             if (data[i].managestate == 2) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_red.png",
+                image: "img/led_red.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
             if (data[i].managestate == 3) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_orange.png",
+                image: "img/led_orange.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
             if (data[i].managestate == 4) {
               icon = new AMap.Icon({
                 size: new AMap.Size(40, 50), //图标大小
-                image: "../img/led_green.png",
+                image: "img/led_green.png",
                 imageOffset: new AMap.Pixel(0, 0)
               });
             }
@@ -770,8 +780,10 @@ var indexPage = {
       // markers = [];
       showIcon = false;
       var etc = e.target.content;
+      console.log(etc);
       indexPage.detailsSpot(etc);
       indexPage.inspecting(etc);
+      aMapConfig.setZoomAndCenter([etc.lon, etc.lat], map.getZoom() + 1);
     }
     map.setFitView();
   },
@@ -1109,8 +1121,8 @@ var indexPage = {
             <span class="lt">灾情概况： <a class="status${
               data.fzsite.managestate
             }">( ${config.status(data.fzsite.managestate)})</a></span>
-           <span id="openNew" class="rt pl30">更多详情</span>
-            <span class="rt" id="inspecting">巡查</span>
+           <span id="openNew" class="rt pl30 moreDetail">更多详情</span>
+            <span class="inspecting rt" id="inspecting" >巡查</span>
         </p>
         <p>
             <span class="lt">上报者</span>
@@ -1232,10 +1244,56 @@ var indexPage = {
         map: map,
         panel: "panel"
       });
-      aMapConfig.setZoomAndCenter([lon, lat]);
+      aMapConfig.setZoomAndCenter([lon, lat], 17);
       var cpoint = [lon, lat]; //中心点坐标
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
     });
   }
 };
 indexPage.init();
+
+/////////////////////////////////////////////////////////////////////////////////
+/*
+ * 添加Canvas图层
+ */
+AMap.plugin(["AMap.ControlBar"], function() {
+  var bar = new AMap.ControlBar();
+  map.addControl(bar);
+});
+
+// var map = new AMap.Map("container", {
+//   resizeEnable: true,
+//   // viewMode:"3D",
+//   zoom: 15,
+//   center: [113.972512, 22.577329]
+// });
+var canvas = document.createElement("canvas");
+canvas.width = canvas.height = 200;
+var context = canvas.getContext("2d");
+context.fillStyle = "rgb(0,100,255)";
+context.strokeStyle = "white";
+context.globalAlpha = 1;
+context.lineWidth = 2;
+var radious = 0;
+var draw = function(argument) {
+  context.clearRect(0, 0, 200, 200);
+  context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
+  radious = (radious + 1) % 100;
+
+  context.beginPath();
+  context.arc(100, 100, radious, 0, 2 * Math.PI);
+  context.fill();
+  context.stroke();
+  CanvasLayer.reFresh(); //2D视图时可以省略
+  AMap.Util.requestAnimFrame(draw);
+};
+
+var CanvasLayer = new AMap.CanvasLayer({
+  canvas: canvas,
+  // bounds: new AMap.Bounds([113.972512, 22.677329], [114.072512, 22.777329]),
+  bounds: new AMap.Bounds([113.964562, 22.569824], [113.966562, 22.571824]),
+  zooms: [3, 18]
+});
+aMapConfig.setZoomAndCenter([113.972512, 22.677329], 17);
+CanvasLayer.setMap(map);
+draw();

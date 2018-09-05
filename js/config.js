@@ -130,7 +130,7 @@ function getRequest() {
 }
 var aMapConfig = {
   // 转移视觉目标
-  setZoomAndCenter: function(lonLat) {
-    map.setZoomAndCenter(18, lonLat);
+  setZoomAndCenter: function(lonLat,lever) {
+    map.setZoomAndCenter(lever, lonLat);
   }
 };
