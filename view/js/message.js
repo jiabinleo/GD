@@ -42,7 +42,7 @@ var msg = {
   queryData: function() {
     $.ajax({
       url: fileUrl.header240 + "/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
-      // "http://14.116.184.77:8098/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
+      // url:"http://14.116.184.77:8098/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
       type: "POST",
       dataType: "json",
       success: function(data) {

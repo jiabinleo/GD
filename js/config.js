@@ -9,7 +9,6 @@ var filePath = {
   // http://127.0.0.1:5500/view/share
   share: "http://127.0.0.1:5500/view/share.html",
   // share: "http://192.168.1.240:8080/KT_DFB_Web/mapgis/view/share.html",
-  shareMobile: "http://127.0.0.1:5500/view/shareMobile.html"
 };
 var config = {
   //时间转换

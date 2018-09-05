@@ -355,7 +355,7 @@ var indexPage = {
     });
     //更多详情
     $(document).on("click", "#openNew", function() {
-      var src =filePath.share+ "?disasterid=" + newOpenUuid;
+      var src = filePath.share + "?disasterid=" + newOpenUuid;
       window.open(src);
     });
     $(document).on("click", "#qrcode", function() {
@@ -586,10 +586,12 @@ var indexPage = {
       data: data,
       jsonp: "callback",
       success: function(data) {
+        console.log(data);
         if (data.success == "0") {
           $("#ungovern").html(data.result.suspending);
           $("#ingovern").html(data.result.solved);
           $("#hasgovern").html(data.result.handling);
+          $("#casgovern").html(data.result.casehandling);
         }
       }
     });
@@ -659,7 +661,7 @@ var indexPage = {
         var data = pointData;
         map.remove(markers);
         markers = [];
-        if (map.getZoom() > 17) {
+        if (map.getZoom() > 14) {
           for (var i = 0, marker; i < data.length; i++) {
             var icon = "";
             if (data[i].managestate == 1) {
@@ -763,9 +765,9 @@ var indexPage = {
       });
     }
     function markerClick(e) {
-      varsss = "";
-      map.remove(markers);
-      markers = [];
+      // varsss = "";
+      // map.remove(markers);
+      // markers = [];
       showIcon = false;
       var etc = e.target.content;
       indexPage.detailsSpot(etc);
@@ -1166,25 +1168,25 @@ var indexPage = {
                 </p>
             </li>
             <li class="aroundList" data="社区">
-                <img src="img/ImportantPlace.png" alt="">
+                <img src="img/community.png" alt="">
                 <p>
                 社区
                 </p>
             </li>
             <li class="aroundList" data="水库">
-                <img src="img/ImportantPlace.png" alt="">
+                <img src="img/reservoir.png" alt="">
                 <p>
                 水库
                 </p>
             </li>
             <li class="aroundList" data="医院">
-                <img src="img/ImportantPlace.png" alt="">
+                <img src="img/hospital.png" alt="">
                 <p>
                     医院
                 </p>
             </li>
             <li class="aroundList" data="地铁站">
-                <img src="img/ImportantPlace.png" alt="">
+                <img src="img/metroStation.png" alt="">
                 <p>
                 地铁站
                 </p>

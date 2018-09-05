@@ -103,7 +103,7 @@
   float: right;
   width: 15px;
   height: 15px;
-  background: url("../../closegray.png") no-repeat;
+  background: url("../../img/closegray.png") no-repeat;
 }
 .msgWrap-details section {
   height: 446px;

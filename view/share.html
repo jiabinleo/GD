@@ -10,26 +10,6 @@
     <script src="../js/config.js"></script>
     <link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../view/css/share.css">
-    <script>
-
-        function browserRedirect() {
-            var sUserAgent = navigator.userAgent.toLowerCase();
-            var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
-            var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
-            var bIsMidp = sUserAgent.match(/midp/i) == "midp";
-            var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
-            var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
-            var bIsAndroid = sUserAgent.match(/android/i) == "android";
-            var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
-            var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-            if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
-                // 移动
-                // location.href = filePath.shareMobile + '?disasterid=' + getRequest().disasterid
-            } else {
-            }
-        }
-        browserRedirect()
-    </script>
 </head>
 
 <body>
@@ -91,13 +71,13 @@
             <div class="photo" id="photoImg">
                 <p>现场图片：</p>
                 <ul>
-                    
+
                 </ul>
             </div>
             <div class="photo">
                 <p>现场视频：</p>
                 <ul>
-                   
+
                 </ul>
             </div>
         </section>
@@ -114,8 +94,9 @@
         </footer>
         <input id="shareBtn" class="shareBtn" type="button" value="转发">
     </div>
-    <div class="mask-wrap">
-        <div class="mask-IV">
+    <div class="mask-wrap" id="mask_wrap">
+        <span id="closeIV" class="closeIV"><img src="../img/closeIV.png" alt="" srcset=""></span>
+        <div class="mask-IV" id="mask_IV">
             <span id="prev" class="arr prev"></span>
             <img src="" alt="">
             <video id="vid" muted="" pause="" width="100%" src="" class="pause">暂无视频</video>

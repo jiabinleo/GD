@@ -35,10 +35,13 @@ var share = {
     });
 
     $(document).on("click", ".close6", function() {
-      $(".mask-wrap").hide();
+      $("#mask_wrap").hide();
       $(".qrcode").hide();
     });
-
+    $(document).on("click", "#closeIV", function() {
+      $("#mask_IV").hide();
+      $("#mask_wrap").hide();
+    });
     $(document).on("click", "#maskCopyYes", function() {
       $("#maskInnerCopy").animate(
         { opacity: 0, top: 0, transform: "translateZ(300deg)" },
@@ -116,6 +119,11 @@ var share = {
           if (data.hasOwnProperty("result")) {
             share.htmlL(data.result);
           }
+        } else {
+          $("#sectionHTML").html(
+            `<span style="color:#666666";>暂无数据</span>`
+          );
+          $("#ids").html("编号（无）");
         }
       },
       error: function(err) {
