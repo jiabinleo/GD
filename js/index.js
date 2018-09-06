@@ -765,12 +765,12 @@ var indexPage = {
             });
             markers.push(marker);
           }
-          try {
-            if (showIcon) {
-              varsss = marker.setAnimation("AMAP_ANIMATION_BOUNCE");
-              asd.push(varsss);
-            }
-          } catch (error) {}
+          // try {
+          //   if (showIcon) {
+          //     varsss = marker.setAnimation("AMAP_ANIMATION_BOUNCE");
+          //     asd.push(varsss);
+          //   }
+          // } catch (error) {}
         }
       });
     }
@@ -778,7 +778,7 @@ var indexPage = {
       // varsss = "";
       // map.remove(markers);
       // markers = [];
-      showIcon = false;
+      // showIcon = false;
       var etc = e.target.content;
       console.log(etc);
       indexPage.detailsSpot(etc);
@@ -1267,33 +1267,36 @@ AMap.plugin(["AMap.ControlBar"], function() {
 //   zoom: 15,
 //   center: [113.972512, 22.577329]
 // });
-var canvas = document.createElement("canvas");
-canvas.width = canvas.height = 200;
-var context = canvas.getContext("2d");
-context.fillStyle = "rgb(0,100,255)";
-context.strokeStyle = "white";
-context.globalAlpha = 1;
-context.lineWidth = 2;
-var radious = 0;
-var draw = function(argument) {
-  context.clearRect(0, 0, 200, 200);
-  context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
-  radious = (radious + 1) % 100;
+function addDraw() {
+  var canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 200;
+  var context = canvas.getContext("2d");
+  context.fillStyle = "rgb(0,100,255)";
+  context.strokeStyle = "white";
+  context.globalAlpha = 1;
+  context.lineWidth = 2;
+  var radious = 0;
+  var draw = function(argument) {
+    context.clearRect(0, 0, 200, 200);
+    context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
+    radious = (radious + 1) % 100;
 
-  context.beginPath();
-  context.arc(100, 100, radious, 0, 2 * Math.PI);
-  context.fill();
-  context.stroke();
-  CanvasLayer.reFresh(); //2D视图时可以省略
-  AMap.Util.requestAnimFrame(draw);
-};
+    context.beginPath();
+    context.arc(100, 100, radious, 0, 2 * Math.PI);
+    context.fill();
+    context.stroke();
+    CanvasLayer.reFresh(); //2D视图时可以省略
+    AMap.Util.requestAnimFrame(draw);
+  };
 
-var CanvasLayer = new AMap.CanvasLayer({
-  canvas: canvas,
-  // bounds: new AMap.Bounds([113.972512, 22.677329], [114.072512, 22.777329]),
-  bounds: new AMap.Bounds([113.964562, 22.569824], [113.966562, 22.571824]),
-  zooms: [3, 18]
-});
-aMapConfig.setZoomAndCenter([113.972512, 22.677329], 17);
-CanvasLayer.setMap(map);
-draw();
+  var CanvasLayer = new AMap.CanvasLayer({
+    canvas: canvas,
+    // bounds: new AMap.Bounds([113.972512, 22.677329], [114.072512, 22.777329]),
+    bounds: new AMap.Bounds([113.964562, 22.569824], [113.966562, 22.571824]),
+    zooms: [3, 18]
+  });
+  aMapConfig.setZoomAndCenter([113.972512, 22.677329], 17);
+  CanvasLayer.setMap(map);
+  draw();
+}
+addDraw()
