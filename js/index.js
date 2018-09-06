@@ -828,7 +828,8 @@ var indexPage = {
     if (historyData.data.length != 0) {
       var activeData = historyData.data[historyData.index];
       var detail_time = "";
-      for (let i = 0; i < historyData.data.length; i++) {
+      // for (let i = 0; i < historyData.data.length; i++) {
+        for (let i = historyData.data.length-1; i >= 0; i--) {
         detail_time += ` <input class="detailB detailB${i}" ids="${i}" type="button" value="${
           historyData.data[i].check_datetime
         }">`;
