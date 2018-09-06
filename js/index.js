@@ -29,7 +29,9 @@ var StartingPoint = "",
   pageNum = 5, //每页显示的数量
   pointData,
   varsss,
-  showIcon = true;
+  showIcon = true,
+  CanvasLayer, //canvas图层
+  notHarnessingPoint = {}; //最新上报的未治理的点
 var asd = [];
 var markers = [];
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
@@ -209,9 +211,6 @@ var indexPage = {
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       managestate = $(this).attr("data");
       var data = {
-        // dtype: dtypes,
-        // areaid: areaname == "全部" ? "" : areaname,
-        // warnlevel: warnlevel,
         dtype: "",
         areaid: "",
         warnlevel: "",
@@ -244,7 +243,6 @@ var indexPage = {
       imgTanArr = imgArr;
       nextNum = imgTanArr.length;
       indexImgVideo = $(this).attr("index");
-
       $(".mask-img").html(
         `<div class="prev"></div>
       <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
@@ -626,6 +624,7 @@ var indexPage = {
     pointData = data;
     var tData = "";
     map.clearMap(); // 清除地图覆盖物
+    indexPage.notHarnessing(pointData);
     for (var i = 0, marker; i < data.length; i++) {
       var icon = "";
       if (data[i].managestate == 1) {
@@ -665,6 +664,7 @@ var indexPage = {
       var tData = data[i];
       marker.content = tData;
       marker.on("click", markerClick);
+      console.log(map.getZoom());
       AMap.event.addListener(map, "zoomend", function() {
         // clearOverlays
         // map.clearMap(); // 清除地图覆盖物
@@ -765,27 +765,67 @@ var indexPage = {
             });
             markers.push(marker);
           }
-          // try {
-          //   if (showIcon) {
-          //     varsss = marker.setAnimation("AMAP_ANIMATION_BOUNCE");
-          //     asd.push(varsss);
-          //   }
-          // } catch (error) {}
         }
       });
     }
     function markerClick(e) {
-      // varsss = "";
-      // map.remove(markers);
-      // markers = [];
-      // showIcon = false;
       var etc = e.target.content;
-      console.log(etc);
       indexPage.detailsSpot(etc);
       indexPage.inspecting(etc);
-      aMapConfig.setZoomAndCenter([etc.lon, etc.lat], map.getZoom() + 1);
+      if (etc.id === notHarnessingPoint.id) {
+        CanvasLayer.hide();
+      }
     }
     map.setFitView();
+  },
+  notHarnessing: function(data) {
+    var notHarnessingArr = []; //未治理点集合
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].managestate === "2") {
+        notHarnessingArr.push(data[i]);
+      }
+    }
+    console.log(notHarnessingArr);
+    notHarnessingPoint = {
+      lon: notHarnessingArr[notHarnessingArr.length - 1].lon,
+      lat: notHarnessingArr[notHarnessingArr.length - 1].lat,
+      id: notHarnessingArr[notHarnessingArr.length - 1].id
+    };
+    indexPage.addDraw(notHarnessingPoint.lon, notHarnessingPoint.lat);
+  },
+  // 增加图层
+  addDraw: function(lon, lat) {
+    var canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 200;
+    var context = canvas.getContext("2d");
+    context.fillStyle = "rgb(255,0,0)";
+    context.strokeStyle = "white";
+    context.globalAlpha = 1;
+    context.lineWidth = 2;
+    var radious = 0;
+    var draw = function(argument) {
+      context.clearRect(0, 0, 200, 200);
+      context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
+      radious = (radious + 1) % 100;
+
+      context.beginPath();
+      context.arc(100, 100, radious, 0, 2 * Math.PI);
+      context.fill();
+      context.stroke();
+      AMap.Util.requestAnimFrame(draw);
+    };
+    CanvasLayer = new AMap.CanvasLayer({
+      canvas: canvas,
+      bounds: new AMap.Bounds(
+        [lon - 0.001, lat - 0.001],
+        [lon + 0.001, lat + 0.001]
+      ),
+      zooms: [1, 21]
+    });
+    aMapConfig.setZoomAndCenter([113.972512, 22.677329], 17);
+    CanvasLayer.setMap(map);
+    draw();
+    console.log(CanvasLayer);
   },
   detailsSpot: function(etc) {
     var data = {
@@ -829,7 +869,7 @@ var indexPage = {
       var activeData = historyData.data[historyData.index];
       var detail_time = "";
       // for (let i = 0; i < historyData.data.length; i++) {
-        for (let i = historyData.data.length-1; i >= 0; i--) {
+      for (let i = historyData.data.length - 1; i >= 0; i--) {
         detail_time += ` <input class="detailB detailB${i}" ids="${i}" type="button" value="${
           historyData.data[i].check_datetime
         }">`;
@@ -1257,10 +1297,10 @@ indexPage.init();
 /*
  * 添加Canvas图层
  */
-AMap.plugin(["AMap.ControlBar"], function() {
-  var bar = new AMap.ControlBar();
-  map.addControl(bar);
-});
+// AMap.plugin(["AMap.ControlBar"], function() {
+//   var bar = new AMap.ControlBar();
+//   map.addControl(bar);
+// });
 
 // var map = new AMap.Map("container", {
 //   resizeEnable: true,
@@ -1268,36 +1308,3 @@ AMap.plugin(["AMap.ControlBar"], function() {
 //   zoom: 15,
 //   center: [113.972512, 22.577329]
 // });
-function addDraw() {
-  var canvas = document.createElement("canvas");
-  canvas.width = canvas.height = 200;
-  var context = canvas.getContext("2d");
-  context.fillStyle = "rgb(0,100,255)";
-  context.strokeStyle = "white";
-  context.globalAlpha = 1;
-  context.lineWidth = 2;
-  var radious = 0;
-  var draw = function(argument) {
-    context.clearRect(0, 0, 200, 200);
-    context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
-    radious = (radious + 1) % 100;
-
-    context.beginPath();
-    context.arc(100, 100, radious, 0, 2 * Math.PI);
-    context.fill();
-    context.stroke();
-    CanvasLayer.reFresh(); //2D视图时可以省略
-    AMap.Util.requestAnimFrame(draw);
-  };
-
-  var CanvasLayer = new AMap.CanvasLayer({
-    canvas: canvas,
-    // bounds: new AMap.Bounds([113.972512, 22.677329], [114.072512, 22.777329]),
-    bounds: new AMap.Bounds([113.964562, 22.569824], [113.966562, 22.571824]),
-    zooms: [3, 18]
-  });
-  aMapConfig.setZoomAndCenter([113.972512, 22.677329], 17);
-  CanvasLayer.setMap(map);
-  draw();
-}
-addDraw()
