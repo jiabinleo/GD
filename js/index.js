@@ -1,10 +1,5 @@
-var StartingPoint = "",
-  endPoint = "",
-  layers = [new AMap.TileLayer.Satellite()], //, new AMap.TileLayer.RoadNet()
+var layers = [new AMap.TileLayer.Satellite()], //, new AMap.TileLayer.RoadNet()
   map,
-  ruler1,
-  ruler2,
-  infoWindow,
   satellite = false,
   jsonData,
   numPage = 1,
@@ -28,12 +23,8 @@ var StartingPoint = "",
   newOpenUuid, //左侧弹框地址编号
   pageNum = 5, //每页显示的数量
   pointData,
-  varsss,
-  showIcon = true,
   CanvasLayer, //canvas图层
-  notHarnessingPoint = {}; //最新上报的未治理的点
-var asd = [];
-var markers = [];
+  clickPointObj = {}; //最新点击的点
 map = new AMap.Map("container", { resizeEnable: true, layers: layers });
 var indexPage = {
   init: function() {
@@ -46,7 +37,6 @@ var indexPage = {
     $("#msgWrap").load("./view/message.html");
     //拖拽
     config.drag("tableList");
-    // config.drag("retrievalBox");
     config.drag("details");
     config.drag("msgWrap");
     config.drag("inspectingDetail");
@@ -123,7 +113,9 @@ var indexPage = {
     });
     //路径规划
     $(document).on("click", "#goto", function() {
-      indexPage.goto("", $(this).attr("data"));
+      window.open(
+        "https://gaode.com/dir?&to%5Bname%5D=" + $(this).attr("data")
+      );
     });
     //点击检索
     $("#retrieval").on("click", function() {
@@ -187,8 +179,10 @@ var indexPage = {
     });
     //转移视觉目标
     $("#tbodyHtml").on("click", "tr", function() {
-      aMapConfig.setZoomAndCenter(
-        [$(this).attr("lon"), $(this).attr("lat")],
+      indexPage.setZoomAndCenter(
+        $(this).attr("lon"),
+        $(this).attr("lat"),
+        $(this).attr("managestate"),
         17
       );
     });
@@ -374,9 +368,12 @@ var indexPage = {
         var searchResultHtml = "";
         for (let i = 0; i < allData.length; i++) {
           if (allData[i].addressname.indexOf(searchVal) != -1) {
-            searchResultHtml += `<li lon=${allData[i].lon} lat=${
+            searchResultHtml += `<li class="sta${+allData[i]
+              .managestate}" lon=${allData[i].lon} lat=${
               allData[i].lat
-            } title="${allData[i].addressname}">${allData[i].addressname}</li>`;
+            } managestate=${allData[i].managestate} title="${
+              allData[i].addressname
+            }">${allData[i].addressname}</li>`;
           }
         }
         $("#searchResultHtml").html(searchResultHtml);
@@ -389,9 +386,12 @@ var indexPage = {
         var searchResultHtml = "";
         for (let i = 0; i < allData.length; i++) {
           if (allData[i].addressname.indexOf(searchVal) != -1) {
-            searchResultHtml += `<li lon=${allData[i].lon} lat=${
+            searchResultHtml += `<li class="sta${+allData[i]
+              .managestate}"  lon=${allData[i].lon} lat=${
               allData[i].lat
-            } title="${allData[i].addressname}">${allData[i].addressname}</li>`;
+            } managestate=${allData[i].managestate} title="${
+              allData[i].addressname
+            }">${allData[i].addressname}</li>`;
           }
         }
         $("#searchResultHtml").html(searchResultHtml);
@@ -399,8 +399,10 @@ var indexPage = {
       }
     });
     $(document).on("click", "#searchResultHtml > li", function() {
-      aMapConfig.setZoomAndCenter(
-        [$(this).attr("lon"), $(this).attr("lat")],
+      indexPage.setZoomAndCenter(
+        $(this).attr("lon"),
+        $(this).attr("lat"),
+        $(this).attr("managestate"),
         17
       );
       return false;
@@ -413,7 +415,6 @@ var indexPage = {
     });
     $(document).on("click", "#message", function() {
       $("#msgWrap").load("./view/message.html");
-      // msg.queryData();
       if ($("#msgWrap").css("display") == "none") {
         $("#msgWrap").show();
       } else if ($("#msgWrap").css("display") == "block") {
@@ -522,6 +523,9 @@ var indexPage = {
           indexPage.paging(data.result.length);
           indexPage.tableList(jsonData, numPage);
           indexPage.showPoint(data.result, layers);
+          try {
+            CanvasLayer.hide();
+          } catch (error) {}
         }
       }
     });
@@ -571,6 +575,8 @@ var indexPage = {
         data[i].lat +
         " lon=" +
         data[i].lon +
+        " managestate=" +
+        data[i].managestate +
         " title=" +
         (data[i].addressname ? data[i].addressname : "") +
         "><td>" +
@@ -594,7 +600,6 @@ var indexPage = {
       data: data,
       jsonp: "callback",
       success: function(data) {
-        console.log(data);
         if (data.success == "0") {
           $("#ungovern").html(data.result.suspending);
           $("#ingovern").html(data.result.solved);
@@ -610,21 +615,17 @@ var indexPage = {
       .eq(numPage)
       .addClass("activeColor");
   },
-  //跳转到高德
-  goto: function(StartingPoint, endPoint) {
-    window.open(
-      "https://gaode.com/dir?&from%5Bname%5D=" +
-        StartingPoint +
-        "&to%5Bname%5D=" +
-        endPoint
-    );
-  },
   // 地图上显示点
   showPoint: function(data) {
+    var markers = [];
     pointData = data;
     var tData = "";
     map.clearMap(); // 清除地图覆盖物
-    indexPage.notHarnessing(pointData);
+    // indexPage.notHarnessing(pointData);
+    AMap.event.addListener(map, "zoomend", function() {
+      indexPage.sizeZoom(map.getZoom());
+      indexPage.clickPoint(clickPointObj);
+    });
     for (var i = 0, marker; i < data.length; i++) {
       var icon = "";
       if (data[i].managestate == 1) {
@@ -664,13 +665,11 @@ var indexPage = {
       var tData = data[i];
       marker.content = tData;
       marker.on("click", markerClick);
-      console.log(map.getZoom());
       AMap.event.addListener(map, "zoomend", function() {
-        // clearOverlays
-        // map.clearMap(); // 清除地图覆盖物
         var data = pointData;
         map.remove(markers);
         markers = [];
+
         if (map.getZoom() > 14) {
           for (var i = 0, marker; i < data.length; i++) {
             var icon = "";
@@ -770,35 +769,155 @@ var indexPage = {
     }
     function markerClick(e) {
       var etc = e.target.content;
+      var color = "#0aa2fa";
+      switch (etc.managestate) {
+        case "1":
+          color = "#0aa2fa";
+          break;
+        case "2":
+          color = "#ff0000";
+          break;
+        case "3":
+          color = "#fa9d0a";
+          break;
+        case "4":
+          color = "#0aa2fa";
+          break;
+
+        default:
+          break;
+      }
+      clickPointObj = {
+        lon: etc.lon,
+        lat: etc.lat,
+        size: "",
+        color: color
+      };
+      indexPage.sizeZoom(map.getZoom());
+
       indexPage.detailsSpot(etc);
       indexPage.inspecting(etc);
-      if (etc.id === notHarnessingPoint.id) {
-        CanvasLayer.hide();
-      }
+      indexPage.clickPoint(clickPointObj);
     }
     map.setFitView();
   },
-  notHarnessing: function(data) {
-    var notHarnessingArr = []; //未治理点集合
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].managestate === "2") {
-        notHarnessingArr.push(data[i]);
-      }
+  // 转移视觉目标
+  setZoomAndCenter: function(lon, lat, managestate, lever) {
+    var color = "#0aa2fa";
+    switch (managestate) {
+      case "1":
+        color = "#0aa2fa";
+        break;
+      case "2":
+        color = "#ff0000";
+        break;
+      case "3":
+        color = "#fa9d0a";
+        break;
+      case "4":
+        color = "#0aa2fa";
+        break;
+
+      default:
+        break;
     }
-    console.log(notHarnessingArr);
-    notHarnessingPoint = {
-      lon: notHarnessingArr[notHarnessingArr.length - 1].lon,
-      lat: notHarnessingArr[notHarnessingArr.length - 1].lat,
-      id: notHarnessingArr[notHarnessingArr.length - 1].id
+    clickPointObj = {
+      lon: parseFloat(lon),
+      lat: parseFloat(lat),
+      size: "",
+      color: color
     };
-    indexPage.addDraw(notHarnessingPoint.lon, notHarnessingPoint.lat);
+    indexPage.sizeZoom(map.getZoom());
+    map.setZoomAndCenter(lever, [lon, lat]);
+    setTimeout(function() {
+      indexPage.clickPoint(clickPointObj);
+    }, 500);
+  },
+  sizeZoom: function(ziseZoom) {
+    switch (ziseZoom) {
+      case 1:
+        clickPointObj.size = 0.011;
+        break;
+      case 2:
+        clickPointObj.size = 0.011;
+        break;
+      case 3:
+        clickPointObj.size = 15;
+        break;
+      case 4:
+        clickPointObj.size = 12;
+        break;
+      case 5:
+        clickPointObj.size = 7;
+        break;
+      case 6:
+        clickPointObj.size = 3;
+        break;
+      case 7:
+        clickPointObj.size = 1.5;
+        break;
+      case 8:
+        clickPointObj.size = 0.9;
+        break;
+      case 9:
+        clickPointObj.size = 0.3;
+        break;
+      case 10:
+        clickPointObj.size = 0.14;
+        break;
+      case 11:
+        clickPointObj.size = 0.06;
+        break;
+      case 12:
+        clickPointObj.size = 0.03;
+        break;
+      case 13:
+        clickPointObj.size = 0.025;
+        break;
+      case 14:
+        clickPointObj.size = 0.012;
+        break;
+      case 15:
+        clickPointObj.size = 0.008;
+        break;
+      case 16:
+        clickPointObj.size = 0.002;
+        break;
+      case 17:
+        clickPointObj.size = 0.0013;
+        break;
+      case 18:
+        clickPointObj.size = 0.001;
+        break;
+      case 19:
+        clickPointObj.size = 0.0008;
+        break;
+      case 20:
+        clickPointObj.size = 0.0004;
+        break;
+      default:
+        break;
+    }
+  },
+  clickPoint: function(clickPointObj) {
+    try {
+      CanvasLayer.hide();
+    } catch (error) {}
+    try {
+      indexPage.addDraw(
+        clickPointObj.lon,
+        clickPointObj.lat,
+        clickPointObj.size,
+        clickPointObj.color
+      );
+    } catch (error) {}
   },
   // 增加图层
-  addDraw: function(lon, lat) {
+  addDraw: function(lon, lat, size, color) {
     var canvas = document.createElement("canvas");
     canvas.width = canvas.height = 200;
     var context = canvas.getContext("2d");
-    context.fillStyle = "rgb(255,0,0)";
+    context.fillStyle = color;
     context.strokeStyle = "white";
     context.globalAlpha = 1;
     context.lineWidth = 2;
@@ -807,7 +926,6 @@ var indexPage = {
       context.clearRect(0, 0, 200, 200);
       context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
       radious = (radious + 1) % 100;
-
       context.beginPath();
       context.arc(100, 100, radious, 0, 2 * Math.PI);
       context.fill();
@@ -817,15 +935,13 @@ var indexPage = {
     CanvasLayer = new AMap.CanvasLayer({
       canvas: canvas,
       bounds: new AMap.Bounds(
-        [lon - 0.001, lat - 0.001],
-        [lon + 0.001, lat + 0.001]
+        [lon - size, lat - size],
+        [lon + size, lat + size]
       ),
       zooms: [1, 21]
     });
-    aMapConfig.setZoomAndCenter([113.972512, 22.677329], 17);
     CanvasLayer.setMap(map);
     draw();
-    console.log(CanvasLayer);
   },
   detailsSpot: function(etc) {
     var data = {
@@ -868,7 +984,6 @@ var indexPage = {
     if (historyData.data.length != 0) {
       var activeData = historyData.data[historyData.index];
       var detail_time = "";
-      // for (let i = 0; i < historyData.data.length; i++) {
       for (let i = historyData.data.length - 1; i >= 0; i--) {
         detail_time += ` <input class="detailB detailB${i}" ids="${i}" type="button" value="${
           historyData.data[i].check_datetime
@@ -1106,8 +1221,6 @@ var indexPage = {
         }
       }
     });
-
-    // setTimeout(() => {
     var imgHtml = "";
     var videoHtml = "";
     imgArr = [];
@@ -1270,9 +1383,7 @@ var indexPage = {
     ) {
       $(".fieldVideo-wrap > div").css({ display: "none" });
     }
-
     $("#details").show();
-    // }, 500);
   },
   //周围信息
   around: function(lat, lon, name) {
@@ -1285,26 +1396,10 @@ var indexPage = {
         map: map,
         panel: "panel"
       });
-      aMapConfig.setZoomAndCenter([lon, lat], 17);
       var cpoint = [lon, lat]; //中心点坐标
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
+      map.setZoomAndCenter(17, [lon, lat]);
     });
   }
 };
 indexPage.init();
-
-/////////////////////////////////////////////////////////////////////////////////
-/*
- * 添加Canvas图层
- */
-// AMap.plugin(["AMap.ControlBar"], function() {
-//   var bar = new AMap.ControlBar();
-//   map.addControl(bar);
-// });
-
-// var map = new AMap.Map("container", {
-//   resizeEnable: true,
-//   // viewMode:"3D",
-//   zoom: 15,
-//   center: [113.972512, 22.577329]
-// });

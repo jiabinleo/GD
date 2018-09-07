@@ -73,7 +73,16 @@
   font-size: 14px;
   color: #666666;
 }
-.wrap .searchResult ul li:hover {
+.wrap .searchResult ul li.sta1:hover {
+  color: #0aa2fa;
+}
+.wrap .searchResult ul li.sta2:hover {
+  color: #ff0000;
+}
+.wrap .searchResult ul li.sta3:hover {
+  color: #fa9d0a;
+}
+.wrap .searchResult ul li.sta4:hover {
   color: #0aa2fa;
 }
 .wrap .tool {
@@ -129,12 +138,16 @@
   width: 74px;
   overflow: hidden;
   height: 23px;
+  border-right: none !important;
 }
 .wrap .tool .quick:hover {
   height: auto;
 }
 .wrap .tool .quick:hover .title::before {
   background: url("../img/quick-hide.png") no-repeat;
+}
+.wrap .tool .quick .title {
+  border-right: 1px dashed #7c8196;
 }
 .wrap .tool .quick .title::before {
   content: "";
@@ -597,18 +610,22 @@
 .wrap .details .details-content .disasterPoint p:first-of-type span:first-of-type a.status3 {
   color: #fa9d0a;
 }
-.wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(2) {
-  cursor: pointer;
-}
-.wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(3) {
-  cursor: pointer;
-}
-.wrap .details .details-content .disasterPoint p:first-of-type span.pl30 {
-  padding-left: 10px;
-}
 .wrap .details .details-content .disasterPoint p:first-of-type span.rt {
   font-size: 14px;
   color: #666666;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(2) {
+  cursor: pointer;
+  color: #0aa2fa;
+  font-weight: bold;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(3) {
+  cursor: pointer;
+  color: #0aa2fa;
+  font-weight: bold;
+}
+.wrap .details .details-content .disasterPoint p:first-of-type span.pl30 {
+  padding-left: 10px;
 }
 .wrap .details .details-content .disasterPoint p:last-of-type {
   overflow: hidden;
@@ -1142,7 +1159,7 @@
   left: 10px;
   bottom: 30px;
   z-index: 1;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 .wrap .legends {
   border-radius: 5px;

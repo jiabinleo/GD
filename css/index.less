@@ -71,8 +71,25 @@
         line-height: 30px;
         font-size: 14px;
         color: #666666;
-        &:hover {
-          color: #0aa2fa;
+        &.sta1 {
+          &:hover {
+            color: #0aa2fa;
+          }
+        }
+        &.sta2 {
+          &:hover {
+            color: #ff0000;
+          }
+        }
+        &.sta3 {
+          &:hover {
+            color: #fa9d0a;
+          }
+        }
+        &.sta4 {
+          &:hover {
+            color: #0aa2fa;
+          }
         }
       }
     }
@@ -137,6 +154,7 @@
       width: 74px;
       overflow: hidden;
       height: 23px;
+      border-right: none !important;
       &:hover {
         height: auto;
         .title::before {
@@ -144,6 +162,7 @@
         }
       }
       .title {
+        border-right: 1px dashed #7c8196;
         &::before {
           content: "";
           display: inline-block;
@@ -644,18 +663,22 @@
                   }
                 }
               }
-              &:nth-of-type(2) {
-                cursor: pointer;
-              }
-              &:nth-of-type(3) {
-                cursor: pointer;
-              }
-              &.pl30 {
-                padding-left: 10px;
-              }
               &.rt {
                 font-size: 14px;
                 color: #666666;
+              }
+              &:nth-of-type(2) {
+                cursor: pointer;
+                color: #0aa2fa;
+                font-weight: bold;
+              }
+              &:nth-of-type(3) {
+                cursor: pointer;
+                color: #0aa2fa;
+                font-weight: bold;
+              }
+              &.pl30 {
+                padding-left: 10px;
               }
             }
           }
@@ -1202,7 +1225,7 @@
     bottom: 30px;
     z-index: 1;
     // border: solid 1px #666666;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
   .legends {
     border-radius: 5px;
@@ -1217,8 +1240,8 @@
           background: #ff0000;
           border-radius: 3px;
         }
-        label{
-          padding:0 10px;
+        label {
+          padding: 0 10px;
           color: #ff0000;
         }
       }
@@ -1230,8 +1253,8 @@
           background: #fa9d0a;
           border-radius: 3px;
         }
-        label{
-          padding:0 10px;
+        label {
+          padding: 0 10px;
           color: #fa9d0a;
         }
       }
@@ -1243,8 +1266,8 @@
           background: #0aa2fa;
           border-radius: 3px;
         }
-        label{
-          padding:0 10px;
+        label {
+          padding: 0 10px;
           color: #0aa2fa;
         }
       }
@@ -1256,28 +1279,11 @@
           background: #666666;
           border-radius: 3px;
         }
-        label{
-          padding:0 10px;
+        label {
+          padding: 0 10px;
           color: #666666;
         }
       }
     }
   }
 }
-
-// #container {
-//   width: 100%;
-//   height: 100%;
-//   margin: 0px;
-// }
-
-// #loadingTip {
-//   position: absolute;
-//   z-index: 9999;
-//   top: 0;
-//   left: 0;
-//   padding: 3px 10px;
-//   background: red;
-//   color: #fff;
-//   font-size: 14px;
-// }

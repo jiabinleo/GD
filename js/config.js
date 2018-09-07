@@ -7,7 +7,8 @@ var fileUrl = {
 };
 var filePath = {
   // http://127.0.0.1:5500/view/share
-  share: "http://127.0.0.1:5500/view/share.html",
+  // share: "http://127.0.0.1:5500/view/share.html",
+  share: "http://192.168.10.240:8080/light/mapgis/view/share.html"
   // share: "http://192.168.1.240:8080/KT_DFB_Web/mapgis/view/share.html",
 };
 var config = {
@@ -128,9 +129,9 @@ function getRequest() {
   }
   return theRequest;
 }
-var aMapConfig = {
-  // 转移视觉目标
-  setZoomAndCenter: function(lonLat,lever) {
-    map.setZoomAndCenter(lever, lonLat);
-  }
-};
+// var aMapConfig = {
+//   // 转移视觉目标
+//   setZoomAndCenter: function(lonLat,lever) {
+//     map.setZoomAndCenter(lever, lonLat);
+//   }
+// };
