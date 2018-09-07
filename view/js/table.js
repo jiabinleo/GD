@@ -18,14 +18,21 @@ var table = {
   },
   // 获取图表列表
   queryTable: function() {
+    console.log(fileUrl.header88);
     $.ajax({
-      url: fileUrl.header + "/dfbinterface//mobile/statistic/sysdict",
-      dataType: "json",
+      url: fileUrl.header88 + "/light/sysdict/loadChartUrl",
       type: "GET",
+      // dataType: "jsonp",
+      // jsonp: "callback",
+      dataType: "json",
       success: function(data) {
-        if (data.success === "0") {
+        console.log(data);
+        if (data.success === true) {
           table.createTable(data.result);
         }
+      },
+      error: function(err) {
+        console.log(err);
       }
     });
   },

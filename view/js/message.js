@@ -41,8 +41,7 @@ var msg = {
   },
   queryData: function() {
     $.ajax({
-      url: fileUrl.header240 + "/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
-      // url:"http://14.116.184.77:8098/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
+      url: fileUrl.header88 + "/light/message/getNewMessageList", //后台接口地址
       type: "POST",
       dataType: "json",
       success: function(data) {
@@ -111,7 +110,7 @@ var msg = {
   //更新阅读状态
   readNewMessage: function(id) {
     $.ajax({
-      url: fileUrl.header240 + "/dfbinterface/mobile/message/updateMessage",
+      url: fileUrl.header88 + "/dfbinterface/mobile/message/updateMessage",
       type: "POST",
       dataType: "json",
       data: {

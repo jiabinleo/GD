@@ -616,12 +616,12 @@
 }
 .wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(2) {
   cursor: pointer;
-  color: #0aa2fa;
+  color: #24369c;
   font-weight: bold;
 }
 .wrap .details .details-content .disasterPoint p:first-of-type span:nth-of-type(3) {
   cursor: pointer;
-  color: #0aa2fa;
+  color: #24369c;
   font-weight: bold;
 }
 .wrap .details .details-content .disasterPoint p:first-of-type span.pl30 {
@@ -790,6 +790,12 @@
   color: #333333;
   font-size: 16px;
   padding-bottom: 10px;
+}
+.wrap .details .details-content .weather p span {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: caiyunColor 3s infinite;
+  -webkit-animation: caiyunColor 3s infinite;
 }
 .wrap .details .details-content .weather ul {
   overflow: hidden;
@@ -1157,11 +1163,9 @@
   height: 160px;
   position: absolute;
   left: 10px;
-  bottom: 30px;
+  bottom: 10px;
   z-index: 1;
   background-color: #ffffff;
-}
-.wrap .legends {
   border-radius: 5px;
   box-shadow: 5px 5px 15px 5px rgba(51, 51, 51, 0.1);
 }
@@ -1211,4 +1215,24 @@
 .wrap .legends p:nth-of-type(4) label {
   padding: 0 10px;
   color: #666666;
+}
+.wrap .amap-logo {
+  display: none !important;
+}
+.wrap .amap-copyright {
+  display: none !important;
+}
+@keyframes caiyunColor {
+  0% {
+    background-image: -webkit-gradient(linear, left 0, right 0, from(#ff0000), to(#00ff00));
+  }
+  33% {
+    background-image: -webkit-gradient(linear, left 0, right 0, from(#00ff00), to(#0000ff));
+  }
+  66% {
+    background-image: -webkit-gradient(linear, left 0, right 0, from(#0000ff), to(#ff0000));
+  }
+  100% {
+    background-image: -webkit-gradient(linear, left 0, right 0, from(#ff0000), to(#00ff00));
+  }
 }

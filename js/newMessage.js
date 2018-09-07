@@ -1,8 +1,8 @@
 var newMessage = {
   queryData: function() {
     $.ajax({
-      url: fileUrl.header240 + "/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
-      type: "POST",
+      url: fileUrl.header88 + "/light/message/getNewMessageList", //后台接口地址
+      type: "GET",
       dataType: "json",
       success: function(data) {
         if (data.success == "0") {

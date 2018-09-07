@@ -31,7 +31,7 @@ var indexPage = {
     indexPage.changeMap([]);
     indexPage.queryGetGisAreaName();
     indexPage.listen();
-    indexPage.getGovernance("");
+    indexPage.getGovernance({ username: "admin" });
     indexPage.clickColor(numPage);
     indexPage.queryData("", layers);
     $("#msgWrap").load("./view/message.html");
@@ -510,8 +510,7 @@ var indexPage = {
   queryData: function(data, layers) {
     $.ajax({
       type: "GET",
-      url:
-        fileUrl.header240 + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
+      url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
@@ -534,7 +533,7 @@ var indexPage = {
   queryGetGisAreaName: function() {
     $.ajax({
       type: "GET",
-      url: fileUrl.header + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
+      url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
       dataType: "jsonp",
       jsonp: "callback",
       success: function(data) {
@@ -595,7 +594,7 @@ var indexPage = {
   getGovernance: function(data) {
     $.ajax({
       type: "POST",
-      url: fileUrl.header240 + "/dfbinterface/mobile/gisshow/Getypecount",
+      url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/Getypecount",
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
@@ -712,7 +711,7 @@ var indexPage = {
             marker.content = tData;
             marker.on("click", markerClick);
             marker.setLabel({
-              offset: new AMap.Pixel(-100, -18), //修改label相对于maker的位置
+              offset: new AMap.Pixel(-100, -25), //修改label相对于maker的位置
               content: tData.addressname
             });
             markers.push(marker);
@@ -949,12 +948,13 @@ var indexPage = {
     };
     $.ajax({
       type: "GET",
-      url: fileUrl.header240 + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
+      url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
       dataType: "jsonp",
       data: data,
       jsonp: "callback",
       success: function(data) {
         if (data.success == "0") {
+          console.log(data);
           indexPage.detailsSpotHtml(etc, data.result);
         }
       }
@@ -964,7 +964,7 @@ var indexPage = {
   inspecting: function(etc) {
     $.ajax({
       type: "POST",
-      url: fileUrl.header240 + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
+      url: fileUrl.header98 + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
       dataType: "json",
       data: { uuid: etc.uuid },
       success: function(data) {
@@ -1129,6 +1129,7 @@ var indexPage = {
     walking.search(walkingStart, walkingEnd);
   },
   detailsSpotHtml: function(etc, data) {
+    console.log(data);
     newOpenUuid = etc.uuid;
     // 获取天气
     var weatherHtml = "";
@@ -1211,6 +1212,7 @@ var indexPage = {
             }
             weatherHtml += `<li>
             <p>${data.result.forecast.dailyArray[i].date}</p>
+            <p>${getWeek(data.result.forecast.dailyArray[i].date)}</p>
             <p>${data.result.forecast.dailyArray[i].tempMin}/${
               data.result.forecast.dailyArray[i].tempMax
             }℃</p>

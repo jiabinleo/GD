@@ -110,7 +110,7 @@ var share = {
   },
   queryData: function() {
     $.ajax({
-      url: fileUrl.header240 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
+      url: fileUrl.header88 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "POST",
       dataType: "json",
       data: { disasterid: getRequest().disasterid },
