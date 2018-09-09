@@ -1,0 +1,97 @@
+{
+    "key": "",
+    "msg": "数据接口访问成功",
+    "result": [
+        {
+            "warnlevel4": 4,
+            "warnlevel5": 5,
+            "warnlevel2": 2,
+            "areaid": "61",
+            "warnlevel3": 3,
+            "areaname": "宝安区",
+            "warnlevel1": 1
+        },
+        {
+            "warnlevel4": 6,
+            "warnlevel5": 6,
+            "warnlevel2": 7,
+            "areaid": "52",
+            "warnlevel3": 9,
+            "areaname": "南山区",
+            "warnlevel1": 11
+        },
+        {
+            "warnlevel4": 4,
+            "warnlevel5": 2,
+            "warnlevel2": 3,
+            "areaid": "30",
+            "warnlevel3": 5,
+            "areaname": "罗湖区",
+            "warnlevel1": 7
+        },
+        {
+            "warnlevel4": 6,
+            "warnlevel5": 1,
+            "warnlevel2": 2,
+            "areaid": "41",
+            "warnlevel3": 7,
+            "areaname": "福田区",
+            "warnlevel1": 9
+        },
+        {
+            "warnlevel4": 4,
+            "warnlevel5": 3,
+            "warnlevel2": 4,
+            "areaid": "75",
+            "warnlevel3": 6,
+            "areaname": "龙华区",
+            "warnlevel1": 4
+        },
+        {
+            "warnlevel4": 4,
+            "warnlevel5": 5,
+            "warnlevel2": 2,
+            "areaid": "61",
+            "warnlevel3": 3,
+            "areaname": "大鹏新区",
+            "warnlevel1": 1
+        },
+        {
+            "warnlevel4": 6,
+            "warnlevel5": 6,
+            "warnlevel2": 7,
+            "areaid": "52",
+            "warnlevel3": 9,
+            "areaname": "光明新区",
+            "warnlevel1": 11
+        },
+        {
+            "warnlevel4": 4,
+            "warnlevel5": 2,
+            "warnlevel2": 3,
+            "areaid": "30",
+            "warnlevel3": 5,
+            "areaname": "罗湖区",
+            "warnlevel1": 7
+        },
+        {
+            "warnlevel4": 6,
+            "warnlevel5": 1,
+            "warnlevel2": 2,
+            "areaid": "41",
+            "warnlevel3": 7,
+            "areaname": "福田区",
+            "warnlevel1": 9
+        },
+        {
+            "warnlevel4": 4,
+            "warnlevel5": 3,
+            "warnlevel2": 4,
+            "areaid": "75",
+            "warnlevel3": 6,
+            "areaname": "龙华区",
+            "warnlevel1": 4
+        }
+    ],
+    "success": "0"
+}

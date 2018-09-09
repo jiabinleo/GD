@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts-en.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+
+<body>
+    <div id="main" style="width: 100%;height:400px;"></div>
+    <script type="text/javascript">
+
+
+        var echartsaa = {
+            init: function () {
+
+                echartsaa.listen()
+            },
+            listen: function () {
+                console.log("...")
+                $.ajax({
+                    url: "/json.json",
+                    type: "GET",
+                    dateType: "json",
+                    success: function (data) {
+                        if (data.success === "0") {
+                            echartsaa.echatrbb(data.result)
+                        }
+                    }
+                })
+            },
+            echatrbb: function (data) {
+                console.log(data)
+                var areaname = [],
+                    warnlevel1 = [],
+                    warnlevel2 = [],
+                    warnlevel3 = [],
+                    warnlevel4 = [],
+                    warnlevel5 = [];
+                for (let i = 0; i < data.length; i++) {
+                    areaname.push(data[i].areaname)
+                    warnlevel1.push(data[i].warnlevel1)
+                    warnlevel2.push(data[i].warnlevel2)
+                    warnlevel3.push(data[i].warnlevel3)
+                    warnlevel4.push(data[i].warnlevel4)
+                    warnlevel5.push(data[i].warnlevel5)
+                }
+                var myChart = echarts.init(document.getElementById('main'));
+                function showVertical(val) {
+                    return val.split('').join('\ n')
+                }
+                option = {
+                    title: {
+                        text: '堆叠区域图'
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            label: {
+                                backgroundColor: '#6a7985',
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['一级', '二级', '三级', '四级', '五级']
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: areaname,
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                        }
+
+                    ],
+                    series: [
+                        {
+                            name: '一级',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: { normal: {} },
+                            data: warnlevel1
+                        },
+                        {
+                            name: '二级',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: { normal: {} },
+                            data: warnlevel2
+                        },
+                        {
+                            name: '三级',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: { normal: {} },
+                            data: warnlevel3
+                        },
+                        {
+                            name: '四级',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: { normal: {} },
+                            data: warnlevel4
+                        },
+                        {
+                            name: '五级',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: { normal: {} },
+                            data: warnlevel5
+                        },
+                    ]
+                };
+                myChart.setOption(option);
+            }
+        }
+
+
+        echartsaa.init()
+
+
+
+    </script>
+</body>
+
+</html>
