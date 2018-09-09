@@ -1,11 +1,16 @@
 var fileUrl = {
-  header: "http://14.116.184.77:8098",
+  // header98: "http://14.116.184.77:8098",
+  // header88: "http://14.116.184.77:8088",
   weather: "http://14.116.184.77:8088",
-  header240: "http://192.168.1.240:8080"
+  header88: "http://192.168.1.240:8088",
+  header98: "http://192.168.1.240:8098"
+  // header: "http://192.168.1.240:8080"
 };
 var filePath = {
-  share: "http://127.0.0.1:5500/view/share.html",
-  shareMobile: "http://127.0.0.1:5500/view/shareMobile.html"
+  // http://127.0.0.1:5500/view/share
+  // share: "http://127.0.0.1:5500/view/share.html",
+  // share: "http://192.168.10.240:8080/light/mapgis/view/share.html"
+  // share: "http://192.168.1.240:8080/KT_DFB_Web/mapgis/view/share.html",
 };
 var config = {
   //时间转换
@@ -54,6 +59,9 @@ var config = {
         break;
       case "3":
         sta = "治理中";
+        break;
+      case "4":
+        sta = "已结案";
         break;
     }
     return sta;
@@ -122,9 +130,22 @@ function getRequest() {
   }
   return theRequest;
 }
-var aMapConfig = {
-  // 转移视觉目标
-  setZoomAndCenter: function(lonLat) {
-    map.setZoomAndCenter(18, lonLat);
+
+//根据日期计算星期
+function getWeek(dateString) {
+  var date;
+  if (isNull(dateString)) {
+    date = new Date();
+  } else {
+    var dateArray = dateString.split("-");
+    date = new Date(dateArray[0], parseInt(dateArray[1] - 1), dateArray[2]);
   }
-};
+  return "星期" + "日一二三四五六".charAt(date.getDay());
+}
+
+function isNull(object) {
+  if (object == null || typeof object == "undefined") {
+    return true;
+  }
+  return false;
+}

@@ -35,10 +35,13 @@ var share = {
     });
 
     $(document).on("click", ".close6", function() {
-      $(".mask-wrap").hide();
+      $("#mask_wrap").hide();
       $(".qrcode").hide();
     });
-
+    $(document).on("click", "#closeIV", function() {
+      $("#mask_IV").hide();
+      $("#mask_wrap").hide();
+    });
     $(document).on("click", "#maskCopyYes", function() {
       $("#maskInnerCopy").animate(
         { opacity: 0, top: 0, transform: "translateZ(300deg)" },
@@ -107,7 +110,7 @@ var share = {
   },
   queryData: function() {
     $.ajax({
-      url: fileUrl.header240 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
+      url: fileUrl.header88 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "POST",
       dataType: "json",
       data: { disasterid: getRequest().disasterid },
@@ -116,6 +119,11 @@ var share = {
           if (data.hasOwnProperty("result")) {
             share.htmlL(data.result);
           }
+        } else {
+          $("#sectionHTML").html(
+            `<span style="color:#666666";>暂无数据</span>`
+          );
+          $("#ids").html("编号（无）");
         }
       },
       error: function(err) {
@@ -124,21 +132,17 @@ var share = {
     });
   },
   htmlL: function(data) {
-    console.log(data);
     handle = data.handle;
     attachList = data.attachList;
-    console.log(attachList);
     imgUrlArr = [];
     videoUrlArr = [];
     for (let i = 0; i < attachList.length; i++) {
-      console.log(attachList[i].url_path);
       if (attachList[i].filetype === "1") {
         imgUrlArr.push(attachList[i].url_path);
       } else if (attachList[i].filetype === "2") {
         videoUrlArr.push(attachList[i].url_path);
       }
     }
-    console.log(imgUrlArr, videoUrlArr);
     imgHTML = "";
     for (let i = 0; i < imgUrlArr.length; i++) {
       imgHTML += ` <li fileTYpe = "1" class="minIV" urlSrc="${imgUrlArr[i]}">
@@ -160,7 +164,24 @@ var share = {
             <h2>${handle.disastername}</h2>
             <p id="ids">编号（${handle.id}）</p>`;
     $("#headerHTML").html(headerHTML);
-
+    // warnlevel
+    var warnlevel = "";
+    switch (handle.warnlevel) {
+      case "1":
+        warnlevel = "Ⅰ级";
+        break;
+      case "2":
+        warnlevel = "Ⅱ级";
+        break;
+      case "3":
+        warnlevel = "Ⅲ级";
+        break;
+      case "4":
+        warnlevel = "Ⅳ级";
+        break;
+      default:
+        break;
+    }
     var sectionHTML = `<div class="address">
     <div class="address1">
         <p>
@@ -169,7 +190,7 @@ var share = {
         </p>
         <p>
             <span>隶属：</span>
-            <span id="liShu">南山区西丽街道办</span>
+            <span id="liShu">${handle.department}</span>
         </p>
     </div>
     <p>
@@ -192,13 +213,13 @@ var share = {
     </p>
     <p>
         <span>灾情等级：</span>
-        <span>一般（<a class="lve">Ⅳ级</a>）</span>
+        <span><a class="lve">${warnlevel}</a></span>
     </p>
 </div>
 <div class="reason">
     <p>
         <span>引发因素：</span>
-        <span>排水管道</span>
+        <span>${handle.reason}</span>
     </p>
     <p>
         <span>坍塌原因：</span>

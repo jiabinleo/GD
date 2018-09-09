@@ -27,9 +27,9 @@ var msg = {
       );
       $("#msgWrap_list").hide();
       $("#msgWrap_details").show();
-      // if ($(this).attr("isreads") === "1") {
-      msg.readNewMessage($(this).attr("data-id"));
-      // }
+      if ($(this).attr("isreads") === "1") {
+        msg.readNewMessage($(this).attr("data-id"));
+      }
     });
     $(document).on("click", "#closeDetails", function() {
       $("#msgWrap_details").hide();
@@ -41,8 +41,7 @@ var msg = {
   },
   queryData: function() {
     $.ajax({
-      url: fileUrl.header240 + "/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
-      // "http://14.116.184.77:8098/dfbinterface/mobile/message/getNewMessageList", //后台接口地址
+      url: fileUrl.header88 + "/light/message/getNewMessageList", //后台接口地址
       type: "POST",
       dataType: "json",
       success: function(data) {
@@ -70,7 +69,6 @@ var msg = {
     msg.listHtml(readAll);
   },
   listHtml: function(data) {
-    console.log(data);
     var isreadStatus = "read0";
     var msgListHtml = "";
     var isRead = "";
@@ -111,9 +109,8 @@ var msg = {
   },
   //更新阅读状态
   readNewMessage: function(id) {
-    console.log(id);
     $.ajax({
-      url: fileUrl.header240 + "/dfbinterface/mobile/message/updateMessage",
+      url: fileUrl.header88 + "/dfbinterface/mobile/message/updateMessage",
       type: "POST",
       dataType: "json",
       data: {
