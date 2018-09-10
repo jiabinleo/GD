@@ -45,7 +45,7 @@ var msg = {
       type: "POST",
       dataType: "json",
       success: function(data) {
-        if (data.success == "0") {
+        if (data.success == true) {
           msg.messNewList(data.result);
         }
       },
@@ -110,7 +110,7 @@ var msg = {
   //更新阅读状态
   readNewMessage: function(id) {
     $.ajax({
-      url: fileUrl.header88 + "/dfbinterface/mobile/message/updateMessage",
+      url: fileUrl.header98 + "/dfbinterface/mobile/message/updateMessage",
       type: "POST",
       dataType: "json",
       data: {

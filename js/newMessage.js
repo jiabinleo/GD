@@ -5,7 +5,7 @@ var newMessage = {
       type: "GET",
       dataType: "json",
       success: function(data) {
-        if (data.success == "0") {
+        if (data.success == true) {
           newMessage.updateMessage(data.result);
         }
       },
