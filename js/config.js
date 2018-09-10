@@ -1,17 +1,10 @@
 var fileUrl = {
-  // header98: "http://14.116.184.77:8098",
-  // header88: "http://14.116.184.77:8088",
   weather: "http://14.116.184.77:8088",
   header88: "http://192.168.1.240:8088",
   header98: "http://192.168.1.240:8098"
-  // header: "http://192.168.1.240:8080"
 };
-var filePath = {
-  // http://127.0.0.1:5500/view/share
-  // share: "http://127.0.0.1:5500/view/share.html",
-  // share: "http://192.168.10.240:8080/light/mapgis/view/share.html"
-  // share: "http://192.168.1.240:8080/KT_DFB_Web/mapgis/view/share.html",
-};
+// console.log(localhost)
+var filePath = {};
 var config = {
   //时间转换
   formatDate: function(now) {

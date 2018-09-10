@@ -980,7 +980,7 @@ var indexPage = {
   inspecting: function(etc) {
     $.ajax({
       type: "POST",
-      url: fileUrl.header98 + "/dfbinterface/mobile/inspect/GetSingleInspect", //后台接口地址
+      url: fileUrl.header88 + "/light/inspect/GetSingleInspect", //后台接口地址
       dataType: "json",
       data: { uuid: etc.uuid },
       success: function(data) {
