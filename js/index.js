@@ -34,7 +34,7 @@ var indexPage = {
     indexPage.getGovernance({ username: "admin" });
     indexPage.clickColor(numPage);
     indexPage.queryData("", layers);
-    $("#msgWrap").load("./view/message.html");
+    $("#msgWrap").load("view/message.html");
     //拖拽
     config.drag("tableList");
     config.drag("details");
@@ -426,7 +426,7 @@ var indexPage = {
       $("#searchResult").hide();
     });
     $(document).on("click", "#message", function() {
-      $("#msgWrap").load("./view/message.html");
+      $("#msgWrap").load("view/message.html");
       if ($("#msgWrap").css("display") == "none") {
         $("#msgWrap").show();
       } else if ($("#msgWrap").css("display") == "block") {
@@ -504,11 +504,20 @@ var indexPage = {
       $("#tableWrap").hide();
     });
     // 快捷;
+
     $(document).on("click", "#zqsb", function() {
-      window.open(fileUrl.header + "/light/fzSite/addSiteView");
+      window.parent.addTab({
+        url: "/light/fzSite/addSiteView",
+        title: "灾情点上报",
+        iconCls: ""
+      });
     });
     $(document).on("click", "#zljh", function() {
-      window.open(fileUrl.header + "/light/plan/manager");
+      window.parent.addTab({
+        url: "/light/plan/manager",
+        title: "防止计划",
+        iconCls: ""
+      });
     });
   },
   changeMap: function(layers) {
