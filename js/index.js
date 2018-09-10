@@ -69,22 +69,34 @@ var indexPage = {
       if (numPage > 1) {
         numPage--;
         indexPage.tableList(jsonData, numPage);
-        $(this)
+        var _activeColor = $(".activeColor");
+        $("#arrCenter")
+          .find(".activeColor")
+          .removeClass("activeColor")
           .prev()
-          .addClass("activeColor")
-          .siblings()
-          .removeClass("activeColor");
+          .addClass("activeColor");
+
+        // $(this)
+        //   .prev()
+        //   .addClass("activeColor")
+        //   .siblings()
+        //   .removeClass("activeColor");
       }
     });
     $("#arrR").on("click", function() {
       if (numPage < numPageS) {
         numPage++;
         indexPage.tableList(jsonData, numPage);
-        $(this)
+        $("#arrCenter")
+          .find(".activeColor")
+          .removeClass("activeColor")
           .next()
-          .addClass("activeColor")
-          .siblings()
-          .removeClass("activeColor");
+          .addClass("activeColor");
+        // $(this)
+        //   .next()
+        //   .addClass("activeColor")
+        //   .siblings()
+        //   .removeClass("activeColor");
       }
     });
     $("#arrCenter").on("click", "a", function() {
@@ -555,8 +567,9 @@ var indexPage = {
   paging: function(num) {
     var numpage = "";
     numPageS = Math.ceil(num / pageNum);
-    for (let i = 1; i < Math.ceil(num / pageNum) + 1; i++) {
-      numpage += "<a class='activeColor'>" + i + "</a>";
+    numpage += "<a class='activeColor'>" + 1 + "</a>";
+    for (let i = 2; i < Math.ceil(num / pageNum) + 1; i++) {
+      numpage += "<a>" + i + "</a>";
     }
     $("#arrCenter").html(numpage);
   },
