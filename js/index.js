@@ -970,7 +970,6 @@ var indexPage = {
       jsonp: "callback",
       success: function(data) {
         if (data.success == "0") {
-          console.log(data);
           indexPage.detailsSpotHtml(etc, data.result);
         }
       }
@@ -984,7 +983,8 @@ var indexPage = {
       dataType: "json",
       data: { uuid: etc.uuid },
       success: function(data) {
-        if (data.success == "0") {
+        console.log(data);
+        if (data.success == true) {
           historyData = {
             data: data.result,
             etc: etc,
@@ -992,6 +992,9 @@ var indexPage = {
           };
           indexPage.inspectingHtml(historyData);
         }
+      },
+      error: function(err) {
+        console.log();
       }
     });
   },
