@@ -184,7 +184,7 @@ body {
   width: 35px;
   height: 61px;
   transform: translateY(-50%);
-  background: url("/img/prev.png") no-repeat;
+  background: url("../../img/prev.png") no-repeat;
 }
 .mask-wrap .mask-IV .next {
   background-color: #ffffff;
@@ -194,7 +194,7 @@ body {
   width: 35px;
   height: 61px;
   transform: translateY(-50%);
-  background: url("/img/next.png") no-repeat;
+  background: url("../../img/next.png") no-repeat;
 }
 .mask-wrap .qrcode {
   display: none;
@@ -221,7 +221,7 @@ body {
   top: 30px;
   right: 30px;
   padding: 6px;
-  background: url("view/img/closegray.png") no-repeat;
+  background: url("../../img/closegray.png") no-repeat;
 }
 .mask-wrap .qrcode .qrcode-center {
   padding: 15px 0 15px 0;

@@ -109,7 +109,6 @@ var share = {
     });
   },
   queryData: function() {
-    console.log(getRequest().disasterid)
     $.ajax({
       url: fileUrl.header98 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "GET",
@@ -161,15 +160,17 @@ var share = {
         <video  src="${videoUrlArr[i]}"  width="100%" src="" >暂无视频</video>
     </li>`;
     }
-
+    function isTrue(value) {
+      return value ? value : "";
+    }
     var headerHTML = `
             <span></span>
-            <h2>${handle.disastername}</h2>
-            <p id="ids">编号（${handle.id}）</p>`;
+            <h2>${isTrue(handle.disastername)}</h2>
+            <p id="ids">编号（${isTrue(handle.id)}）</p>`;
     $("#headerHTML").html(headerHTML);
     // warnlevel
     var warnlevel = "";
-    switch (handle.warnlevel) {
+    switch (isTrue(handle.warnlevel)) {
       case "1":
         warnlevel = "Ⅰ级";
         break;
@@ -183,36 +184,37 @@ var share = {
         warnlevel = "Ⅳ级";
         break;
       default:
+        warnlevel = "";
         break;
     }
     var sectionHTML = `<div class="address">
     <div class="address1">
         <p>
             <span>地址：</span>
-            <span id="address">${handle.addressname}</span>
+            <span id="address">${isTrue(handle.addressname)}</span>
         </p>
         <p>
             <span>隶属：</span>
-            <span id="liShu">${handle.department}</span>
+            <span id="liShu">${isTrue(handle.department)}</span>
         </p>
     </div>
     <p>
         <span>上报时间：</span>
-        <span id="time">${config.formatDate(handle.createtime)}</span>
+        <span id="time">${isTrue(handle.createtime)}</span>
     </p>
     <p>
         <span>灾情描述：</span>
-        <span>西南门的路中间发生一处长1.2米，宽1.1米，深30公分的地坑，暂无人员伤亡。</span>
+        <span>${isTrue(handle.process)}</span>
     </p>
 </div>
 <div class="details">
     <p>
         <span>坍塌规模：</span>
-        <span>${handle.collapsescale}</span>
+        <span>${isTrue(handle.collapsescale)}</span>
     </p>
     <p>
         <span>坍塌危害：</span>
-        <span>财务损失100万元，人员伤亡5人，死亡0人。</span>
+        <span>${isTrue(handle.department)}</span>
     </p>
     <p>
         <span>灾情等级：</span>
@@ -222,15 +224,15 @@ var share = {
 <div class="reason">
     <p>
         <span>引发因素：</span>
-        <span>${handle.reason}</span>
+        <span>${isTrue(handle.reason)}</span>
     </p>
     <p>
         <span>坍塌原因：</span>
-        <span>排水管道破损导致，由街道办组织施工队抢修排水管道。</span>
+        <span>${isTrue(handle.department)}</span>
     </p>
     <p>
         <span>应急处理：</span>
-        <span>警戒围挡</span>
+        <span>${isTrue(handle.department)}</span>
     </p>
 </div>
 <div class="photo" id="photoImg">
