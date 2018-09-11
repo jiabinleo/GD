@@ -109,12 +109,15 @@ var share = {
     });
   },
   queryData: function() {
+    console.log(getRequest().disasterid)
     $.ajax({
-      url: fileUrl.header88 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
-      type: "POST",
-      dataType: "json",
+      url: fileUrl.header98 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
+      type: "GET",
+      dataType: "jsonp",
+      callback: "result",
       data: { disasterid: getRequest().disasterid },
       success: function(data) {
+        console.log(data);
         if (data.success == "0") {
           if (data.hasOwnProperty("result")) {
             share.htmlL(data.result);

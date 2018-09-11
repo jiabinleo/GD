@@ -497,7 +497,7 @@ var indexPage = {
     $(document).on("click", "#zqsb", function() {
       window.parent.addTab({
         url: "/light/fzSite/addSiteView",
-        title: "灾情点上报",
+        title: "灾情上报",
         iconCls: ""
       });
     });
@@ -523,7 +523,7 @@ var indexPage = {
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
       dataType: "jsonp",
       data: data,
-      jsonp: "callback",
+      callback: "callback",
       success: function(data) {
         if (data.success === "0") {
           jsonData = data.result;
@@ -545,7 +545,7 @@ var indexPage = {
       type: "GET",
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
       dataType: "jsonp",
-      jsonp: "callback",
+      callback: "callback",
       success: function(data) {
         var result = data.result;
         var selectconten = "<option value='全部'>全部</option>";
@@ -608,7 +608,7 @@ var indexPage = {
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/Getypecount",
       dataType: "jsonp",
       data: data,
-      jsonp: "callback",
+      callback: "callback",
       success: function(data) {
         console.log(data);
         if (data.success == "0") {
@@ -958,7 +958,7 @@ var indexPage = {
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
       dataType: "jsonp",
       data: data,
-      jsonp: "callback",
+      callback: "callback",
       success: function(data) {
         if (data.success == "0") {
           indexPage.detailsSpotHtml(etc, data.result);
