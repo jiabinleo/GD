@@ -792,6 +792,7 @@
   padding-bottom: 10px;
 }
 .wrap .details .details-content .weather p span {
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: caiyunColor 3s infinite;
@@ -1138,6 +1139,10 @@
   border: none;
   color: #333333;
   border-radius: 5px;
+  transform: translate(-45%, -40px) !important;
+  padding: 10px;
+  box-shadow: 5px 5px 15px 5px rgba(51, 51, 51, 0.1);
+  letter-spacing: 0.2em;
 }
 .wrap .msgWrap {
   display: none;

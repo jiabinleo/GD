@@ -301,8 +301,6 @@
       span {
         float: left;
         line-height: 47px;
-        &:first-of-type {
-        }
         &:nth-of-type(2) {
           float: right;
         }
@@ -750,8 +748,6 @@
               overflow: hidden;
               float: left;
               margin: 6px;
-              &:last-of-type {
-              }
               img {
                 width: 150px;
                 height: 107px;
@@ -824,8 +820,6 @@
               overflow: hidden;
               float: left;
               margin: 6px;
-              &:last-of-type {
-              }
               img {
                 width: 150px;
               }
@@ -853,6 +847,7 @@
           font-size: 16px;
           padding-bottom: 10px;
           span {
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: caiyunColor 3s infinite;
@@ -1120,8 +1115,6 @@
       .patrolTrack-wrap {
         width: 100%;
         height: 300px;
-        p {
-        }
         .patrolTrack-inner {
           height: 30vh;
           .containerTrack {
@@ -1201,6 +1194,10 @@
     border: none;
     color: #333333;
     border-radius: 5px;
+    transform: translate(-45%, -40px) !important;
+    padding: 10px;
+    box-shadow: 5px 5px 15px 5px RGBA(51, 51, 51, 0.1);
+    letter-spacing: 0.2em;
   }
   .msgWrap {
     display: none;
@@ -1333,4 +1330,7 @@
       to(rgb(0, 255, 0))
     );
   }
+}
+
+.amap-marker-label {
 }

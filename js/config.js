@@ -4,7 +4,9 @@ var fileUrl = {
   header98: "http://192.168.1.240:8098"
 };
 // console.log(localhost)
-var filePath = {};
+var filePath = {
+  share: "http://192.168.1.240:8088/light/mapgis/view/share.html"
+};
 var config = {
   //时间转换
   formatDate: function(now) {

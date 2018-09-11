@@ -75,12 +75,6 @@ var indexPage = {
           .removeClass("activeColor")
           .prev()
           .addClass("activeColor");
-
-        // $(this)
-        //   .prev()
-        //   .addClass("activeColor")
-        //   .siblings()
-        //   .removeClass("activeColor");
       }
     });
     $("#arrR").on("click", function() {
@@ -92,11 +86,6 @@ var indexPage = {
           .removeClass("activeColor")
           .next()
           .addClass("activeColor");
-        // $(this)
-        //   .next()
-        //   .addClass("activeColor")
-        //   .siblings()
-        //   .removeClass("activeColor");
       }
     });
     $("#arrCenter").on("click", "a", function() {
@@ -621,6 +610,7 @@ var indexPage = {
       data: data,
       jsonp: "callback",
       success: function(data) {
+        console.log(data);
         if (data.success == "0") {
           $("#ungovern").html(data.result.suspending);
           $("#ingovern").html(data.result.solved);
@@ -733,7 +723,8 @@ var indexPage = {
             marker.content = tData;
             marker.on("click", markerClick);
             marker.setLabel({
-              offset: new AMap.Pixel(-100, -25), //修改label相对于maker的位置
+              offset: new AMap.Pixel(0, 0), //修改label相对于maker的位置
+              // offset: new AMap.Pixel(-100, -25), //修改label相对于maker的位置
               content: tData.addressname
             });
             markers.push(marker);
