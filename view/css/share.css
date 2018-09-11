@@ -411,7 +411,7 @@ body {
     width: 35px;
     height: 61px;
     transform: translateY(-50%);
-    background: url("/img/prev.png") no-repeat;
+    background: url("../../img/prev.png") no-repeat;
   }
   .mask-wrap .mask-IV .next {
     background-color: #ffffff;
@@ -421,7 +421,7 @@ body {
     width: 35px;
     height: 61px;
     transform: translateY(-50%);
-    background: url("/img/next.png") no-repeat;
+    background: url("../../img/next.png") no-repeat;
   }
   .mask-wrap .qrcode {
     display: none;
