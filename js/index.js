@@ -248,7 +248,9 @@ var indexPage = {
       indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
         `<div class="prev"></div>
-      <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
+      <img id="vid" src="${
+        imgTanArr[indexImgVideo]
+      }" alt="暂无图片">
       <div class="next"></div>`
       );
       $(".mask-wrap").show();
@@ -1252,7 +1254,9 @@ var indexPage = {
         imgMini++;
         imgArr.push(data.attachList[i].url_path);
         imgHtml += `<li class="imgMin" index="${imgMini - 1}">
-        <img width="100%" src="${data.attachList[i].url_path}" alt="暂无图片">
+        <img width="100%" src="${
+          data.attachList[i].url_path
+        }" alt="暂无图片">
         <a>${config.formatDate(data.attachList[i].createtime)}</a>
         </li>`;
       } else if (data.attachList[i].filetype === "2") {
