@@ -211,6 +211,14 @@ var indexPage = {
         warnlevel: "",
         managestate: managestate
       };
+      for (let i = 0; i < $("[name='check']").length; i++) {
+        $("[name='check']")
+          .eq(i)
+          .removeClass("checkTrue")
+          .addClass("checkFalse");
+      }
+      dtype = [];
+      areaname = [];
       indexPage.queryData(data, layers);
     });
     //周边详情
