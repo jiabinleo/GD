@@ -286,7 +286,7 @@ var indexPage = {
       indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
         `<div class="prev"></div>
-        <video id="vid" muted pause="" width="100%" 
+        <video id="vid" controls="controls" muted pause="" width="100%" 
         src="${videoTanArr[indexImgVideo]}" 
         class="pause">暂无视频</video>
         <div class="next"></div>`
