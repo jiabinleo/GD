@@ -376,9 +376,12 @@ body {
   .wrap section .photo ul li img {
     width: 100%;
   }
+  .wrap footer .qrCode div {
+    width: 7.68rem;
+    height: 7.68rem;
+  }
   .shareBtn {
-    top: 30px;
-    right: 30px;
+    display: none;
   }
   .mask-wrap .mask-IV {
     display: none;
@@ -423,118 +426,5 @@ body {
     height: 61px;
     transform: translateY(-50%);
     background: url("../../img/next.png") no-repeat;
-  }
-  .mask-wrap .qrcode {
-    display: none;
-    position: absolute;
-    z-index: 20;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    height: auto;
-    background-color: #ffffff;
-    box-shadow: 5px 5px 15px rgba(51, 51, 51, 0.3);
-    border-radius: 5px;
-    padding: 30px;
-  }
-  .mask-wrap .qrcode h3 {
-    font-size: 20px;
-    color: #333333;
-    font-weight: bold;
-    font-family: "PingFang-SC-Bold";
-  }
-  .mask-wrap .qrcode .closegray {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    padding: 6px;
-    background: url("../../img/closegray.png") no-repeat;
-  }
-  .mask-wrap .qrcode .qrcode-center {
-    padding: 15px 0 15px 0;
-    font-size: 0;
-  }
-  .mask-wrap .qrcode .qrcode-center span {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-    height: 42px;
-    border: solid 1px #d3d3d3;
-    line-height: 42px;
-    text-indent: 14px;
-    font-size: 16px;
-    color: #333333;
-    font-weight: 500;
-    border-radius: 5px;
-    user-select: text;
-  }
-  .mask-wrap .qrcode .qrcode-center input {
-    color: #ffffff;
-    width: 60px;
-    height: 28px;
-    background-color: #50bbfb;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    margin-left: 20%;
-    margin-top: 20px;
-    outline: none;
-    vertical-align: 15px;
-  }
-  .mask-wrap .qrcode .qrcode-center input:nth-of-type(2) {
-    background-color: #f45d2e;
-  }
-  .mask-wrap .qrcode p {
-    color: #999999;
-    font-size: 12px;
-    margin-top: -10px;
-  }
-  .mask-copy {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 30;
-    background: rgba(0, 0, 0, 0.5);
-  }
-  .mask-copy .mask-inner-copy {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    height: 100px;
-    background: #ffffff;
-    z-index: 40;
-    border-radius: 5px;
-    padding: 30px;
-  }
-  .mask-copy .mask-inner-copy p {
-    overflow: hidden;
-  }
-  .mask-copy .mask-inner-copy p:first-of-type {
-    font-size: 18px;
-  }
-  .mask-copy .mask-inner-copy p:nth-of-type(2) {
-    font-size: 14px;
-    line-height: 40px;
-  }
-  .mask-copy .mask-inner-copy p:last-of-type input {
-    float: right;
-    color: #ffffff;
-    width: 76px;
-    height: 42px;
-    background-color: #50bbfb;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    margin-left: 15px;
-    outline: none;
-    vertical-align: 15px;
   }
 }
