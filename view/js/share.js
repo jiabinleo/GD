@@ -109,6 +109,7 @@ var share = {
     });
   },
   queryData: function() {
+    console.log("//")
     $.ajax({
       url: fileUrl.header98 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "GET",
@@ -157,7 +158,7 @@ var share = {
       videoHTML += ` <li fileTYpe = "2" class="minIV" urlSrc="${
         videoUrlArr[i]
       }">
-        <video  src="${videoUrlArr[i]}"  width="100%" src="" >暂无视频</video>
+        <video src="${videoUrlArr[i]}"  width="100%" src="" >暂无视频</video>
     </li>`;
     }
     function isTrue(value) {

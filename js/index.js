@@ -305,7 +305,7 @@ var indexPage = {
       indexImgVideo = $(this).attr("index");
       $(".mask-img").html(
         `<div class="prev"></div>
-        <video id="vid" muted pause="" width="100%" 
+        <video id="vid" controls="controls" muted pause="" width="100%" 
         src="${videoTanArr[indexImgVideo]}" 
         class="pause">暂无视频</video>
         <div class="next"></div>`
@@ -1024,7 +1024,7 @@ var indexPage = {
           videoMini++;
           detailVideoArr.push(activeData.attach[i].url_path);
           detail_video += `<li class="videoMinDetail" index="${videoMini - 1}">
-          <video pause="" width="100%" src="${
+          <video controls="controls" muted pause="" width="100%" src="${
             activeData.attach[i].url_path
           }" class="pause">暂无视频</video></li>`;
         }
@@ -1263,7 +1263,7 @@ var indexPage = {
         videoMini++;
         videoArr.push(data.attachList[i].url_path);
         videoHtml += `<li class="videoMin" index="${videoMini - 1}">
-        <video pause="" width="100%" src="${
+        <video  width="100%" src="${
           data.attachList[i].url_path
         }" class="pause">暂无视频</video>
         <a>${config.formatDate(data.attachList[i].createtime)}</a>
