@@ -27,7 +27,7 @@ var msg = {
       );
       $("#msgWrap_list").hide();
       $("#msgWrap_details").show();
-      if ($(this).attr("isreads") === "1") {
+      if ($(this).attr("isreads") === "0") {
         msg.readNewMessage($(this).attr("data-id"));
       }
     });
@@ -59,9 +59,9 @@ var msg = {
       readYes = [],
       readNo = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i].isread === "1") {
+      if (data[i].isread === "0") {
         readNo.push(data[i]);
-      } else if (data[i].isread === "0") {
+      } else if (data[i].isread === "1") {
         readYes.push(data[i]);
       }
     }
@@ -75,11 +75,11 @@ var msg = {
     for (let i = 0; i < data.length; i++) {
       switch (data[i].isread) {
         case "0":
-          isRead = "已读";
+          isRead = "未读";
           isreadStatus = "read0";
           break;
         case "1":
-          isRead = "未读";
+          isRead = "已读";
           isreadStatus = "read1";
           break;
       }
@@ -104,7 +104,7 @@ var msg = {
           </div>
           </li>`;
     }
-    $(".read1").css({ "background-color": "#50bbfb" });
+    $(".read0").css({ "background-color": "#50bbfb" });
     $("#msgSection").html(msgListHtml);
   },
   //更新阅读状态
@@ -115,9 +115,10 @@ var msg = {
       dataType: "json",
       data: {
         id: id,
-        isread: "0"
+        isread: "1"
       },
       success: function(data) {
+        console.log(data);
         if (data.success == "0") {
           msg.queryData(data.result);
         }

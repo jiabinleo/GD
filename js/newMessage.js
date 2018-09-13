@@ -15,9 +15,10 @@ var newMessage = {
     });
   },
   updateMessage: function(data) {
+    console.log(data)
     var flag = false;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].isread === "1") {
+      if (data[i].isread === "0") {
         flag = true;
       }
     }
@@ -35,5 +36,5 @@ var newMessage = {
 $(function() {
   setInterval(function() {
     newMessage.queryData();
-  }, 15000);
+  }, 5000);
 });

@@ -109,7 +109,7 @@ var share = {
     });
   },
   queryData: function() {
-    console.log("//")
+    console.log("//");
     $.ajax({
       url: fileUrl.header98 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "GET",
@@ -149,7 +149,7 @@ var share = {
     imgHTML = "";
     for (let i = 0; i < imgUrlArr.length; i++) {
       imgHTML += ` <li fileTYpe = "1" class="minIV" urlSrc="${imgUrlArr[i]}">
-        <img src="${imgUrlArr[i]}" alt="">
+        <img src="${imgUrlArr[i]}" alt="" onerror=src="../../img/loading.gif">
     </li>`;
     }
 

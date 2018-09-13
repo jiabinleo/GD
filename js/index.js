@@ -995,7 +995,7 @@ var indexPage = {
         }
       },
       error: function(err) {
-        console.log();
+        console.log(err);
       }
     });
   },
