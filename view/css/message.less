@@ -10,7 +10,8 @@ body {
   height: 100%;
   header {
     font-size: 18px;
-    height: 5vh;
+    height: 8vh;
+    max-height: 50px;
     padding: 3vh 3vh 0vh 3vh;
     div {
       padding-bottom: 19px;
@@ -26,26 +27,31 @@ body {
     }
   }
   section {
-    height: 474px;
+    // height: 474px;
+    height: 48vh;
     overflow-y: auto;
     padding-left: 30px;
     ul {
       overflow: hidden;
       li {
         height: 107px;
-        margin: 15px 10px 20px 0;
+        // margin: 15px 10px 20px 0;
+        margin: 3% 2% 4% 0;
         border-bottom: solid 1px #eeeeee;
         overflow: hidden;
         font-size: 16px;
         font-weight: 500;
         .msgLeft {
           float: left;
-          width: 90px;
+          max-width: 90px;
+          width: 10%;
           height: 107px;
           padding-top: 3px;
+          overflow: hidden;
           span {
             display: inline-block;
-            width: 87px;
+            max-width: 87px;
+            width: 100%;
             height: 30px;
 
             text-align: center;
@@ -63,7 +69,8 @@ body {
         }
         .msgRight {
           float: right;
-          width: 600px;
+          max-width: 600px;
+          width: 85%;
           padding-right: 20px;
           p {
             color: #666666;

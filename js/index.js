@@ -518,6 +518,13 @@ var indexPage = {
         iconCls: ""
       });
     });
+    console.log($("#retrievalBox").height()); //490.609//560//495.297
+    if ($("#retrievalBox").height() < 500) {
+      pageNum = 3; //每页显示的数量
+    }
+    // $(document).on("click", "#msgWrap_details", function(e) {
+    //   window.event? window.event.cancelBubble = true : e.stopPropagation();
+    // });
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
