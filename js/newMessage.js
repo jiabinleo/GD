@@ -15,7 +15,6 @@ var newMessage = {
     });
   },
   updateMessage: function(data) {
-    console.log(data)
     var flag = false;
     for (let i = 0; i < data.length; i++) {
       if (data[i].isread === "0") {

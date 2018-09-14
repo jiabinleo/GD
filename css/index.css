@@ -4,8 +4,13 @@
   list-style: none;
   user-select: none;
 }
+body,
+html {
+  min-width: 1000px;
+}
 .wrap {
   position: relative;
+  min-width: 1000px;
   width: 100wh;
   height: 100vh;
   overflow: hidden;
@@ -285,14 +290,15 @@
 .wrap .retrievalBox .retrievalBox-content {
   height: 549px;
   width: 315px;
-  height: 83%;
+  height: 81%;
   max-height: 475px;
   padding: 0 30px;
   font-size: 14px;
 }
 .wrap .retrievalBox .retrievalBox-content p {
   color: #666666;
-  height: 48px;
+  max-height: 48px;
+  height: 6vh;
   line-height: 48px;
 }
 .wrap .retrievalBox .retrievalBox-content p.disasterType span {
@@ -502,8 +508,8 @@
 }
 .wrap .tableList {
   position: absolute;
-  top: 189px;
-  right: 464px;
+  top: 97px;
+  left: 404px;
   width: 330px;
   display: none;
   border-radius: 5px;
@@ -512,7 +518,7 @@
 }
 .wrap .details {
   position: absolute;
-  top: 50px;
+  top: 30px;
   left: 50px;
   width: 583px;
   overflow: hidden;
@@ -1147,6 +1153,12 @@
   box-shadow: 5px 5px 15px 5px rgba(51, 51, 51, 0.1);
   letter-spacing: 0.2em;
 }
+.wrap .toolL {
+  position: absolute;
+  top: 20px;
+  left: 150px;
+  background-color: #ffffff;
+}
 .wrap .msgWrap {
   display: none;
   width: 50%;
@@ -1170,7 +1182,7 @@
 }
 .wrap .legends {
   padding-left: 10px;
-  height: 160px;
+  height: 117px;
   position: absolute;
   left: 10px;
   bottom: 10px;
@@ -1178,15 +1190,15 @@
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 5px 5px 15px 5px rgba(51, 51, 51, 0.1);
-  font-size: 14px;
+  font-size: 12px;
 }
 .wrap .legends p {
-  line-height: 40px;
+  line-height: 29px;
 }
 .wrap .legends p:first-of-type span {
-  padding: 0px 10px;
+  padding: 0px 8px;
   display: inline-block;
-  height: 12px;
+  height: 10px;
   background: #ff0000;
   border-radius: 3px;
 }
@@ -1195,9 +1207,9 @@
   color: #ff0000;
 }
 .wrap .legends p:nth-of-type(2) span {
-  padding: 0px 10px;
+  padding: 0px 8px;
   display: inline-block;
-  height: 12px;
+  height: 10px;
   background: #fa9d0a;
   border-radius: 3px;
 }
@@ -1206,9 +1218,9 @@
   color: #fa9d0a;
 }
 .wrap .legends p:nth-of-type(3) span {
-  padding: 0px 10px;
+  padding: 0px 8px;
   display: inline-block;
-  height: 12px;
+  height: 10px;
   background: #0aa2fa;
   border-radius: 3px;
 }
@@ -1217,9 +1229,9 @@
   color: #0aa2fa;
 }
 .wrap .legends p:nth-of-type(4) span {
-  padding: 0px 10px;
+  padding: 0px 8px;
   display: inline-block;
-  height: 12px;
+  height: 10px;
   background: #666666;
   border-radius: 3px;
 }
@@ -1245,5 +1257,16 @@
   }
   100% {
     background-image: -webkit-gradient(linear, left 0, right 0, from(#ff0000), to(#00ff00));
+  }
+}
+@media screen and (max-width: 1400px) {
+  .wrap .retrievalBox .retrievalBox-title {
+    height: 40px;
+  }
+  .wrap .retrievalBox .retrievalBox-content {
+    font-size: 12px;
+  }
+  .wrap .retrievalBox .retrievalBox-content .button {
+    height: 34px;
   }
 }

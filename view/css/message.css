@@ -8,8 +8,7 @@
 }
 .msgWrap-list header {
   font-size: 18px;
-  height: 8vh;
-  max-height: 50px;
+  height: 50px;
   padding: 3vh 3vh 0vh 3vh;
 }
 .msgWrap-list header div {
@@ -25,7 +24,8 @@
   background: url("../../img/closegray.png") no-repeat;
 }
 .msgWrap-list section {
-  height: 48vh;
+  height: 45vh;
+  max-height: 474px;
   overflow-y: auto;
   padding-left: 30px;
 }
@@ -68,7 +68,7 @@
 .msgWrap-list section ul li .msgRight {
   float: right;
   max-width: 600px;
-  width: 85%;
+  width: 80%;
   padding-right: 20px;
 }
 .msgWrap-list section ul li .msgRight p {
@@ -118,7 +118,8 @@
   background: url("../../img/closegray.png") no-repeat;
 }
 .msgWrap-details section {
-  height: 446px;
+  height: 35vh;
+  max-height: 446px;
   overflow-y: auto;
   padding: 30px 30px 0 30px;
   font-weight: 500;
@@ -138,4 +139,24 @@
 }
 .msgWrap-details section p:last-of-type span:last-of-type {
   float: right;
+}
+@media screen and (max-width: 1400px) {
+  .msgWrap-list header div {
+    font-size: 22px;
+  }
+  .msgWrap-list section ul li {
+    height: 78px;
+  }
+  .msgWrap-list section ul li .msgLeft {
+    font-size: 12px;
+  }
+  .msgWrap-list section ul li .msgRight {
+    font-size: 12px;
+  }
+  .msgWrap-details header div span {
+    font-size: 22px;
+  }
+  .msgWrap-details section p:first-of-type {
+    font-size: 12px;
+  }
 }

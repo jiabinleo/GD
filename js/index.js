@@ -503,28 +503,28 @@ var indexPage = {
       $("#tableWrap").hide();
     });
     // 快捷;
+    $(document).on("click", ".tools", function() {
+      $("#toolL").load("view/toolsPage.html");
+      $("#toolL").show();
+    });
 
-    $(document).on("click", "#zqsb", function() {
-      window.parent.addTab({
-        url: "/light/fzSite/addSiteView",
-        title: "灾情上报",
-        iconCls: ""
-      });
-    });
-    $(document).on("click", "#zljh", function() {
-      window.parent.addTab({
-        url: "/light/plan/manager",
-        title: "防止计划",
-        iconCls: ""
-      });
-    });
-    console.log($("#retrievalBox").height()); //490.609//560//495.297
+    // $(document).on("click", "#zqsb", function() {
+    //   window.parent.addTab({
+    //     url: "/light/fzSite/addSiteView",
+    //     title: "灾情上报",
+    //     iconCls: ""
+    //   });
+    // });
+    // $(document).on("click", "#zljh", function() {
+    //   window.parent.addTab({
+    //     url: "/light/plan/manager",
+    //     title: "防止计划",
+    //     iconCls: ""
+    //   });
+    // });
     if ($("#retrievalBox").height() < 500) {
       pageNum = 3; //每页显示的数量
     }
-    // $(document).on("click", "#msgWrap_details", function(e) {
-    //   window.event? window.event.cancelBubble = true : e.stopPropagation();
-    // });
   },
   changeMap: function(layers) {
     map = new AMap.Map("container", {
@@ -1026,7 +1026,9 @@ var indexPage = {
           imgMini++;
           detailImgArr.push(activeData.attach[i].url_path);
           detail_img += `<li class="imgMinDetail" index="${imgMini - 1}">
-          <img src="${activeData.attach[i].url_path}" alt=""></li>`;
+          <img src="${
+            activeData.attach[i].url_path
+          }"  onerror=src="./img/loading.gif" alt="暂无图片"></li>`;
         } else if (activeData.attach[i].filetype === "2") {
           videoMini++;
           detailVideoArr.push(activeData.attach[i].url_path);
@@ -1389,6 +1391,13 @@ var indexPage = {
                 </p>
             </li>
         </ul>
+    </div>
+    <div>
+      <ul>
+          <li>应急专家</li>
+          <li>抢险队伍</li>
+          <li>抢险工具</li>
+      </ul>
     </div>
 </div>`;
 

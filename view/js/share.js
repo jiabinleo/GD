@@ -149,7 +149,7 @@ var share = {
     imgHTML = "";
     for (let i = 0; i < imgUrlArr.length; i++) {
       imgHTML += ` <li fileTYpe = "1" class="minIV" urlSrc="${imgUrlArr[i]}">
-        <img src="${imgUrlArr[i]}" alt="" onerror=src="../../img/loading.gif">
+        <img src="${imgUrlArr[i]}" alt="">
     </li>`;
     }
 
