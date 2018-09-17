@@ -831,6 +831,9 @@ html {
   width: 48px;
   height: 38px;
 }
+.wrap .details .details-content .else p {
+  padding-top: 10px;
+}
 .wrap .details .details-content .else ul {
   overflow: hidden;
 }
@@ -1155,9 +1158,66 @@ html {
 }
 .wrap .toolL {
   position: absolute;
-  top: 20px;
-  left: 150px;
+  left: 137px;
+  top: 78px;
+  display: none;
   background-color: #ffffff;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 700px;
+  padding-bottom: 10px;
+  box-shadow: 5px 5px 15px 5px rgba(51, 51, 51, 0.1);
+}
+.wrap .toolL header {
+  background-color: #50bbfb;
+  padding: 0 30px;
+  line-height: 47px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+}
+.wrap .toolL header i {
+  background: url("../img/close.png") no-repeat;
+  float: right;
+  padding: 7px;
+  margin-top: -30px;
+}
+.wrap .toolL section {
+  padding: 10px 10px 10px 30px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.wrap .toolL section table {
+  border-collapse: collapse;
+  border: none;
+  width: 100%;
+}
+.wrap .toolL section table thead {
+  width: 100%;
+}
+.wrap .toolL section table thead tr {
+  width: 100%;
+  border-bottom: solid 1px #f3f3f3;
+}
+.wrap .toolL section table thead tr th {
+  line-height: 30px;
+  text-align: left;
+  padding: 0 10px;
+}
+.wrap .toolL section table tbody {
+  overflow-y: auto;
+  height: 100px;
+}
+.wrap .toolL section table tbody tr {
+  line-height: 30px;
+  border-bottom: solid 1px #f3f3f3;
+}
+.wrap .toolL section table tbody tr:hover {
+  background-color: #50bbfb;
+  color: #FFFFFF;
+}
+.wrap .toolL section table tbody tr td {
+  padding: 0 10px;
 }
 .wrap .msgWrap {
   display: none;
@@ -1268,5 +1328,11 @@ html {
   }
   .wrap .retrievalBox .retrievalBox-content .button {
     height: 34px;
+  }
+  .wrap .toolL section table thead tr td {
+    font-size: 16px;
+  }
+  .wrap .toolL section table tbody tr td {
+    font-size: 14px;
   }
 }

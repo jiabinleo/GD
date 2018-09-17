@@ -100,7 +100,6 @@ var config = {
         ) {
           top = document.documentElement.clientHeight - box.offsetHeight;
         }
-
         box.style.left = left + "px";
         box.style.top = top + "px";
       };

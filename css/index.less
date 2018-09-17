@@ -890,6 +890,9 @@ html {
         }
       }
       .else {
+        p {
+          padding-top: 10px;
+        }
         ul {
           overflow: hidden;
           li {
@@ -1212,9 +1215,66 @@ html {
   }
   .toolL {
     position: absolute;
-    top: 20px;
-    left: 150px;
+    left: 137px;
+    top: 78px;
+    display: none;
     background-color: #ffffff;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 700px;
+    padding-bottom: 10px;
+    box-shadow: 5px 5px 15px 5px RGBA(51, 51, 51, 0.1);
+    header {
+      background-color: #50bbfb;
+      padding: 0 30px;
+      line-height: 47px;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: bold;
+      i {
+        background: url("../img/close.png") no-repeat;
+        float: right;
+        padding: 7px;
+        margin-top: -30px;
+      }
+    }
+    section {
+      padding: 10px 10px 10px 30px;
+      max-height: 50vh;
+      overflow-y: auto;
+      table {
+        border-collapse: collapse;
+        border: none;
+        width: 100%;
+        thead {
+          width: 100%;
+          tr {
+            width: 100%;
+            border-bottom: solid 1px #f3f3f3;
+            th {
+              line-height: 30px;
+              text-align: left;
+              padding: 0 10px;
+            }
+          }
+        }
+        tbody {
+          overflow-y: auto;
+          height: 100px;
+          tr {
+            line-height: 30px;
+            border-bottom: solid 1px #f3f3f3;
+            &:hover{
+                background-color: #50bbfb;
+                color: #FFFFFF;
+            }
+            td {
+              padding: 0 10px;
+            }
+          }
+        }
+      }
+    }
   }
   .msgWrap {
     display: none;
@@ -1366,5 +1426,25 @@ html {
         }
       }
     }
+      .toolL {
+        section {
+          table {
+            thead{
+              tr{
+                td{
+                  font-size: 16px;
+                }
+              }
+            }
+            tbody {
+              tr {
+                td{
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
   }
 }

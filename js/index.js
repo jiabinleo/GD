@@ -41,6 +41,7 @@ var indexPage = {
     config.drag("msgWrap");
     config.drag("inspectingDetail");
     config.drag("tableWrap");
+    config.drag("toolL");
   },
   listen: function() {
     //查询按钮
@@ -504,10 +505,11 @@ var indexPage = {
     });
     // 快捷;
     $(document).on("click", ".tools", function() {
-      $("#toolL").load("view/toolsPage.html");
-      $("#toolL").show();
+      indexPage.toolsShow($(this).attr("ids"));
     });
-
+    $(document).on("click", "#close7", function() {
+      $("#toolL").hide();
+    });
     // $(document).on("click", "#zqsb", function() {
     //   window.parent.addTab({
     //     url: "/light/fzSite/addSiteView",
@@ -1355,6 +1357,7 @@ var indexPage = {
         </ul>
     </div>
     <div class="else">
+    <p>周边详情</p>
         <ul lat=${data.fzsite.lat} lon=${data.fzsite.lon}>
             <li class="aroundList" data="学校">
                 <img src="img/school.png" alt="">
@@ -1391,13 +1394,6 @@ var indexPage = {
                 </p>
             </li>
         </ul>
-    </div>
-    <div>
-      <ul>
-          <li>应急专家</li>
-          <li>抢险队伍</li>
-          <li>抢险工具</li>
-      </ul>
     </div>
 </div>`;
 
@@ -1440,6 +1436,90 @@ var indexPage = {
       placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
       map.setZoomAndCenter(17, [lon, lat]);
     });
+  },
+
+  toolsShow: function(tools) {
+    console.log(tools);
+    var toolsUrl;
+    if (tools === "yjzjk") {
+      $("#toolsTitle").html("应急专家");
+      var toolsUrl =
+        fileUrl.header98 + "/dfbinterface/mobile/expertuser/GetExpert";
+    }
+    if (tools === "qxdw") {
+      $("#toolsTitle").html("抢险队伍");
+      toolsUrl =
+        fileUrl.header98 + "/dfbinterface/mobile/disasterteam/GetDisasterteam";
+    }
+    if (tools === "qxgj") {
+      $("#toolsTitle").html("抢险工具");
+      toolsUrl =
+        fileUrl.header98 + "/dfbinterface/mobile/disastertool/GetDisastertool";
+    }
+    $.ajax({
+      type: "GET",
+      url: toolsUrl,
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+        if (data.success === "0" && tools === "yjzjk") {
+          indexPage.yjzjk(data.result);
+        } else if (data.success === "0" && tools === "qxdw") {
+          indexPage.qxdw(data.result);
+        } else if (data.success === "0" && tools === "qxgj") {
+          indexPage.qxgj(data.result);
+        }
+        $("#toolL").show();
+      },
+      error: function(err) {
+        console.log(err);
+      }
+      // }
+    });
+  },
+  yjzjk: function(data) {
+    console.log(data);
+    var toolsHTML = `<thead><tr><th>姓名</th><th>单位</th><th>手机号</th><th>邮箱</th></tr></thead>`;
+    toolsHTML += `<tbody>`;
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].child.length; j++) {
+        toolsHTML += `<tr><td>${data[i].child[j].username}</td>
+        <td>${data[i].child[j].department}</td>
+        <td>${data[i].child[j].phone}</td>
+        <td>${data[i].child[j].email}</td>`;
+      }
+    }
+    toolsHTML += `</tbody>`;
+    $("#toolsHTML").html(toolsHTML);
+  },
+  qxdw: function(data) {
+    var toolsHTML = `<thead><tr><th>单位</th><th>联系人</th><th>联系电话</th></tr></thead>`;
+    toolsHTML += `<tbody>`;
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].child.length; j++) {
+        toolsHTML += `<tr><td>${data[i].child[j].department}</td>
+        <td>${data[i].child[j].manager}</td>
+        <td>${data[i].child[j].department}</td>`;
+      }
+    }
+    toolsHTML += `</tbody>`;
+    $("#toolsHTML").html(toolsHTML);
+  },
+  qxgj: function(data) {
+    console.log(data);
+    var toolsHTML = `<thead><tr><th>抢险工具名称</th><th>工具数量</th><th>所属单位</th><th>联系人</th><th>联系电话</th></tr></thead>`;
+    toolsHTML += `<tbody>`;
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].child.length; j++) {
+        toolsHTML += `<tr><td>${data[i].child[j].toolname}</td>
+        <td>${data[i].child[j].count}</td>
+        <td>${data[i].child[j].department}</td>
+        <td>${data[i].child[j].manager}</td>
+        <td>${data[i].child[j].managertel}</td></tr>`;
+      }
+    }
+    toolsHTML += `</tbody>`;
+    $("#toolsHTML").html(toolsHTML);
   }
 };
 indexPage.init();
