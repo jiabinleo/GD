@@ -369,7 +369,7 @@ html {
   border-radius: 3px;
   color: #ffffff;
   font-weight: 700;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 .wrap .retrievalBox .retrievalBox-content .status span {
   border-radius: 10px;
@@ -434,9 +434,9 @@ html {
 .wrap .retrievalBox .retrievalBox-content table tbody tr td {
   color: #999999;
 }
-.wrap .retrievalBox .retrievalBox-content table tbody tr td:nth-of-type(2) {
+.wrap .retrievalBox .retrievalBox-content table tbody tr td:first-of-type {
   display: inline-block;
-  width: 200px;
+  width: 250px;
   height: 20px;
   overflow: hidden;
   white-space: nowrap;
@@ -1230,7 +1230,14 @@ html {
     height: 5vh;
   }
   .wrap .retrievalBox .retrievalBox-content p.area {
-    margin-top: 0;
+    margin-top: 12px;
+  }
+  .wrap .retrievalBox .retrievalBox-content p.grade {
+    margin-top: 10px;
+  }
+  .wrap .retrievalBox .retrievalBox-content p.status {
+    margin-top: -16px;
+    margin-bottom: 10px;
   }
   .wrap .retrievalBox .retrievalBox-content .button {
     height: 34px;

@@ -201,40 +201,40 @@ var indexPage = {
       );
     });
     //根据状态筛选
-    $(".status").on("click", "span", function() {
-      $(this)
-        .addClass("insetActive")
-        .siblings()
-        .removeClass("insetActive");
-      areaname = $("#getAreaName option:selected").val();
-      if (dtype.length == 0 || dtype.length == 2) {
-        dtypes = "";
-      } else {
-        dtypes = dtype[0];
-      }
-      warnlevel = "";
-      for (let i = 0; i < gradename.length; i++) {
-        warnlevel += gradename[i] + ",";
-      }
-      warnlevel = warnlevel.substring(0, warnlevel.length - 1);
-      managestate = $(this).attr("data");
-      var data = {
-        year: "",
-        dtype: "",
-        areaid: "",
-        warnlevel: "",
-        managestate: managestate
-      };
-      for (let i = 0; i < $("[name='check']").length; i++) {
-        $("[name='check']")
-          .eq(i)
-          .removeClass("checkTrue")
-          .addClass("checkFalse");
-      }
-      dtype = [];
-      areaname = [];
-      indexPage.queryData(data, layers);
-    });
+    // $(".status").on("click", "span", function() {
+    //   $(this)
+    //     .addClass("insetActive")
+    //     .siblings()
+    //     .removeClass("insetActive");
+    //   areaname = $("#getAreaName option:selected").val();
+    //   if (dtype.length == 0 || dtype.length == 2) {
+    //     dtypes = "";
+    //   } else {
+    //     dtypes = dtype[0];
+    //   }
+    //   warnlevel = "";
+    //   for (let i = 0; i < gradename.length; i++) {
+    //     warnlevel += gradename[i] + ",";
+    //   }
+    //   warnlevel = warnlevel.substring(0, warnlevel.length - 1);
+    //   managestate = $(this).attr("data");
+    //   var data = {
+    //     year: "",
+    //     dtype: "",
+    //     areaid: "",
+    //     warnlevel: "",
+    //     managestate: managestate
+    //   };
+    //   for (let i = 0; i < $("[name='check']").length; i++) {
+    //     $("[name='check']")
+    //       .eq(i)
+    //       .removeClass("checkTrue")
+    //       .addClass("checkFalse");
+    //   }
+    //   dtype = [];
+    //   areaname = [];
+    //   indexPage.queryData(data, layers);
+    // });
     //周边详情
     $(document).on("click", ".aroundList", function() {
       indexPage.showPoint(jsonData, layers);
@@ -254,116 +254,6 @@ var indexPage = {
       $("#panel").hide();
       indexPage.showPoint(jsonData, layers);
     });
-    //放大图片
-    // $(document).on("click", ".imgMin", function() {
-    //   imgYes = true;
-    //   imgTanArr = imgArr;
-    //   nextNum = imgTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //   <img id="vid" onerror=src="./img/loading.gif" src="${
-    //     imgTanArr[indexImgVideo]
-    //   }" alt="加载中233.。。">
-    //   <div class="next"></div>`
-    //   );
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-    //放大巡查图片
-    // $(document).on("click", ".imgMinDetail", function() {
-    //   imgYes = true;
-    //   imgTanArr = detailImgArr;
-    //   nextNum = imgTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //   <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
-    //   <div class="next"></div>`
-    //   );
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-
-    // $(document).on("click", ".mask-wrap", function() {
-    //   $(".mask-wrap").hide();
-    //   $(".mask-img").hide();
-    //   $(".qrcode").hide();
-    // });
-    // $(document).on("click", ".mask-img > img", function() {
-    //   return false;
-    // });
-    //放大视频
-    // $(document).on("click", ".videoMin", function() {
-    //   imgYes = false;
-    //   videoTanArr = videoArr;
-    //   nextNum = videoTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //     <video id="vid" controls="controls" muted pause="" width="100%"
-    //     src="${videoTanArr[indexImgVideo]}"
-    //     class="pause">暂无视频</video>
-    //     <div class="next"></div>`
-    //   );
-    //   var maskImgHeight = $(".mask-img")[0].clientHeight;
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-    //放大巡查视频
-    // $(document).on("click", ".videoMinDetail", function() {
-    //   imgYes = false;
-    //   videoTanArr = detailVideoArr;
-    //   nextNum = videoTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //     <video id="vid" controls="controls" muted pause="" width="100%"
-    //     src="${videoTanArr[indexImgVideo]}"
-    //     class="pause">暂无视频</video>
-    //     <div class="next"></div>`
-    //   );
-    //   var maskImgHeight = $(".mask-img")[0].clientHeight;
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-    //视频图片切换
-    // $(document).on("click", ".prev", function() {
-    //   if (indexImgVideo > 0) {
-    //     indexImgVideo--;
-    //     if (imgYes) {
-    //       $("#vid").attr("src", imgTanArr[indexImgVideo]);
-    //     } else {
-    //       $("#vid").attr("src", videoTanArr[indexImgVideo]);
-    //     }
-    //   }
-    //   return false;
-    // });
-    // $(document).on("click", ".next", function() {
-    //   if (indexImgVideo < nextNum - 1) {
-    //     indexImgVideo++;
-    //     if (imgYes) {
-    //       $("#vid").attr("src", imgTanArr[indexImgVideo]);
-    //     } else {
-    //       $("#vid").attr("src", videoTanArr[indexImgVideo]);
-    //     }
-    //   }
-    //   return false;
-    // });
-    //视频播放/暂停
-    // $(document).on("click", "#vid", function() {
-    //   if ($(this).hasClass("pause")) {
-    //     $(this).trigger("play");
-    //     $(this).removeClass("pause");
-    //     $(this).addClass("play");
-    //   } else {
-    //     $(this).trigger("pause");
-    //     $(this).removeClass("play");
-    //     $(this).addClass("pause");
-    //   }
-    //   return false;
-    // });
     //巡查
     $(document).on("click", "#inspecting", function() {
       $("#inspectingDetail").show();
@@ -594,72 +484,6 @@ var indexPage = {
         $("#center").html(centerHTML);
       }
     });
-    //灾害点图片
-    // $(document).on("click", "#fieldPhoto_wrap > div", function() {
-    //   var fieldPhotoMarginLeft = 0;
-    //   if ($(this).attr("class") === "imgArrRight") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "imgArrLeft") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     fieldPhotoMarginLeft >= (imgArr.length - 3) * -144 &&
-    //     fieldPhotoMarginLeft <= 0
-    //   ) {
-    //     $(".fieldPhoto-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
-    //   }
-    // });
-    // $(document).on("click", "#fieldVideo_wrap > div", function() {
-    //   var fieldPhotoMarginLeft = 0;
-    //   if ($(this).attr("class") === "videoArrRight") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "videoArrLeft") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     fieldPhotoMarginLeft >= (videoArr.length - 3) * -144 &&
-    //     fieldPhotoMarginLeft <= 0
-    //   ) {
-    //     $(".fieldVideo-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
-    //   }
-    // });
-    // 巡查图片左右滑动
-    // $(document).on("click", "#detailImg > div", function() {
-    //   var photoMarginLeft = 0;
-    //   if ($(this).attr("class") === "imgArrDetailRight") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailImg > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "imgArrDetailLeft") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailImg > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     photoMarginLeft >= (detailImgArr.length - 3) * -144 &&
-    //     photoMarginLeft <= 0
-    //   ) {
-    //     $("#detailImg > ul").css("marginLeft", photoMarginLeft);
-    //   }
-    // });
-    // $(document).on("click", "#detailVideo > div", function() {
-    //   var photoMarginLeft = 0;
-    //   if ($(this).attr("class") === "videoArrDetailRight") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailVideo > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "videoArrDetailLeft") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailVideo > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     photoMarginLeft >= (detailVideoArr.length - 3) * -144 &&
-    //     photoMarginLeft <= 0
-    //   ) {
-    //     $("#detailVideo > ul").css("marginLeft", photoMarginLeft);
-    //   }
-    // });
     //关闭表单页面
     $(document).on("click", ".closeTable", function() {
       $("#tableWrap").hide();
@@ -671,20 +495,6 @@ var indexPage = {
     $(document).on("click", "#close7", function() {
       $("#toolL").hide();
     });
-    // $(document).on("click", "#zqsb", function() {
-    //   window.parent.addTab({
-    //     url: "/light/fzSite/addSiteView",
-    //     title: "灾情上报",
-    //     iconCls: ""
-    //   });
-    // });
-    // $(document).on("click", "#zljh", function() {
-    //   window.parent.addTab({
-    //     url: "/light/plan/manager",
-    //     title: "防止计划",
-    //     iconCls: ""
-    //   });
-    // });
     if ($("#retrievalBox").height() < 500) {
       pageNum = 3; //每页显示的数量
     }
@@ -782,8 +592,6 @@ var indexPage = {
         " title=" +
         (data[i].addressname ? data[i].addressname : "") +
         "><td>" +
-        data[i].id +
-        "</td><td>" +
         data[i].addressname +
         "</td><td class=status" +
         data[i].managestate +
@@ -824,7 +632,6 @@ var indexPage = {
     pointData = data;
     var tData = "";
     map.clearMap(); // 清除地图覆盖物
-    // indexPage.notHarnessing(pointData);
     AMap.event.addListener(map, "zoomend", function() {
       indexPage.sizeZoom(map.getZoom());
       indexPage.clickPoint(clickPointObj);
@@ -859,7 +666,6 @@ var indexPage = {
           imageOffset: new AMap.Pixel(0, 0)
         });
       }
-
       var marker = new AMap.Marker({
         position: [data[i].lon, data[i].lat],
         map: window.map,
@@ -916,7 +722,6 @@ var indexPage = {
             marker.on("click", markerClick);
             marker.setLabel({
               offset: new AMap.Pixel(0, 0), //修改label相对于maker的位置
-              // offset: new AMap.Pixel(-100, -25), //修改label相对于maker的位置
               content: tData.addressname
             });
             markers.push(marker);

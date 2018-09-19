@@ -8,7 +8,7 @@ var filePath = {
 };
 var config = {
   //时间转换
-  formatDate: function(now) {
+  formatDate: function (now) {
     var now = new Date(now);
 
     var year = now.getFullYear();
@@ -32,17 +32,17 @@ var config = {
     );
   },
   //时间如果为单位数补0
-  fixZero: function(num, length) {
+  fixZero: function (num, length) {
     var str = "" + num;
     var len = str.length;
     var s = "";
-    for (var i = length; i-- > len; ) {
+    for (var i = length; i-- > len;) {
       s += "0";
     }
     return s + str;
   },
   //状态
-  status: function(key) {
+  status: function (key) {
     var sta = "";
     switch (key) {
       case "1":
@@ -62,11 +62,17 @@ var config = {
   },
   //拖拽
   zIndex: 1,
-  drag: function(IdName) {
+  drag: function (IdName) {
     var box = document.getElementById(IdName);
-    var eleP = { left: 0, top: 0 };
-    var startP = { left: 0, top: 0 };
-    box.onmousedown = function(event) {
+    var eleP = {
+      left: 0,
+      top: 0
+    };
+    var startP = {
+      left: 0,
+      top: 0
+    };
+    box.onmousedown = function (event) {
       config.zIndex += 1;
       box.style.zIndex = config.zIndex;
       event = event || window.event;
@@ -74,9 +80,12 @@ var config = {
       eleP.top = box.offsetTop;
       startP.left = event.clientX;
       startP.top = event.clientY;
-      document.onmousemove = function(event) {
+      document.onmousemove = function (event) {
         event = event || window.event;
-        var endP = { left: 0, top: 0 };
+        var endP = {
+          left: 0,
+          top: 0
+        };
         endP.left = event.clientX;
         endP.top = event.clientY;
         var disX = endP.left - startP.left;
@@ -102,7 +111,7 @@ var config = {
         box.style.left = left + "px";
         box.style.top = top + "px";
       };
-      document.onmouseup = function() {
+      document.onmouseup = function () {
         document.onmousemove = null;
         document.onmouseup = null;
       };
@@ -141,4 +150,9 @@ function isNull(object) {
     return true;
   }
   return false;
+}
+
+// 判断字段是否为空
+function isKong(val) {
+  return val ? val : ""
 }

@@ -4,10 +4,11 @@ var layers = [new AMap.TileLayer.Satellite()], //, new AMap.TileLayer.RoadNet()
   jsonData,
   numPage = 1,
   numPageS,
-  dtype = [],
+  dataS = {},
+  // dtype = [],
   gradename = [],
   areaname = [],
-  dtypes = "", //灾情
+  // dtypes = "", //灾情
   warnlevel = "", //等级
   historyData, //巡查历史记录数据
   detailImgArr = [],
@@ -41,9 +42,11 @@ var indexPage = {
     indexPage.getGovernance({
       orgid: "21"
     });
-    indexPage.years();
+    indexPage.years(dataS);
     indexPage.clickColor(numPage);
-    indexPage.queryData("", layers);
+    indexPage.queryData({
+      year: 2018
+    }, layers);
     $("#msgWrap").load("view/message.html");
     //拖拽
     config.drag("tableList");
@@ -59,11 +62,11 @@ var indexPage = {
       $(".status span").removeClass("insetActive");
       areaname = $("#getAreaName option:selected").val();
       years = $("#years option:selected").val();
-      if (dtype.length == 0 || dtype.length == 2) {
-        dtypes = "";
-      } else {
-        dtypes = dtype[0];
-      }
+      // if (dtype.length == 0 || dtype.length == 2) {
+      //   dtypes = "";
+      // } else {
+      //   dtypes = dtype[0];
+      // }
       warnlevel = "";
       for (let i = 0; i < gradename.length; i++) {
         warnlevel += gradename[i] + ",";
@@ -71,7 +74,6 @@ var indexPage = {
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       data = {
         year: years,
-        dtype: dtypes,
         areaid: areaname == "全部" ? "" : areaname,
         warnlevel: warnlevel,
         managestate: "" //所有状态
@@ -162,22 +164,9 @@ var indexPage = {
         $("#tableList").hide();
       }
     });
-
     //关闭详情
     $(document).on("click", "#close3", function () {
       $("#details").hide();
-    });
-    //灾情类型
-    $(".disasterType").on("click", "[name='check']", function () {
-      if ($(this).prop("className") == "checkFalse") {
-        $(this).removeClass("checkFalse");
-        $(this).addClass("checkTrue");
-        dtype.push($(this).attr("data"));
-      } else if ($(this).prop("className") == "checkTrue") {
-        $(this).removeClass("checkTrue");
-        $(this).addClass("checkFalse");
-        dtype.splice($.inArray($(this).attr("data"), dtype), 1);
-      }
     });
     //灾害等级
     $(".grade").on("click", "[name='check']", function () {
@@ -207,11 +196,6 @@ var indexPage = {
         .siblings()
         .removeClass("insetActive");
       areaname = $("#getAreaName option:selected").val();
-      if (dtype.length == 0 || dtype.length == 2) {
-        dtypes = "";
-      } else {
-        dtypes = dtype[0];
-      }
       warnlevel = "";
       for (let i = 0; i < gradename.length; i++) {
         warnlevel += gradename[i] + ",";
@@ -219,8 +203,7 @@ var indexPage = {
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       managestate = $(this).attr("data");
       var data = {
-        year: "",
-        dtype: "",
+        year: 2018,
         areaid: "",
         warnlevel: "",
         managestate: managestate
@@ -231,7 +214,7 @@ var indexPage = {
           .removeClass("checkTrue")
           .addClass("checkFalse");
       }
-      dtype = [];
+      // dtype = [];
       areaname = [];
       indexPage.queryData(data, layers);
     });
@@ -254,116 +237,6 @@ var indexPage = {
       $("#panel").hide();
       indexPage.showPoint(jsonData, layers);
     });
-    //放大图片
-    // $(document).on("click", ".imgMin", function() {
-    //   imgYes = true;
-    //   imgTanArr = imgArr;
-    //   nextNum = imgTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //   <img id="vid" onerror=src="./img/loading.gif" src="${
-    //     imgTanArr[indexImgVideo]
-    //   }" alt="加载中233.。。">
-    //   <div class="next"></div>`
-    //   );
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-    //放大巡查图片
-    // $(document).on("click", ".imgMinDetail", function() {
-    //   imgYes = true;
-    //   imgTanArr = detailImgArr;
-    //   nextNum = imgTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //   <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
-    //   <div class="next"></div>`
-    //   );
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-
-    // $(document).on("click", ".mask-wrap", function() {
-    //   $(".mask-wrap").hide();
-    //   $(".mask-img").hide();
-    //   $(".qrcode").hide();
-    // });
-    // $(document).on("click", ".mask-img > img", function() {
-    //   return false;
-    // });
-    //放大视频
-    // $(document).on("click", ".videoMin", function() {
-    //   imgYes = false;
-    //   videoTanArr = videoArr;
-    //   nextNum = videoTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //     <video id="vid" controls="controls" muted pause="" width="100%"
-    //     src="${videoTanArr[indexImgVideo]}"
-    //     class="pause">暂无视频</video>
-    //     <div class="next"></div>`
-    //   );
-    //   var maskImgHeight = $(".mask-img")[0].clientHeight;
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-    //放大巡查视频
-    // $(document).on("click", ".videoMinDetail", function() {
-    //   imgYes = false;
-    //   videoTanArr = detailVideoArr;
-    //   nextNum = videoTanArr.length;
-    //   indexImgVideo = $(this).attr("index");
-    //   $(".mask-img").html(
-    //     `<div class="prev"></div>
-    //     <video id="vid" controls="controls" muted pause="" width="100%"
-    //     src="${videoTanArr[indexImgVideo]}"
-    //     class="pause">暂无视频</video>
-    //     <div class="next"></div>`
-    //   );
-    //   var maskImgHeight = $(".mask-img")[0].clientHeight;
-    //   $(".mask-wrap").show();
-    //   $(".mask-img").show();
-    // });
-    //视频图片切换
-    // $(document).on("click", ".prev", function() {
-    //   if (indexImgVideo > 0) {
-    //     indexImgVideo--;
-    //     if (imgYes) {
-    //       $("#vid").attr("src", imgTanArr[indexImgVideo]);
-    //     } else {
-    //       $("#vid").attr("src", videoTanArr[indexImgVideo]);
-    //     }
-    //   }
-    //   return false;
-    // });
-    // $(document).on("click", ".next", function() {
-    //   if (indexImgVideo < nextNum - 1) {
-    //     indexImgVideo++;
-    //     if (imgYes) {
-    //       $("#vid").attr("src", imgTanArr[indexImgVideo]);
-    //     } else {
-    //       $("#vid").attr("src", videoTanArr[indexImgVideo]);
-    //     }
-    //   }
-    //   return false;
-    // });
-    //视频播放/暂停
-    // $(document).on("click", "#vid", function() {
-    //   if ($(this).hasClass("pause")) {
-    //     $(this).trigger("play");
-    //     $(this).removeClass("pause");
-    //     $(this).addClass("play");
-    //   } else {
-    //     $(this).trigger("pause");
-    //     $(this).removeClass("play");
-    //     $(this).addClass("pause");
-    //   }
-    //   return false;
-    // });
     //巡查
     $(document).on("click", "#inspecting", function () {
       $("#inspectingDetail").show();
@@ -617,16 +490,16 @@ var indexPage = {
     });
   },
   //根据条件查询数据
-  queryData: function (data, layers) {
+  queryData: function (dataS, layers) {
     $.ajax({
-      type: "GET",
-      url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
-      dataType: "jsonp",
-      data: data,
-      callback: "callback",
+      type: "POST",
+      url: fileUrl.header88 + "/light/mobile/gisshow/GetGisDisasterdata", //后台接口地址
+      dataType: "json",
+      data: dataS,
+      // jsonp: "callback",
       success: function (data) {
-        console.log(data);
-        if (data.success === "0") {
+        console.log(data)
+        if (data.success === true) {
           jsonData = data.result;
           allData = data.result;
           numPage = 1; //重置为第一页
@@ -666,6 +539,7 @@ var indexPage = {
     var mydate = new Date();
     year = mydate.getFullYear(); //获取完整的年份(4位,1970-????)
     console.log(year);
+    dataS.years = year
     var yearsHtml = `<option value="${year}">${year}</option>`;
     for (var i = 0; i < 10; i++) {
       year--;
@@ -678,7 +552,8 @@ var indexPage = {
     var numpage = "";
     numPageS = Math.ceil(num / pageNum);
     numpage += "<a class='activeColor'>" + 1 + "</a>";
-    for (let i = 2; i < Math.ceil(num / pageNum) + 1; i++) {
+    var pages = Math.ceil(num / pageNum) + 1 > 15 ? 10 : Math.ceil(num / pageNum) + 1
+    for (let i = 2; i < pages; i++) {
       numpage += "<a>" + i + "</a>";
     }
     $("#arrCenter").html(numpage);
@@ -687,6 +562,7 @@ var indexPage = {
   //查询列表warnlevel
   tableList: function (data, numPage) {
     var tbodyHtml = "";
+    console.log(data)
     var nums = numPage * pageNum;
     if (data.length < numPage * pageNum) {
       nums = data.length;
@@ -695,6 +571,8 @@ var indexPage = {
       tbodyHtml +=
         "<tr lat=" +
         data[i].lat +
+        // addressname
+        // managestate
         " lon=" +
         data[i].lon +
         " managestate=" +
@@ -702,8 +580,6 @@ var indexPage = {
         " title=" +
         (data[i].addressname ? data[i].addressname : "") +
         "><td>" +
-        data[i].id +
-        "</td><td>" +
         data[i].addressname +
         "</td><td class=status" +
         data[i].managestate +
@@ -1376,21 +1252,22 @@ var indexPage = {
         } onerror=src="./img/loading.gif"></video></li>`;
       }
     }
+    console.log(data.fzsite)
     var detailsHtml = `<div class="details-header">
-    <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
-    <span>(编号：${data.fzsite.id})</span>
+    <span title=${data.fzsite.secondname}>${isKong(data.fzsite.secondname)}</span>
+    <span>(编号：${isKong(data.fzsite.id)})</span>
     <span id="close3"><img src="img/close.png" alt=""></span>
 </div>
 <div class="details-content">
-    <div class="address"  title="${data.fzsite.addressname}">
+    <div class="address"  title="${isKong(data.fzsite.addressname)}">
         <span class="lt">灾情地址：</span>
         <span><img id='goto' data=${
           data.fzsite.addressname
         } src="img/goto.png" alt=""></span>
-        <span class="rt">${data.fzsite.addressname}</span>
+        <span class="rt">${isKong(data.fzsite.addressname)}</span>
     </div>
-    <p class="quyujiedao rt">所属区（街道）：${data.fzsite.areaname}${
-      data.fzsite.street
+    <p class="quyujiedao rt">所属区（街道）：${isKong(data.fzsite.areaname)}${
+      isKong(data.fzsite.street)
     }<p>
     <div class="disasterPoint">
         <p>
@@ -1402,11 +1279,11 @@ var indexPage = {
         </p>
         <p>
             <span class="lt">上报者</span>
-            <span class="rt">${data.fzsite.manager}</span>
+            <span class="rt">${isKong(data.fzsite.manager)}</span>
         </p>
         <p>
             <span class="lt">联系电话</span>
-            <span class="rt">${data.fzsite.managertel}</span>
+            <span class="rt">${isKong(data.fzsite.managertel)}</span>
         </p>
         <p>
             <span class="lt">上报时间</span>
@@ -1414,7 +1291,7 @@ var indexPage = {
         </p>
         <p>
             <span class="lt">灾情状况</span>
-            <span class="rt">${data.fzsite.remark}</span>
+            <span class="rt">${isKong(data.fzsite.remark)}</span>
         </p>
     </div>
     <div class="imgVideo">
