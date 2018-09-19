@@ -10,13 +10,14 @@ var layers = [new AMap.TileLayer.Satellite()], //, new AMap.TileLayer.RoadNet()
   dtypes = "", //灾情
   warnlevel = "", //等级
   historyData, //巡查历史记录数据
-  imgArr = [], //存储照片视频上下切换
-  videoArr = [],
   detailImgArr = [],
   detailVideoArr = [],
   imgTanArr = [],
   videoTanArr = [],
+  imgVideoWArr = [], //图片视频集合
+  detail_imgVideoArr = [], //巡查历史图片视频集合
   indexImgVideo = 0, // 当前显示第几张
+  detail_indexImgVideo = 0, //巡查历史当前显示第几张
   nextNum = 0, //切换下一张的最大数量
   imgYes = true, //当前弹框是img还是video
   allData, //搜索部分所有数据
@@ -25,13 +26,22 @@ var layers = [new AMap.TileLayer.Satellite()], //, new AMap.TileLayer.RoadNet()
   pointData,
   CanvasLayer, //canvas图层
   clickPointObj = {}; //最新点击的点
-map = new AMap.Map("container", { resizeEnable: true, layers: layers });
+map = new AMap.Map("container", {
+  resizeEnable: true,
+  layers: layers
+});
+
+// var key = document.cookie("key");
+// console.log(key);
 var indexPage = {
-  init: function() {
+  init: function () {
     indexPage.changeMap([]);
     indexPage.queryGetGisAreaName();
     indexPage.listen();
-    indexPage.getGovernance({ username: "admin" });
+    indexPage.getGovernance({
+      orgid: "21"
+    });
+    indexPage.years()
     indexPage.clickColor(numPage);
     indexPage.queryData("", layers);
     $("#msgWrap").load("view/message.html");
@@ -43,11 +53,12 @@ var indexPage = {
     config.drag("tableWrap");
     config.drag("toolL");
   },
-  listen: function() {
+  listen: function () {
     //查询按钮
-    $("#search").on("click", function() {
+    $("#search").on("click", function () {
       $(".status span").removeClass("insetActive");
       areaname = $("#getAreaName option:selected").val();
+      years = $("#years option:selected").val();
       if (dtype.length == 0 || dtype.length == 2) {
         dtypes = "";
       } else {
@@ -59,6 +70,7 @@ var indexPage = {
       }
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       data = {
+        year: years,
         dtype: dtypes,
         areaid: areaname == "全部" ? "" : areaname,
         warnlevel: warnlevel,
@@ -66,7 +78,7 @@ var indexPage = {
       };
       indexPage.queryData(data, layers);
     });
-    $("#arrL").on("click", function() {
+    $("#arrL").on("click", function () {
       if (numPage > 1) {
         numPage--;
         indexPage.tableList(jsonData, numPage);
@@ -78,7 +90,7 @@ var indexPage = {
           .addClass("activeColor");
       }
     });
-    $("#arrR").on("click", function() {
+    $("#arrR").on("click", function () {
       if (numPage < numPageS) {
         numPage++;
         indexPage.tableList(jsonData, numPage);
@@ -89,7 +101,7 @@ var indexPage = {
           .addClass("activeColor");
       }
     });
-    $("#arrCenter").on("click", "a", function() {
+    $("#arrCenter").on("click", "a", function () {
       numPage = $(this).html();
       $(this)
         .addClass("activeColor")
@@ -98,7 +110,7 @@ var indexPage = {
       indexPage.tableList(jsonData, numPage);
     });
     //点击加载卫星图和普通图
-    $("#satellite").on("click", function() {
+    $("#satellite").on("click", function () {
       $("#search").trigger("click");
       //卫星图
       if (satellite) {
@@ -108,19 +120,19 @@ var indexPage = {
       }
       satellite = !satellite;
 
-      setTimeout(function() {
+      setTimeout(function () {
         indexPage.changeMap(layers);
         $("#search").trigger("click");
       }, 300);
     });
     //路径规划
-    $(document).on("click", "#goto", function() {
+    $(document).on("click", "#goto", function () {
       window.open(
         "https://gaode.com/dir?&to%5Bname%5D=" + $(this).attr("data")
       );
     });
     //点击检索
-    $("#retrieval").on("click", function() {
+    $("#retrieval").on("click", function () {
       if ($("#retrievalBox").css("display") == "none") {
         $("#retrievalBox").show();
         $(".retrieval")
@@ -134,7 +146,7 @@ var indexPage = {
       }
     });
     //关闭检索
-    $("#close1").on("click", function() {
+    $("#close1").on("click", function () {
       $("#retrievalBox").hide();
       $(".retrieval")
         .removeClass("retrieval-hide")
@@ -142,7 +154,7 @@ var indexPage = {
     });
 
     // 显示图表
-    $("#chart").on("click", function() {
+    $("#chart").on("click", function () {
       $("#tableList").load("view/table.html");
       if ($("#tableList").css("display") == "none") {
         $("#tableList").show();
@@ -152,11 +164,11 @@ var indexPage = {
     });
 
     //关闭详情
-    $(document).on("click", "#close3", function() {
+    $(document).on("click", "#close3", function () {
       $("#details").hide();
     });
     //灾情类型
-    $(".disasterType").on("click", "[name='check']", function() {
+    $(".disasterType").on("click", "[name='check']", function () {
       if ($(this).prop("className") == "checkFalse") {
         $(this).removeClass("checkFalse");
         $(this).addClass("checkTrue");
@@ -168,7 +180,7 @@ var indexPage = {
       }
     });
     //灾害等级
-    $(".grade").on("click", "[name='check']", function() {
+    $(".grade").on("click", "[name='check']", function () {
       if ($(this).prop("className") == "checkFalse") {
         $(this).removeClass("checkFalse");
         $(this).addClass("checkTrue");
@@ -180,7 +192,7 @@ var indexPage = {
       }
     });
     //转移视觉目标
-    $("#tbodyHtml").on("click", "tr", function() {
+    $("#tbodyHtml").on("click", "tr", function () {
       indexPage.setZoomAndCenter(
         $(this).attr("lon"),
         $(this).attr("lat"),
@@ -189,7 +201,7 @@ var indexPage = {
       );
     });
     //根据状态筛选
-    $(".status").on("click", "span", function() {
+    $(".status").on("click", "span", function () {
       $(this)
         .addClass("insetActive")
         .siblings()
@@ -207,6 +219,7 @@ var indexPage = {
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       managestate = $(this).attr("data");
       var data = {
+        year: "",
         dtype: "",
         areaid: "",
         warnlevel: "",
@@ -223,7 +236,7 @@ var indexPage = {
       indexPage.queryData(data, layers);
     });
     //周边详情
-    $(document).on("click", ".aroundList", function() {
+    $(document).on("click", ".aroundList", function () {
       indexPage.showPoint(jsonData, layers);
       var lat = $(this)
         .parent()
@@ -236,145 +249,145 @@ var indexPage = {
       $(".close4").show();
       $("#panel").show();
     });
-    $(document).on("click", ".close4", function() {
+    $(document).on("click", ".close4", function () {
       $(".close4").hide();
       $("#panel").hide();
       indexPage.showPoint(jsonData, layers);
     });
     //放大图片
-    $(document).on("click", ".imgMin", function() {
-      imgYes = true;
-      imgTanArr = imgArr;
-      nextNum = imgTanArr.length;
-      indexImgVideo = $(this).attr("index");
-      $(".mask-img").html(
-        `<div class="prev"></div>
-      <img id="vid" onerror=src="./img/loading.gif" src="${
-        imgTanArr[indexImgVideo]
-      }" alt="加载中233.。。">
-      <div class="next"></div>`
-      );
-      $(".mask-wrap").show();
-      $(".mask-img").show();
-    });
+    // $(document).on("click", ".imgMin", function() {
+    //   imgYes = true;
+    //   imgTanArr = imgArr;
+    //   nextNum = imgTanArr.length;
+    //   indexImgVideo = $(this).attr("index");
+    //   $(".mask-img").html(
+    //     `<div class="prev"></div>
+    //   <img id="vid" onerror=src="./img/loading.gif" src="${
+    //     imgTanArr[indexImgVideo]
+    //   }" alt="加载中233.。。">
+    //   <div class="next"></div>`
+    //   );
+    //   $(".mask-wrap").show();
+    //   $(".mask-img").show();
+    // });
     //放大巡查图片
-    $(document).on("click", ".imgMinDetail", function() {
-      imgYes = true;
-      imgTanArr = detailImgArr;
-      nextNum = imgTanArr.length;
-      indexImgVideo = $(this).attr("index");
+    // $(document).on("click", ".imgMinDetail", function() {
+    //   imgYes = true;
+    //   imgTanArr = detailImgArr;
+    //   nextNum = imgTanArr.length;
+    //   indexImgVideo = $(this).attr("index");
 
-      $(".mask-img").html(
-        `<div class="prev"></div>
-      <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
-      <div class="next"></div>`
-      );
-      $(".mask-wrap").show();
-      $(".mask-img").show();
-    });
+    //   $(".mask-img").html(
+    //     `<div class="prev"></div>
+    //   <img id="vid" src="${imgTanArr[indexImgVideo]}" alt="暂无图片">
+    //   <div class="next"></div>`
+    //   );
+    //   $(".mask-wrap").show();
+    //   $(".mask-img").show();
+    // });
 
-    $(document).on("click", ".mask-wrap", function() {
-      $(".mask-wrap").hide();
-      $(".mask-img").hide();
-      $(".qrcode").hide();
-    });
-    $(document).on("click", ".mask-img > img", function() {
-      return false;
-    });
+    // $(document).on("click", ".mask-wrap", function() {
+    //   $(".mask-wrap").hide();
+    //   $(".mask-img").hide();
+    //   $(".qrcode").hide();
+    // });
+    // $(document).on("click", ".mask-img > img", function() {
+    //   return false;
+    // });
     //放大视频
-    $(document).on("click", ".videoMin", function() {
-      imgYes = false;
-      videoTanArr = videoArr;
-      nextNum = videoTanArr.length;
-      indexImgVideo = $(this).attr("index");
-      $(".mask-img").html(
-        `<div class="prev"></div>
-        <video id="vid" controls="controls" muted pause="" width="100%" 
-        src="${videoTanArr[indexImgVideo]}" 
-        class="pause">暂无视频</video>
-        <div class="next"></div>`
-      );
-      var maskImgHeight = $(".mask-img")[0].clientHeight;
-      $(".mask-wrap").show();
-      $(".mask-img").show();
-    });
+    // $(document).on("click", ".videoMin", function() {
+    //   imgYes = false;
+    //   videoTanArr = videoArr;
+    //   nextNum = videoTanArr.length;
+    //   indexImgVideo = $(this).attr("index");
+    //   $(".mask-img").html(
+    //     `<div class="prev"></div>
+    //     <video id="vid" controls="controls" muted pause="" width="100%"
+    //     src="${videoTanArr[indexImgVideo]}"
+    //     class="pause">暂无视频</video>
+    //     <div class="next"></div>`
+    //   );
+    //   var maskImgHeight = $(".mask-img")[0].clientHeight;
+    //   $(".mask-wrap").show();
+    //   $(".mask-img").show();
+    // });
     //放大巡查视频
-    $(document).on("click", ".videoMinDetail", function() {
-      imgYes = false;
-      videoTanArr = detailVideoArr;
-      nextNum = videoTanArr.length;
-      indexImgVideo = $(this).attr("index");
-      $(".mask-img").html(
-        `<div class="prev"></div>
-        <video id="vid" controls="controls" muted pause="" width="100%" 
-        src="${videoTanArr[indexImgVideo]}" 
-        class="pause">暂无视频</video>
-        <div class="next"></div>`
-      );
-      var maskImgHeight = $(".mask-img")[0].clientHeight;
-      $(".mask-wrap").show();
-      $(".mask-img").show();
-    });
+    // $(document).on("click", ".videoMinDetail", function() {
+    //   imgYes = false;
+    //   videoTanArr = detailVideoArr;
+    //   nextNum = videoTanArr.length;
+    //   indexImgVideo = $(this).attr("index");
+    //   $(".mask-img").html(
+    //     `<div class="prev"></div>
+    //     <video id="vid" controls="controls" muted pause="" width="100%"
+    //     src="${videoTanArr[indexImgVideo]}"
+    //     class="pause">暂无视频</video>
+    //     <div class="next"></div>`
+    //   );
+    //   var maskImgHeight = $(".mask-img")[0].clientHeight;
+    //   $(".mask-wrap").show();
+    //   $(".mask-img").show();
+    // });
     //视频图片切换
-    $(document).on("click", ".prev", function() {
-      if (indexImgVideo > 0) {
-        indexImgVideo--;
-        if (imgYes) {
-          $("#vid").attr("src", imgTanArr[indexImgVideo]);
-        } else {
-          $("#vid").attr("src", videoTanArr[indexImgVideo]);
-        }
-      }
-      return false;
-    });
-    $(document).on("click", ".next", function() {
-      if (indexImgVideo < nextNum - 1) {
-        indexImgVideo++;
-        if (imgYes) {
-          $("#vid").attr("src", imgTanArr[indexImgVideo]);
-        } else {
-          $("#vid").attr("src", videoTanArr[indexImgVideo]);
-        }
-      }
-      return false;
-    });
+    // $(document).on("click", ".prev", function() {
+    //   if (indexImgVideo > 0) {
+    //     indexImgVideo--;
+    //     if (imgYes) {
+    //       $("#vid").attr("src", imgTanArr[indexImgVideo]);
+    //     } else {
+    //       $("#vid").attr("src", videoTanArr[indexImgVideo]);
+    //     }
+    //   }
+    //   return false;
+    // });
+    // $(document).on("click", ".next", function() {
+    //   if (indexImgVideo < nextNum - 1) {
+    //     indexImgVideo++;
+    //     if (imgYes) {
+    //       $("#vid").attr("src", imgTanArr[indexImgVideo]);
+    //     } else {
+    //       $("#vid").attr("src", videoTanArr[indexImgVideo]);
+    //     }
+    //   }
+    //   return false;
+    // });
     //视频播放/暂停
-    $(document).on("click", "#vid", function() {
-      if ($(this).hasClass("pause")) {
-        $(this).trigger("play");
-        $(this).removeClass("pause");
-        $(this).addClass("play");
-      } else {
-        $(this).trigger("pause");
-        $(this).removeClass("play");
-        $(this).addClass("pause");
-      }
-      return false;
-    });
+    // $(document).on("click", "#vid", function() {
+    //   if ($(this).hasClass("pause")) {
+    //     $(this).trigger("play");
+    //     $(this).removeClass("pause");
+    //     $(this).addClass("play");
+    //   } else {
+    //     $(this).trigger("pause");
+    //     $(this).removeClass("play");
+    //     $(this).addClass("pause");
+    //   }
+    //   return false;
+    // });
     //巡查
-    $(document).on("click", "#inspecting", function() {
+    $(document).on("click", "#inspecting", function () {
       $("#inspectingDetail").show();
     });
     //关闭巡查历史
-    $(document).on("click", "#close5", function() {
+    $(document).on("click", "#close5", function () {
       $("#inspectingDetail").hide();
     });
     //查询时间筛选
-    $(document).on("click", ".detailB", function() {
+    $(document).on("click", ".detailB", function () {
       historyData.index = $(this).attr("ids");
       indexPage.inspectingHtml(historyData);
     });
     //更多详情
-    $(document).on("click", "#openNew", function() {
+    $(document).on("click", "#openNew", function () {
       var src = filePath.share + "?disasterid=" + newOpenUuid;
       window.open(src);
     });
-    $(document).on("click", "#qrcode", function() {
+    $(document).on("click", "#qrcode", function () {
       return false;
     });
 
     // 搜索
-    $(document).on("click", "#searchs", function() {
+    $(document).on("click", "#searchs", function () {
       if (allData) {
         var searchVal = $.trim($("#searchTxt").val());
         var searchResultHtml = "";
@@ -392,7 +405,7 @@ var indexPage = {
         $("#searchResult").show();
       }
     });
-    $("#searchTxt").keyup(function() {
+    $("#searchTxt").keyup(function () {
       if (allData) {
         var searchVal = $.trim($("#searchTxt").val());
         var searchResultHtml = "";
@@ -410,7 +423,7 @@ var indexPage = {
         $("#searchResult").show();
       }
     });
-    $(document).on("click", "#searchResultHtml > li", function() {
+    $(document).on("click", "#searchResultHtml > li", function () {
       indexPage.setZoomAndCenter(
         $(this).attr("lon"),
         $(this).attr("lat"),
@@ -419,13 +432,13 @@ var indexPage = {
       );
       return false;
     });
-    $(document).on("click", ".search", function() {
+    $(document).on("click", ".search", function () {
       return false;
     });
-    $(document).on("click", function() {
+    $(document).on("click", function () {
       $("#searchResult").hide();
     });
-    $(document).on("click", "#message", function() {
+    $(document).on("click", "#message", function () {
       $("#msgWrap").load("view/message.html");
       if ($("#msgWrap").css("display") == "none") {
         $("#msgWrap").show();
@@ -433,81 +446,225 @@ var indexPage = {
         $("#msgWrap").hide();
       }
     });
+    var marginLeft = 0;
+    $(document).on("click", ".imgVideoNext", function () {
+      console.log(marginLeft);
+      if ($(this).attr("next") === "0") {
+        if (marginLeft < 0) {
+          marginLeft += 140;
+        }
+      } else if ($(this).attr("next") === "1") {
+        if (marginLeft > (imgVideoWArr.length - 3) * -140) {
+          marginLeft -= 140;
+        }
+      }
+      $("#imgVideo_center > ul").css("marginLeft", marginLeft);
+    });
+    //点击预览
+    $(document).on("click", "#imgVideo_center > ul > li", function () {
+      indexImgVideo = $(this).attr("num");
+      $(".mask-wrap").show();
+      if (imgVideoWArr[$(this).attr("num")].fileType === "1") {
+        var mask_imgVideo_HTML = `<div id="leftArr" class="leftArr arr" next = "0">
+            <img src="./img/prev.png" alt="">
+        </div>
+        <div class="rightArr arr" next = 1>
+            <img src="./img/next.png" alt="">
+        </div>
+        <div class="center" id="center">
+            <img src="${imgVideoWArr[$(this).attr("num")].url_path}" onerror=src="./img/loading.gif" />
+        </div>`;
+      } else if (imgVideoWArr[$(this).attr("num")].fileType === "2") {
+        var mask_imgVideo_HTML = `<div id="leftArr" class="leftArr arr" next = 0>
+            <img src="./img/prev.png" alt="">
+              </div>
+              <div class="rightArr arr" next = 1>
+                      <img src="./img/next.png" alt="">
+                  </div>
+              <div id="center" class="center" >
+              <video controls="controls" muted pause="" width="100%" src="${
+                imgVideoWArr[$(this).attr("num")].url_path
+              }" onerror=src="./img/loading.gif"  class="pause">暂无视频</video>
+        </div>`;
+      }
+
+      $("#mask_imgVideo").html(mask_imgVideo_HTML);
+    });
+    $(document).on("click", ".mask-wrap", function () {
+      $(".mask-wrap").hide();
+    });
+    $(document).on("click", "#mask_imgVideo", function () {
+      return false;
+    });
+    $(document).on("click", "#mask_imgVideo > .arr", function () {
+      if ($(this).attr("next") === "0") {
+        if (indexImgVideo > 0) {
+          indexImgVideo--;
+        }
+      } else if (indexImgVideo < imgVideoWArr.length - 1) {
+        indexImgVideo++;
+      } else {
+        return;
+      }
+      if (imgVideoWArr[indexImgVideo].fileType === "1") {
+        var centerHTML = `<img src="${
+          imgVideoWArr[indexImgVideo].url_path
+        }"  onerror=src="./img/loading.gif" />`;
+        $("#center").html(centerHTML);
+      } else if (imgVideoWArr[indexImgVideo].fileType === "2") {
+        var centerHTML = `<video controls="controls" muted pause="" width="100%" src="${
+          imgVideoWArr[indexImgVideo].url_path
+        }" onerror=src="./img/loading.gif" class="pause">暂无视频</video>`;
+        $("#center").html(centerHTML);
+      }
+    });
+    //巡查记录图片视频
+    var detail_marginLeft = 0;
+    $(document).on("click", ".detailArr", function () {
+      console.log(detail_imgVideoArr);
+      if ($(this).attr("next") === "0") {
+        if (detail_marginLeft < 0) {
+          detail_marginLeft += 146;
+        }
+      } else if ($(this).attr("next") === "1") {
+        if (detail_marginLeft > (detail_imgVideoArr.length - 3) * -146) {
+          detail_marginLeft -= 146;
+        }
+      }
+      // console.log(detail_marginLeft);
+      $(".imgArrDetailCenter > ul").css("marginLeft", detail_marginLeft);
+    });
+    //巡查记录点击预览
+
+    $(document).on("click", "#imgArrDetailCenter > ul > li", function () {
+      indexImgVideo = $(this).attr("num");
+      $(".mask-wrap").show();
+      // console.log(detail_imgVideoArr);
+      if (detail_imgVideoArr[$(this).attr("num")].filetype === "1") {
+        var mask_detialImgVideo_HTML = `<div id="leftArr" class="leftArr detialArr" next = "0">
+            <img src="./img/prev.png" alt="">
+        </div>
+        <div class="rightArr detialArr" next = 1>
+            <img src="./img/next.png" alt="">
+        </div>
+        <div class="center" id="center">
+            <img src="${detail_imgVideoArr[$(this).attr("num")].url_path}" onerror=src="./img/loading.gif" />
+        </div>`;
+      } else if (detail_imgVideoArr[$(this).attr("num")].filetype === "2") {
+        var mask_detialImgVideo_HTML = `<div id="leftArr" class="leftArr detialArr" next = 0>
+            <img src="./img/prev.png" alt="">
+              </div>
+              <div class="rightArr detialArr" next = 1>
+                      <img src="./img/next.png" alt="">
+                  </div>
+              <div id="center" class="center" >
+              <video controls="controls" muted pause="" width="100%" src="${
+                detail_imgVideoArr[$(this).attr("num")].url_path
+              }" onerror=src="./img/loading.gif" class="pause">暂无视频</video>
+        </div>`;
+      }
+
+      $("#mask_imgVideo").html(mask_detialImgVideo_HTML);
+    });
+    $(document).on("click", "#mask_imgVideo > .detialArr", function () {
+      // console.log(indexImgVideo);
+      // console.log(detail_imgVideoArr);
+      if ($(this).attr("next") === "0") {
+        if (indexImgVideo > 0) {
+          indexImgVideo--;
+        }
+      } else if (indexImgVideo < detail_imgVideoArr.length - 1) {
+        indexImgVideo++;
+      } else {
+        return;
+      }
+      if (detail_imgVideoArr[indexImgVideo].filetype === "1") {
+        var centerHTML = `<img src="${
+          detail_imgVideoArr[indexImgVideo].url_path
+        }" />`;
+        $("#center").html(centerHTML);
+      } else if (detail_imgVideoArr[indexImgVideo].filetype === "2") {
+        var centerHTML = `<video controls="controls" muted pause="" width="100%" src="${
+          detail_imgVideoArr[indexImgVideo].url_path
+        }" class="pause">暂无视频</video>`;
+        $("#center").html(centerHTML);
+      }
+    });
     //灾害点图片
-    $(document).on("click", "#fieldPhoto_wrap > div", function() {
-      var fieldPhotoMarginLeft = 0;
-      if ($(this).attr("class") === "imgArrRight") {
-        fieldPhotoMarginLeft =
-          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) - 144;
-      } else if ($(this).attr("class") === "imgArrLeft") {
-        fieldPhotoMarginLeft =
-          parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) + 144;
-      }
-      if (
-        fieldPhotoMarginLeft >= (imgArr.length - 3) * -144 &&
-        fieldPhotoMarginLeft <= 0
-      ) {
-        $(".fieldPhoto-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
-      }
-    });
-    $(document).on("click", "#fieldVideo_wrap > div", function() {
-      var fieldPhotoMarginLeft = 0;
-      if ($(this).attr("class") === "videoArrRight") {
-        fieldPhotoMarginLeft =
-          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) - 144;
-      } else if ($(this).attr("class") === "videoArrLeft") {
-        fieldPhotoMarginLeft =
-          parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) + 144;
-      }
-      if (
-        fieldPhotoMarginLeft >= (videoArr.length - 3) * -144 &&
-        fieldPhotoMarginLeft <= 0
-      ) {
-        $(".fieldVideo-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
-      }
-    });
+    // $(document).on("click", "#fieldPhoto_wrap > div", function() {
+    //   var fieldPhotoMarginLeft = 0;
+    //   if ($(this).attr("class") === "imgArrRight") {
+    //     fieldPhotoMarginLeft =
+    //       parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) - 144;
+    //   } else if ($(this).attr("class") === "imgArrLeft") {
+    //     fieldPhotoMarginLeft =
+    //       parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) + 144;
+    //   }
+    //   if (
+    //     fieldPhotoMarginLeft >= (imgArr.length - 3) * -144 &&
+    //     fieldPhotoMarginLeft <= 0
+    //   ) {
+    //     $(".fieldPhoto-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
+    //   }
+    // });
+    // $(document).on("click", "#fieldVideo_wrap > div", function() {
+    //   var fieldPhotoMarginLeft = 0;
+    //   if ($(this).attr("class") === "videoArrRight") {
+    //     fieldPhotoMarginLeft =
+    //       parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) - 144;
+    //   } else if ($(this).attr("class") === "videoArrLeft") {
+    //     fieldPhotoMarginLeft =
+    //       parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) + 144;
+    //   }
+    //   if (
+    //     fieldPhotoMarginLeft >= (videoArr.length - 3) * -144 &&
+    //     fieldPhotoMarginLeft <= 0
+    //   ) {
+    //     $(".fieldVideo-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
+    //   }
+    // });
     // 巡查图片左右滑动
-    $(document).on("click", "#detailImg > div", function() {
-      var photoMarginLeft = 0;
-      if ($(this).attr("class") === "imgArrDetailRight") {
-        photoMarginLeft =
-          parseInt($("#detailImg > ul").css("marginLeft")) - 144;
-      } else if ($(this).attr("class") === "imgArrDetailLeft") {
-        photoMarginLeft =
-          parseInt($("#detailImg > ul").css("marginLeft")) + 144;
-      }
-      if (
-        photoMarginLeft >= (detailImgArr.length - 3) * -144 &&
-        photoMarginLeft <= 0
-      ) {
-        $("#detailImg > ul").css("marginLeft", photoMarginLeft);
-      }
-    });
-    $(document).on("click", "#detailVideo > div", function() {
-      var photoMarginLeft = 0;
-      if ($(this).attr("class") === "videoArrDetailRight") {
-        photoMarginLeft =
-          parseInt($("#detailVideo > ul").css("marginLeft")) - 144;
-      } else if ($(this).attr("class") === "videoArrDetailLeft") {
-        photoMarginLeft =
-          parseInt($("#detailVideo > ul").css("marginLeft")) + 144;
-      }
-      if (
-        photoMarginLeft >= (detailVideoArr.length - 3) * -144 &&
-        photoMarginLeft <= 0
-      ) {
-        $("#detailVideo > ul").css("marginLeft", photoMarginLeft);
-      }
-    });
+    // $(document).on("click", "#detailImg > div", function() {
+    //   var photoMarginLeft = 0;
+    //   if ($(this).attr("class") === "imgArrDetailRight") {
+    //     photoMarginLeft =
+    //       parseInt($("#detailImg > ul").css("marginLeft")) - 144;
+    //   } else if ($(this).attr("class") === "imgArrDetailLeft") {
+    //     photoMarginLeft =
+    //       parseInt($("#detailImg > ul").css("marginLeft")) + 144;
+    //   }
+    //   if (
+    //     photoMarginLeft >= (detailImgArr.length - 3) * -144 &&
+    //     photoMarginLeft <= 0
+    //   ) {
+    //     $("#detailImg > ul").css("marginLeft", photoMarginLeft);
+    //   }
+    // });
+    // $(document).on("click", "#detailVideo > div", function() {
+    //   var photoMarginLeft = 0;
+    //   if ($(this).attr("class") === "videoArrDetailRight") {
+    //     photoMarginLeft =
+    //       parseInt($("#detailVideo > ul").css("marginLeft")) - 144;
+    //   } else if ($(this).attr("class") === "videoArrDetailLeft") {
+    //     photoMarginLeft =
+    //       parseInt($("#detailVideo > ul").css("marginLeft")) + 144;
+    //   }
+    //   if (
+    //     photoMarginLeft >= (detailVideoArr.length - 3) * -144 &&
+    //     photoMarginLeft <= 0
+    //   ) {
+    //     $("#detailVideo > ul").css("marginLeft", photoMarginLeft);
+    //   }
+    // });
     //关闭表单页面
-    $(document).on("click", ".closeTable", function() {
+    $(document).on("click", ".closeTable", function () {
       $("#tableWrap").hide();
     });
     // 快捷;
-    $(document).on("click", ".tools", function() {
+    $(document).on("click", ".tools", function () {
       indexPage.toolsShow($(this).attr("ids"));
     });
-    $(document).on("click", "#close7", function() {
+    $(document).on("click", "#close7", function () {
       $("#toolL").hide();
     });
     // $(document).on("click", "#zqsb", function() {
@@ -528,7 +685,7 @@ var indexPage = {
       pageNum = 3; //每页显示的数量
     }
   },
-  changeMap: function(layers) {
+  changeMap: function (layers) {
     map = new AMap.Map("container", {
       resizeEnable: true,
       zoom: 16,
@@ -536,14 +693,15 @@ var indexPage = {
     });
   },
   //根据条件查询数据
-  queryData: function(data, layers) {
+  queryData: function (data, layers) {
     $.ajax({
       type: "GET",
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
       dataType: "jsonp",
       data: data,
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
+        console.log(data);
         if (data.success === "0") {
           jsonData = data.result;
           allData = data.result;
@@ -559,13 +717,13 @@ var indexPage = {
     });
   },
   // 获取所在区域
-  queryGetGisAreaName: function() {
+  queryGetGisAreaName: function () {
     $.ajax({
       type: "GET",
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
       dataType: "jsonp",
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
         var result = data.result;
         var selectconten = "<option value='全部'>全部</option>";
         for (var i = 0; i < result.length; i++) {
@@ -580,8 +738,24 @@ var indexPage = {
       }
     });
   },
+  years: function () {
+    var mydate = new Date()
+    year = mydate.getFullYear(); //获取完整的年份(4位,1970-????)
+    console.log(year)
+    var yearsHtml = `<option value="全部">全部</option>`
+    for (var i = 0; i < 10; i++) {
+      yearsHtml +=
+        "<option value='" +
+        year +
+        "'>" +
+        year +
+        "</option>";
+      year--
+    }
+    $("#years").html(yearsHtml);
+  },
   //分页
-  paging: function(num) {
+  paging: function (num) {
     var numpage = "";
     numPageS = Math.ceil(num / pageNum);
     numpage += "<a class='activeColor'>" + 1 + "</a>";
@@ -592,7 +766,7 @@ var indexPage = {
   },
 
   //查询列表warnlevel
-  tableList: function(data, numPage) {
+  tableList: function (data, numPage) {
     var tbodyHtml = "";
     var nums = numPage * pageNum;
     if (data.length < numPage * pageNum) {
@@ -621,14 +795,14 @@ var indexPage = {
     $("#tbodyHtml").html(tbodyHtml);
   },
   //治理状况统计
-  getGovernance: function(data) {
+  getGovernance: function (data) {
     $.ajax({
       type: "POST",
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/Getypecount",
       dataType: "jsonp",
       data: data,
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         if (data.success == "0") {
           $("#ungovern").html(data.result.suspending);
@@ -639,20 +813,20 @@ var indexPage = {
       }
     });
   },
-  clickColor: function(numPage) {
+  clickColor: function (numPage) {
     $("#arrCenter")
       .find("a")
       .eq(numPage)
       .addClass("activeColor");
   },
   // 地图上显示点
-  showPoint: function(data) {
+  showPoint: function (data) {
     var markers = [];
     pointData = data;
     var tData = "";
     map.clearMap(); // 清除地图覆盖物
     // indexPage.notHarnessing(pointData);
-    AMap.event.addListener(map, "zoomend", function() {
+    AMap.event.addListener(map, "zoomend", function () {
       indexPage.sizeZoom(map.getZoom());
       indexPage.clickPoint(clickPointObj);
     });
@@ -695,7 +869,7 @@ var indexPage = {
       var tData = data[i];
       marker.content = tData;
       marker.on("click", markerClick);
-      AMap.event.addListener(map, "zoomend", function() {
+      AMap.event.addListener(map, "zoomend", function () {
         var data = pointData;
         map.remove(markers);
         markers = [];
@@ -798,6 +972,7 @@ var indexPage = {
         }
       });
     }
+
     function markerClick(e) {
       var etc = e.target.content;
       var color = "#0aa2fa";
@@ -833,7 +1008,7 @@ var indexPage = {
     map.setFitView();
   },
   // 转移视觉目标
-  setZoomAndCenter: function(lon, lat, managestate, lever) {
+  setZoomAndCenter: function (lon, lat, managestate, lever) {
     var color = "#0aa2fa";
     switch (managestate) {
       case "1":
@@ -860,11 +1035,11 @@ var indexPage = {
     };
     indexPage.sizeZoom(map.getZoom());
     map.setZoomAndCenter(lever, [lon, lat]);
-    setTimeout(function() {
+    setTimeout(function () {
       indexPage.clickPoint(clickPointObj);
     }, 500);
   },
-  sizeZoom: function(ziseZoom) {
+  sizeZoom: function (ziseZoom) {
     switch (ziseZoom) {
       case 3:
         clickPointObj.size = 15;
@@ -924,7 +1099,7 @@ var indexPage = {
         break;
     }
   },
-  clickPoint: function(clickPointObj) {
+  clickPoint: function (clickPointObj) {
     try {
       CanvasLayer.hide();
     } catch (error) {}
@@ -938,7 +1113,7 @@ var indexPage = {
     } catch (error) {}
   },
   // 增加图层
-  addDraw: function(lon, lat, size, color) {
+  addDraw: function (lon, lat, size, color) {
     var canvas = document.createElement("canvas");
     canvas.width = canvas.height = 200;
     var context = canvas.getContext("2d");
@@ -947,7 +1122,7 @@ var indexPage = {
     context.globalAlpha = 1;
     context.lineWidth = 2;
     var radious = 0;
-    var draw = function(argument) {
+    var draw = function (argument) {
       context.clearRect(0, 0, 200, 200);
       context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
       radious = (radious + 1) % 100;
@@ -968,7 +1143,7 @@ var indexPage = {
     CanvasLayer.setMap(map);
     draw();
   },
-  detailsSpot: function(etc) {
+  detailsSpot: function (etc) {
     var data = {
       uuid: etc.uuid
     };
@@ -978,7 +1153,7 @@ var indexPage = {
       dataType: "jsonp",
       data: data,
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
         if (data.success == "0") {
           indexPage.detailsSpotHtml(etc, data.result);
         }
@@ -986,14 +1161,15 @@ var indexPage = {
     });
   },
   //巡查详情
-  inspecting: function(etc) {
+  inspecting: function (etc) {
     $.ajax({
       type: "POST",
-      url: fileUrl.header88 + "/light/inspect/GetSingleInspect", //后台接口地址
+      url: fileUrl.header88 + "/light/inspect/mobile/GetSingleInspect", //后台接口地址
       dataType: "json",
-      data: { uuid: etc.uuid },
-      success: function(data) {
-        console.log(data);
+      data: {
+        uuid: etc.uuid
+      },
+      success: function (data) {
         if (data.success == true) {
           historyData = {
             data: data.result,
@@ -1003,12 +1179,12 @@ var indexPage = {
           indexPage.inspectingHtml(historyData);
         }
       },
-      error: function(err) {
+      error: function (err) {
         console.log(err);
       }
     });
   },
-  inspectingHtml: function(historyData) {
+  inspectingHtml: function (historyData) {
     var inspectingDetailHtml = "";
     if (historyData.data.length != 0) {
       var activeData = historyData.data[historyData.index];
@@ -1018,28 +1194,61 @@ var indexPage = {
           historyData.data[i].check_datetime
         }">`;
       }
-      var detail_img = "";
-      var detail_video = "";
-      detailImgArr = [];
-      (detailVideoArr = []), (imgMini = 0);
-      videoMini = 0;
+      var detail_imgArr = [];
+      var detail_videoArr = [];
+      detail_imgVideoArr = [];
       for (let i = 1; i < activeData.attach.length; i++) {
         if (activeData.attach[i].filetype === "1") {
-          imgMini++;
-          detailImgArr.push(activeData.attach[i].url_path);
-          detail_img += `<li class="imgMinDetail" index="${imgMini - 1}">
-          <img src="${
-            activeData.attach[i].url_path
-          }"  onerror=src="./img/loading.gif" alt="暂无图片"></li>`;
+          detail_imgArr.push({
+            url_path: activeData.attach[i].url_path,
+            filetype: activeData.attach[i].filetype
+          });
         } else if (activeData.attach[i].filetype === "2") {
-          videoMini++;
-          detailVideoArr.push(activeData.attach[i].url_path);
-          detail_video += `<li class="videoMinDetail" index="${videoMini - 1}">
-          <video controls="controls" muted pause="" width="100%" src="${
-            activeData.attach[i].url_path
-          }" class="pause">暂无视频</video></li>`;
+          detail_videoArr.push({
+            url_path: activeData.attach[i].url_path,
+            filetype: activeData.attach[i].filetype
+          });
+        }
+        // detail_imgVideoArr.push({
+        //   url_path:activeData.attach[i].url_path,
+        //   filetype:activeData.attach[i].filetype
+        // })
+      }
+      detail_imgVideoArr = detail_imgArr.concat(detail_videoArr);
+      console.log(detail_imgVideoArr);
+      detail_imgVideoArrHTML = "";
+      for (let i = 0; i < detail_imgVideoArr.length; i++) {
+        if (detail_imgVideoArr[i].filetype === "1") {
+          detail_imgVideoArrHTML += `<li num="${i}" filetype="1"><img onerror=src="./img/loading.gif" alt="暂无图片" src = ${
+            detail_imgVideoArr[i].url_path
+          } /></li>`;
+        } else if (detail_imgVideoArr[i].filetype === "2") {
+          detail_imgVideoArrHTML += `<li num="${i}" filetype="2"><video src = ${
+            detail_imgVideoArr[i].url_path
+          } onerror=src="./img/loading.gif"></video></li>`;
         }
       }
+      // console.log(detail_imgVideoArr)
+      // detailImgArr = [];
+      // (detailVideoArr = []), (imgMini = 0);
+      // videoMini = 0;
+      // for (let i = 1; i < activeData.attach.length; i++) {
+      //   if (activeData.attach[i].filetype === "1") {
+      //     imgMini++;
+      //     detailImgArr.push(activeData.attach[i].url_path);
+      //     detail_img += `<li class="imgMinDetail" index="${imgMini - 1}">
+      //     <img src="${
+      //       activeData.attach[i].url_path
+      //     }"  onerror=src="./img/loading.gif" alt="暂无图片"></li>`;
+      //   } else if (activeData.attach[i].filetype === "2") {
+      //     videoMini++;
+      //     detailVideoArr.push(activeData.attach[i].url_path);
+      //     detail_video += `<li class="videoMinDetail" index="${videoMini - 1}">
+      //     <video controls="controls" muted pause="" width="100%" src="${
+      //       activeData.attach[i].url_path
+      //     }" class="pause">暂无视频</video></li>`;
+      //   }
+      // }
       inspectingDetailHtml = `<div class="inspectingDetail-header">
       <span>巡查历史</span>
       <span>编号（${historyData.etc.id}）</span>
@@ -1069,21 +1278,15 @@ var indexPage = {
           <p><span class="lt">巡查情况</span><span class="rt">${
             activeData.remark
           }</span></p>
-          <p>巡查图片</p>
+          <p>巡查图片、视频</p>
           <div id="detailImg" class="detailImg">
-              <div class="imgArrDetailLeft"><img src="./img/graypre.png" /></div>
-              <div class="imgArrDetailRight"><img src="./img/graynext.png" /></div>
-              <ul>
-                  ${detail_img}
-              </ul>
-          </div>
-          <p>巡查视频</p>
-          <div id="detailVideo" class="detailVideo">
-              <div class="videoArrDetailLeft"><img src="./img/graypre.png" /></div>
-              <div class="videoArrDetailRight"><img src="./img/graynext.png" /></div>
-              <ul>
-                  ${detail_video}
-              </ul>
+              <div class="imgArrDetailLeft detailArr" next="0"><img src="./img/graypre.png" /></div>
+              <div class="imgArrDetailRight detailArr" next="1"><img src="./img/graynext.png" /></div>
+              <div id="imgArrDetailCenter" class="imgArrDetailCenter">
+                <ul>
+                  ${detail_imgVideoArrHTML}
+                </ul>
+              </div>
           </div>
       </div>
       <div class="patrolTrack-wrap" id="patrolTrack-wrap">
@@ -1111,26 +1314,34 @@ var indexPage = {
         color: "#ffffff",
         "background-color": "#50bbfb"
       });
-      $(".detailImg > ul").css({
-        width: detailImgArr.length * 146,
+      $(".imgArrDetailCenter > ul").css({
+        width: detail_imgVideoArr.length * 146 + "px",
         "min-width": "438px"
       });
-      $(".detailVideo > ul").css({
-        width: detailVideoArr.length * 146,
-        "min-width": "438px"
-      });
-      if (
-        parseInt($("#detailImg > ul").css("width")) <=
-        parseInt($("#detailImg").css("width"))
-      ) {
-        $(".detailImg > div").css({ display: "none" });
+      if (detail_imgVideoArr.length <= 3) {
+        $(".detailArr").hide();
       }
-      if (
-        parseInt($("#detailVideo > ul").css("width")) <=
-        parseInt($("#detailVideo").css("width"))
-      ) {
-        $(".detailVideo > div").css({ display: "none" });
+      if (detail_imgVideoArr.length == 0) {
+        $("#imgVideo_center")
+          .html("暂无图片或视频")
+          .css({
+            "line-height": "50px",
+            "font-size": "14px",
+            color: "#666666"
+          });
       }
+      // if (
+      //   parseInt($("#detailImg > ul").css("width")) <=
+      //   parseInt($("#detailImg").css("width"))
+      // ) {
+      //   $(".detailImg > div").css({ display: "none" });
+      // }
+      // if (
+      //   parseInt($("#detailVideo > ul").css("width")) <=
+      //   parseInt($("#detailVideo").css("width"))
+      // ) {
+      //   $(".detailVideo > div").css({ display: "none" });
+      // }
       indexPage.walkings(walkingStart, walkingEnd);
     } else {
       inspectingDetailHtml = `<div class="inspectingDetail-header">
@@ -1144,7 +1355,7 @@ var indexPage = {
       $("#inspectingDetail").html(inspectingDetailHtml);
     }
   },
-  walkings: function(walkingStart, walkingEnd) {
+  walkings: function (walkingStart, walkingEnd) {
     //巡查轨迹
     var map = new AMap.Map("containerTrack", {
       resizeEnable: true,
@@ -1159,7 +1370,7 @@ var indexPage = {
     //根据起终点坐标规划步行路线
     walking.search(walkingStart, walkingEnd);
   },
-  detailsSpotHtml: function(etc, data) {
+  detailsSpotHtml: function (etc, data) {
     console.log(data);
     newOpenUuid = etc.uuid;
     // 获取天气
@@ -1174,7 +1385,7 @@ var indexPage = {
         lon: data.fzsite.lon,
         lat: data.fzsite.lat
       },
-      success: function(data) {
+      success: function (data) {
         if (data.success == "0") {
           for (let i = 0; i < data.result.forecast.dailyArray.length; i++) {
             description = data.result.forecast.description;
@@ -1254,41 +1465,79 @@ var indexPage = {
         }
       }
     });
-    var imgHtml = "";
-    var videoHtml = "";
-    imgArr = [];
-    videoArr = [];
-    imgMini = 0;
-    videoMini = 0;
+    var imgHTML = "";
+    var videoHTML = "";
+    var imgArrW = [];
+    var videoArrW = [];
+    var imgVideoHTML = "";
     for (let i = 0; i < data.attachList.length; i++) {
+      console.log(data.attachList[i].filetype);
       if (data.attachList[i].filetype === "1") {
-        imgMini++;
-        imgArr.push(data.attachList[i].url_path);
-        imgHtml += `<li class="imgMin"  index="${imgMini - 1}">
-        <img width="100%" src="${
-          data.attachList[i].url_path
-        }"  onerror=src="./img/loading.gif" alt="暂无图片">
-        <a>${config.formatDate(data.attachList[i].createtime)}</a>
-        </li>`;
+        imgArrW.push({
+          fileType: "1",
+          url_path: data.attachList[i].url_path
+        });
+        // imgHTML += `<li dataType="1"><img  onerror=src="./img/loading.gif" alt="暂无图片" src = ${
+        //   data.attachList[i].url_path
+        // } /></li>`;
       } else if (data.attachList[i].filetype === "2") {
-        videoMini++;
-        videoArr.push(data.attachList[i].url_path);
-        videoHtml += `<li class="videoMin" index="${videoMini - 1}">
-        <video  width="100%" src="${
-          data.attachList[i].url_path
-        }" class="pause">暂无视频</video>
-        <a>${config.formatDate(data.attachList[i].createtime)}</a>
-        </li>`;
+        videoArrW.push({
+          fileType: "2",
+          url_path: data.attachList[i].url_path
+        });
+        // videoHTML += `<li dataType="2"><video  onerror=src="./img/loading.gif" alt="暂无图片" src = ${
+        //   data.attachList[i].url_path
+        // } ></video></li>`;
       }
     }
-    if (imgHtml.length == 0) {
-      imgHtml =
-        "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无照片</p>";
+    imgVideoWArr = imgArrW.concat(videoArrW);
+    console.log(imgVideoWArr);
+    for (let i = 0; i < imgVideoWArr.length; i++) {
+      if (imgVideoWArr[i].fileType === "1") {
+        imgVideoHTML += `<li num="${i}" fileType="1"><img onerror=src="./img/loading.gif" alt="暂无图片" src = ${
+          imgVideoWArr[i].url_path
+        } /></li>`;
+      } else if (imgVideoWArr[i].fileType === "2") {
+        imgVideoHTML += `<li num="${i}" fileType="2"><video src = ${
+          imgVideoWArr[i].url_path
+        } onerror=src="./img/loading.gif"></video></li>`;
+      }
     }
-    if (videoHtml.length == 0) {
-      videoHtml =
-        "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无视频</p>";
-    }
+    // var imgHtml = "";
+    // var videoHtml = "";
+    // imgArr = [];
+    // videoArr = [];
+    // imgMini = 0;
+    // videoMini = 0;
+    // for (let i = 0; i < data.attachList.length; i++) {
+    //   if (data.attachList[i].filetype === "1") {
+    //     imgMini++;
+    //     imgArr.push(data.attachList[i].url_path);
+    //     imgHtml += `<li class="imgMin"  index="${imgMini - 1}">
+    //     <img width="100%" src="${
+    //       data.attachList[i].url_path
+    //     }"  onerror=src="./img/loading.gif" alt="暂无图片">
+    //     <a>${config.formatDate(data.attachList[i].createtime)}</a>
+    //     </li>`;
+    //   } else if (data.attachList[i].filetype === "2") {
+    //     videoMini++;
+    //     videoArr.push(data.attachList[i].url_path);
+    //     videoHtml += `<li class="videoMin" index="${videoMini - 1}">
+    //     <video  width="100%" src="${
+    //       data.attachList[i].url_path
+    //     }" class="pause">暂无视频</video>
+    //     <a>${config.formatDate(data.attachList[i].createtime)}</a>
+    //     </li>`;
+    //   }
+    // }
+    // if (imgHtml.length == 0) {
+    //   imgHtml =
+    //     "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无照片</p>";
+    // }
+    // if (videoHtml.length == 0) {
+    //   videoHtml =
+    //     "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无视频</p>";
+    // }
     var detailsHtml = `<div class="details-header">
     <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
     <span>(编号：${data.fzsite.id})</span>
@@ -1330,24 +1579,14 @@ var indexPage = {
             <span class="rt">${data.fzsite.remark}</span>
         </p>
     </div>
-    <div class="fieldPhoto">
-        <p>现场照片</p>
-        <div id="fieldPhoto_wrap" class="fieldPhoto-wrap">
-            <div class="imgArrLeft"><img src="./img/graypre.png" /></div>
-            <div class="imgArrRight"><img src="./img/graynext.png" /></div>
-            <ul>
-                ${imgHtml}
-            </ul>
-        </div>
-    </div>
-    <div class="fieldVideo">
-        <p>现场视频</p>
-        <div id="fieldVideo_wrap" class="fieldVideo-wrap">
-            <div class="videoArrLeft"><img src="./img/graypre.png" /></div>
-            <div class="videoArrRight"><img src="./img/graynext.png" /></div>
-            <ul>
-                ${videoHtml}
-            </ul>
+    <div class="imgVideo">
+        <p>现场照片、视频</p>
+        <div id="imgVideo_left" class="imgVideo-left imgVideoNext" next="0"></div>
+        <div id="imgVideo_right" class="imgVideo-right imgVideoNext" next="1"></div>
+        <div id="imgVideo_center" class="imgVideo-center">
+          <ul>
+            ${imgVideoHTML}
+          </ul>
         </div>
     </div>
     <div class="weather">
@@ -1398,32 +1637,47 @@ var indexPage = {
 </div>`;
 
     $("#details").html(detailsHtml);
-
-    $(".fieldPhoto-wrap > ul").css({
-      width: imgArr.length * 154,
+    $("#imgVideo_center > ul").css({
+      width: imgVideoWArr.length * 140,
       "min-width": "438px"
     });
-    $(".fieldVideo-wrap > ul").css({
-      width: videoArr.length * 154,
-      "min-width": "438px"
-    });
-    if (
-      parseInt($("#fieldPhoto_wrap > ul").css("width")) <=
-      parseInt($("#fieldPhoto_wrap").css("width"))
-    ) {
-      $(".fieldPhoto-wrap > div").css({ display: "none" });
+    if (imgVideoWArr.length <= 3) {
+      $(".imgVideoNext").hide();
     }
-    if (
-      parseInt($("#fieldVideo_wrap > ul").css("width")) <=
-      parseInt($("#fieldVideo_wrap").css("width"))
-    ) {
-      $(".fieldVideo-wrap > div").css({ display: "none" });
+    if (imgVideoWArr.length == 0) {
+      $("#imgVideo_center")
+        .html("暂无图片或视频")
+        .css({
+          "line-height": "50px",
+          "font-size": "14px",
+          color: "#666666"
+        });
     }
+    // $(".fieldPhoto-wrap > ul").css({
+    //   width: imgArr.length * 154,
+    //   "min-width": "438px"
+    // });
+    // $(".fieldVideo-wrap > ul").css({
+    //   width: videoArr.length * 154,
+    //   "min-width": "438px"
+    // });
+    // if (
+    //   parseInt($("#fieldPhoto_wrap > ul").css("width")) <=
+    //   parseInt($("#fieldPhoto_wrap").css("width"))
+    // ) {
+    //   $(".fieldPhoto-wrap > div").css({ display: "none" });
+    // }
+    // if (
+    //   parseInt($("#fieldVideo_wrap > ul").css("width")) <=
+    //   parseInt($("#fieldVideo_wrap").css("width"))
+    // ) {
+    //   $(".fieldVideo-wrap > div").css({ display: "none" });
+    // }
     $("#details").show();
   },
   //周围信息
-  around: function(lat, lon, name) {
-    AMap.service(["AMap.PlaceSearch"], function() {
+  around: function (lat, lon, name) {
+    AMap.service(["AMap.PlaceSearch"], function () {
       var placeSearch = new AMap.PlaceSearch({
         //构造地点查询类
         pageSize: 3,
@@ -1433,12 +1687,12 @@ var indexPage = {
         panel: "panel"
       });
       var cpoint = [lon, lat]; //中心点坐标
-      placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
+      placeSearch.searchNearBy("", cpoint, 500, function (status, result) {});
       map.setZoomAndCenter(17, [lon, lat]);
     });
   },
 
-  toolsShow: function(tools) {
+  toolsShow: function (tools) {
     console.log(tools);
     var toolsUrl;
     if (tools === "yjzjk") {
@@ -1460,7 +1714,7 @@ var indexPage = {
       type: "GET",
       url: toolsUrl,
       dataType: "json",
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         if (data.success === "0" && tools === "yjzjk") {
           indexPage.yjzjk(data.result);
@@ -1471,13 +1725,12 @@ var indexPage = {
         }
         $("#toolL").show();
       },
-      error: function(err) {
+      error: function (err) {
         console.log(err);
       }
-      // }
     });
   },
-  yjzjk: function(data) {
+  yjzjk: function (data) {
     console.log(data);
     var toolsHTML = `<thead><tr><th>姓名</th><th>单位</th><th>手机号</th><th>邮箱</th></tr></thead>`;
     toolsHTML += `<tbody>`;
@@ -1492,7 +1745,7 @@ var indexPage = {
     toolsHTML += `</tbody>`;
     $("#toolsHTML").html(toolsHTML);
   },
-  qxdw: function(data) {
+  qxdw: function (data) {
     var toolsHTML = `<thead><tr><th>单位</th><th>联系人</th><th>联系电话</th></tr></thead>`;
     toolsHTML += `<tbody>`;
     for (let i = 0; i < data.length; i++) {
@@ -1505,7 +1758,7 @@ var indexPage = {
     toolsHTML += `</tbody>`;
     $("#toolsHTML").html(toolsHTML);
   },
-  qxgj: function(data) {
+  qxgj: function (data) {
     console.log(data);
     var toolsHTML = `<thead><tr><th>抢险工具名称</th><th>工具数量</th><th>所属单位</th><th>联系人</th><th>联系电话</th></tr></thead>`;
     toolsHTML += `<tbody>`;
@@ -1523,3 +1776,5 @@ var indexPage = {
   }
 };
 indexPage.init();
+
+// console.log($.cookie);

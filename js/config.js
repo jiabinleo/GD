@@ -3,7 +3,6 @@ var fileUrl = {
   header88: "http://192.168.1.240:8088",
   header98: "http://192.168.1.240:8098"
 };
-// console.log(localhost)
 var filePath = {
   share: "http://192.168.1.240:8088/light/mapgis/view/share.html"
 };

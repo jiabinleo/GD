@@ -63,9 +63,14 @@
                 <span id="close1"><img src="img/close.png" alt=""></span>
             </div>
             <div class="retrievalBox-content" id="retrievalBox_content">
+                <p class="area">年份查询：
+                        <select name="" id="years">
+                            <option value="全部">全部</option>
+                        </select>
+                    </p>
                 <p class="disasterType">灾情类型：
-                    <span><a name="check" class="checkFalse" data="1">隐患点</a></span>
-                    <span><a name="check" class="checkFalse" data="2">灾情点</a></span>
+                    <span><a name="check" class="checkFalse" data="1">灾情点</a></span>
+                    <span><a name="check" class="checkFalse" data="2">隐患点</a></span>
                 </p>
                 <p class="area">所在区域：
                     <select name="" id="getAreaName">
@@ -115,7 +120,7 @@
         <div class="inspectingDetail" id="inspectingDetail">
         </div>
         <div class="mask-wrap">
-            <div class="mask-img">
+            <div id="mask_imgVideo" class="mask-imgVideo">
             </div>
         </div>
         <div id="toolL" class="toolL">
