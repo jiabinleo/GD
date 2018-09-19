@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>更多详情</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="../js/config.js"></script>
+    <link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../view/css/share.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <header id="headerHTML">
+            <span></span>
+            <h2></h2>
+            <p id="ids">编号（）</p>
+        </header>
+        <section id="sectionHTML">
+            <div class="address">
+                <div class="address1">
+                    <p>
+                        <span>地址：</span>
+                        <span id="address"></span>
+                    </p>
+                    <p>
+                        <span>隶属：</span>
+                        <span id="liShu"></span>
+                    </p>
+                </div>
+                <p>
+                    <span>上报时间：</span>
+                    <span id="time"></span>
+                </p>
+                <p>
+                    <span>灾情描述：</span>
+                    <span></span>
+                </p>
+            </div>
+            <div class="details">
+                <p>
+                    <span>坍塌规模：</span>
+                    <span></span>
+                </p>
+                <p>
+                    <span>坍塌危害：</span>
+                    <span></span>
+                </p>
+                <p>
+                    <span>灾情等级：</span>
+                    <span></span>
+                </p>
+            </div>
+            <div class="reason">
+                <p>
+                    <span>引发因素：</span>
+                    <span></span>
+                </p>
+                <p>
+                    <span>坍塌原因：</span>
+                    <span></span>
+                </p>
+                <p>
+                    <span>应急处理：</span>
+                    <span></span>
+                </p>
+            </div>
+            <div class="imgVideo">
+                <p>现场图片、视频：</p>
+                <div class="leftArr arr" next="0">
+
+                </div>
+                <div class="leftArr arr" next="1">
+
+                </div>
+                <div class="center">
+                    <ul id="centerHTML">
+                    </ul>
+                </div>
+            </div>
+            <!-- <div class="photo" id="photoImg">
+                <p>现场图片：</p>
+                <ul>
+
+                </ul>
+            </div>
+            <div class="photo">
+                <p>现场视频：</p>
+                <ul>
+
+                </ul>
+            </div> -->
+        </section>
+        <footer>
+            <p>了解更多灾情及灾情报料请下载扫描如下二维码</p>
+            <div class="qrCode">
+                <div id="downloadApp"></div>
+                <p>扫码下载APP了解更多</p>
+            </div>
+            <div class="qrCode">
+                <div id="PublicNumber"></div>
+                <p>扫一扫关注微信公众号</p>
+            </div>
+        </footer>
+        <input id="shareBtn" class="shareBtn" type="button" value="转发">
+    </div>
+    <div class="mask-wrap" id="mask_wrap">
+        <span id="closeIV" class="closeIV"><img src="../img/closeIV.png" alt="" srcset=""></span>
+        <div class="mask-IV" id="mask_imgVideo">
+        </div>
+        <div id="qrcode" class="qrcode">
+            <h3>转发信息</h3>
+            <span class="closegray close6"></span>
+            <div class="qrcode-center">
+                <span id="copytxt">1231212312312</span>
+                <input type="button" id="copy" value="复制">
+                <input class="close6" type="button" value="取消">
+            </div>
+            <p>复制链接，可以任意粘贴到聊天工具，或者邮件当中，分享给朋友</p>
+        </div>
+    </div>
+    <div class="mask-copy" id="mask_copy">
+        <div class="mask-inner-copy" id="maskInnerCopy">
+            <p>消息提示：</p>
+            <p>
+                复制成功
+            </p>
+            <p>
+                <input id="maskCopyYes" type="button" value="确定">
+            </p>
+        </div>
+    </div>
+    <script src="../js/jquery.qrcode.min.js"></script>
+    <script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js"></script>
+    <script src="../view/js/share.js"></script>
+</body>
+
+</html>

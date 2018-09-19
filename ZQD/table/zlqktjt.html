@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scale=none">
+    <title>深圳地面坍塌治理情况</title>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <link rel="stylesheet" href="./css/zlqktjt.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="map" class="map">
+            <p>深圳地面坍塌治理情况</p>
+            <div class="main" id="main" style="width: 90%;height:80%;"></div>
+        </div>
+        <input class="change" id="change" type="button" value="列表模式">
+        <div class="table" id="table">
+            <section>
+                <menu>
+                    <p id="titlePc">深圳市地面坍塌灾害治理情况统计</p>
+                    <select id="particularYear" data-edit-select="1">
+                    </select>
+                    <select name="" id="quarter">
+                        <option data-id="0" value="全年">全年</option>
+                        <option data-id="1" value="第一季度">第一季度</option>
+                        <option data-id="2" value="第二季度">第二季度</option>
+                        <option data-id="3" value="第三季度">第三季度</option>
+                        <option data-id="4" value="第四季度">第四季度</option>
+                    </select>
+                    <input id="search" class="search" type="button" value="查询">
+                </menu>
+                <table border="1" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <td rowspan="2">行政区</td>
+                            <td colspan="4">坍塌治理情况</td>
+                        </tr>
+                        <tr>
+                            <td>总数</td>
+                            <td>已治理</td>
+                            <td>未治理</td>
+                            <td>治理率</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyHtmlPc">
+
+                    </tbody>
+                </table>
+                <p class="sum">共查询到0个灾害点</p>
+                <p id="timer">截至3月31日</p>
+            </section>
+        </div>
+    </div>
+    <script src="./js/zlqktjt.js"></script>
+</body>
+
+</html>

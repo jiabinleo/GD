@@ -1,0 +1,198 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+}
+.msgWrap-list {
+  // display: none;
+  width: 100%;
+  height: 100%;
+  header {
+    font-size: 18px;
+    height: 50px;
+    padding: 3vh 3vh 0vh 3vh;
+    div {
+      padding-bottom: 19px;
+      border-bottom: solid 1px #eeeeee;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    span {
+      float: right;
+      width: 15px;
+      height: 15px;
+      background: url("../../img/closegray.png") no-repeat;
+    }
+  }
+  section {
+    height: 45vh;
+    max-height: 474px;
+    overflow-y: auto;
+    padding-left: 30px;
+    ul {
+      overflow: hidden;
+      li {
+        height: 107px;
+        // margin: 15px 10px 20px 0;
+        margin: 3% 2% 4% 0;
+        border-bottom: solid 1px #eeeeee;
+        overflow: hidden;
+        font-size: 16px;
+        font-weight: 500;
+        .msgLeft {
+          float: left;
+          max-width: 90px;
+          width: 10%;
+          height: 107px;
+          padding-top: 3px;
+          overflow: hidden;
+          span {
+            display: inline-block;
+            max-width: 87px;
+            width: 100%;
+            height: 30px;
+
+            text-align: center;
+            line-height: 30px;
+            border-radius: 5px;
+            color: #ffffff;
+            background-color: #d3d3d3;
+            &.read0 {
+              background-color: #50bbfb;
+            }
+            &.read1 {
+              background-color: #d3d3d3;
+            }
+          }
+        }
+        .msgRight {
+          float: right;
+          max-width: 600px;
+          width: 80%;
+          padding-right: 20px;
+          p {
+            color: #666666;
+            overflow: hidden;
+            line-height: 2;
+            &:first-of-type {
+              color: #333333;
+
+              span {
+                &:last-of-type {
+                  color: #999999;
+                }
+              }
+            }
+            &:nth-of-type(2) {
+              padding-right: 20px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+            &:last-of-type {
+              color: #7c8196;
+            }
+            span {
+              &:first-of-type {
+                float: left;
+              }
+              &:last-of-type {
+                float: right;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.msgWrap-details {
+  display: none;
+  header {
+    font-size: 18px;
+    height: 52px;
+    padding: 30px 30px 0px 30px;
+    div {
+      padding-bottom: 19px;
+      border-bottom: solid 1px #eeeeee;
+      font-size: 24px;
+      font-weight: 700;
+      span {
+        &:last-of-type {
+          float: right;
+          width: 15px;
+          height: 15px;
+          background: url("../../img/closegray.png") no-repeat;
+        }
+      }
+    }
+  }
+  section {
+    height: 35vh;
+    max-height: 446px;
+    overflow-y: auto;
+    padding: 30px 30px 0 30px;
+    font-weight: 500;
+    font-size: 16px;
+    p {
+      &:first-of-type {
+        color: #666666;
+        font-size: 16px;
+      }
+      &:last-of-type {
+        color: #999999;
+        font-size: 16px;
+        line-height: 50px;
+        span {
+          &:first-of-type {
+            float: left;
+          }
+          &:last-of-type {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .msgWrap-list {
+    header {
+      div {
+        font-size: 22px;
+      }
+    }
+    section {
+      ul {
+        li {
+          height: 78px;
+          .msgLeft {
+            font-size: 12px;
+          }
+          .msgRight {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  .msgWrap-details {
+    header {
+      div {
+        span {
+          font-size: 22px;
+        }
+      }
+    }
+    section {
+      p {
+        &:first-of-type {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+// .msgWrap-details section p:first-of-type

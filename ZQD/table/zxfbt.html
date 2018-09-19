@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scale=none">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>深圳市地面坍塌灾害点分布图</title>
+    <link rel="stylesheet" href="./css/zxfbt.css">
+</head>
+
+<body>
+    <input id="change" class="change" type="button" value="列表模式">
+    <div class="wrap">
+
+        <div class="map" id="map">
+            <p>深圳市2017年度地面坍塌灾害点分布图</p>
+            <img id="mapImg" src="./img/zxfbt.png">
+        </div>
+        <div class="table" id="table">
+            <section>
+                <menu>
+                    <p id="titlePc">灾险情统计表</p>
+                    <select id="particularYear" data-edit-select="1">
+                    </select>
+                    <select name="" id="quarter">
+                        <option data-id="0" value="全年">全年</option>
+                        <option data-id="1" value="第一季度">第一季度</option>
+                        <option data-id="2" value="第二季度">第二季度</option>
+                        <option data-id="3" value="第三季度">第三季度</option>
+                        <option data-id="4" value="第四季度">第四季度</option>
+                    </select>
+                    <input id="search" class="search" type="button" value="查询">
+                </menu>
+                <table cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <td rowspan="2">序号</td>
+                            <td rowspan="2">行政区</td>
+                            <td rowspan="2">灾险情数量</td>
+                            <td colspan="4" class="hidden-danger-grade">隐患等级</td>
+                        </tr>
+                        <tr>
+                            <td>隐患Ⅰ级</td>
+                            <td>隐患Ⅱ级</td>
+                            <td>隐患Ⅲ级</td>
+                            <td>隐患Ⅳ级</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyHtml">
+
+                    </tbody>
+                </table>
+                <p class="sum">共查询到0条灾险情</p>
+                <p id="timer">截至3月31日</p>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="./js/zxfbt.js"></script>
+</body>
+
+</html>

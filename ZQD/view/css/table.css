@@ -1,0 +1,58 @@
+.tableList-header {
+  padding: 0 30px;
+  background-color: #50bbfb;
+  width: 270px;
+  height: 47px;
+  line-height: 47px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+}
+.tableList-header span {
+  float: left;
+  line-height: 47px;
+}
+.tableList-header span:nth-of-type(2) {
+  float: right;
+}
+.tableList-content {
+  background-color: #ffffff;
+  padding: 10px 30px 15px 30px;
+  max-height: 70vh;
+  overflow-y: hidden;
+}
+.tableList-content table {
+  width: 100%;
+}
+.tableList-content table thead tr {
+  line-height: 43px;
+  font-size: 14px;
+  color: #666666;
+}
+.tableList-content table thead tr td:first-of-type {
+  text-align: center;
+}
+.tableList-content table thead tr td:last-of-type {
+  text-align: left;
+  padding-left: 40px;
+}
+.tableList-content table tbody tr {
+  line-height: 43px;
+  font-size: 14px;
+  color: #999999;
+  cursor: pointer;
+}
+.tableList-content table tbody tr td {
+  border-bottom: solid 1px #eeeeee;
+}
+.tableList-content table tbody tr td:first-of-type {
+  text-align: center;
+  width: 50px;
+}
+.tableList-content table tbody tr td:last-of-type {
+  text-align: left;
+  padding-left: 40px;
+}
+.tableList-content table tbody tr:last-of-type td {
+  border: none;
+}
