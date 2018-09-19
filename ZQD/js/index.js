@@ -34,7 +34,7 @@ map = new AMap.Map("container", {
 // var key = document.cookie("key");
 // console.log(key);
 var indexPage = {
-  init: function() {
+  init: function () {
     indexPage.changeMap([]);
     indexPage.queryGetGisAreaName();
     indexPage.listen();
@@ -53,9 +53,9 @@ var indexPage = {
     config.drag("tableWrap");
     config.drag("toolL");
   },
-  listen: function() {
+  listen: function () {
     //查询按钮
-    $("#search").on("click", function() {
+    $("#search").on("click", function () {
       $(".status span").removeClass("insetActive");
       areaname = $("#getAreaName option:selected").val();
       years = $("#years option:selected").val();
@@ -78,7 +78,7 @@ var indexPage = {
       };
       indexPage.queryData(data, layers);
     });
-    $("#arrL").on("click", function() {
+    $("#arrL").on("click", function () {
       if (numPage > 1) {
         numPage--;
         indexPage.tableList(jsonData, numPage);
@@ -90,7 +90,7 @@ var indexPage = {
           .addClass("activeColor");
       }
     });
-    $("#arrR").on("click", function() {
+    $("#arrR").on("click", function () {
       if (numPage < numPageS) {
         numPage++;
         indexPage.tableList(jsonData, numPage);
@@ -101,7 +101,7 @@ var indexPage = {
           .addClass("activeColor");
       }
     });
-    $("#arrCenter").on("click", "a", function() {
+    $("#arrCenter").on("click", "a", function () {
       numPage = $(this).html();
       $(this)
         .addClass("activeColor")
@@ -110,7 +110,7 @@ var indexPage = {
       indexPage.tableList(jsonData, numPage);
     });
     //点击加载卫星图和普通图
-    $("#satellite").on("click", function() {
+    $("#satellite").on("click", function () {
       $("#search").trigger("click");
       //卫星图
       if (satellite) {
@@ -120,19 +120,19 @@ var indexPage = {
       }
       satellite = !satellite;
 
-      setTimeout(function() {
+      setTimeout(function () {
         indexPage.changeMap(layers);
         $("#search").trigger("click");
       }, 300);
     });
     //路径规划
-    $(document).on("click", "#goto", function() {
+    $(document).on("click", "#goto", function () {
       window.open(
         "https://gaode.com/dir?&to%5Bname%5D=" + $(this).attr("data")
       );
     });
     //点击检索
-    $("#retrieval").on("click", function() {
+    $("#retrieval").on("click", function () {
       if ($("#retrievalBox").css("display") == "none") {
         $("#retrievalBox").show();
         $(".retrieval")
@@ -146,7 +146,7 @@ var indexPage = {
       }
     });
     //关闭检索
-    $("#close1").on("click", function() {
+    $("#close1").on("click", function () {
       $("#retrievalBox").hide();
       $(".retrieval")
         .removeClass("retrieval-hide")
@@ -154,7 +154,7 @@ var indexPage = {
     });
 
     // 显示图表
-    $("#chart").on("click", function() {
+    $("#chart").on("click", function () {
       $("#tableList").load("view/table.html");
       if ($("#tableList").css("display") == "none") {
         $("#tableList").show();
@@ -164,11 +164,11 @@ var indexPage = {
     });
 
     //关闭详情
-    $(document).on("click", "#close3", function() {
+    $(document).on("click", "#close3", function () {
       $("#details").hide();
     });
     //灾情类型
-    $(".disasterType").on("click", "[name='check']", function() {
+    $(".disasterType").on("click", "[name='check']", function () {
       if ($(this).prop("className") == "checkFalse") {
         $(this).removeClass("checkFalse");
         $(this).addClass("checkTrue");
@@ -180,7 +180,7 @@ var indexPage = {
       }
     });
     //灾害等级
-    $(".grade").on("click", "[name='check']", function() {
+    $(".grade").on("click", "[name='check']", function () {
       if ($(this).prop("className") == "checkFalse") {
         $(this).removeClass("checkFalse");
         $(this).addClass("checkTrue");
@@ -192,7 +192,7 @@ var indexPage = {
       }
     });
     //转移视觉目标
-    $("#tbodyHtml").on("click", "tr", function() {
+    $("#tbodyHtml").on("click", "tr", function () {
       indexPage.setZoomAndCenter(
         $(this).attr("lon"),
         $(this).attr("lat"),
@@ -201,7 +201,7 @@ var indexPage = {
       );
     });
     //根据状态筛选
-    $(".status").on("click", "span", function() {
+    $(".status").on("click", "span", function () {
       $(this)
         .addClass("insetActive")
         .siblings()
@@ -236,7 +236,7 @@ var indexPage = {
       indexPage.queryData(data, layers);
     });
     //周边详情
-    $(document).on("click", ".aroundList", function() {
+    $(document).on("click", ".aroundList", function () {
       indexPage.showPoint(jsonData, layers);
       var lat = $(this)
         .parent()
@@ -249,7 +249,7 @@ var indexPage = {
       $(".close4").show();
       $("#panel").show();
     });
-    $(document).on("click", ".close4", function() {
+    $(document).on("click", ".close4", function () {
       $(".close4").hide();
       $("#panel").hide();
       indexPage.showPoint(jsonData, layers);
@@ -365,29 +365,29 @@ var indexPage = {
     //   return false;
     // });
     //巡查
-    $(document).on("click", "#inspecting", function() {
+    $(document).on("click", "#inspecting", function () {
       $("#inspectingDetail").show();
     });
     //关闭巡查历史
-    $(document).on("click", "#close5", function() {
+    $(document).on("click", "#close5", function () {
       $("#inspectingDetail").hide();
     });
     //查询时间筛选
-    $(document).on("click", ".detailB", function() {
+    $(document).on("click", ".detailB", function () {
       historyData.index = $(this).attr("ids");
       indexPage.inspectingHtml(historyData);
     });
     //更多详情
-    $(document).on("click", "#openNew", function() {
+    $(document).on("click", "#openNew", function () {
       var src = filePath.share + "?disasterid=" + newOpenUuid;
       window.open(src);
     });
-    $(document).on("click", "#qrcode", function() {
+    $(document).on("click", "#qrcode", function () {
       return false;
     });
 
     // 搜索
-    $(document).on("click", "#searchs", function() {
+    $(document).on("click", "#searchs", function () {
       if (allData) {
         var searchVal = $.trim($("#searchTxt").val());
         var searchResultHtml = "";
@@ -405,7 +405,7 @@ var indexPage = {
         $("#searchResult").show();
       }
     });
-    $("#searchTxt").keyup(function() {
+    $("#searchTxt").keyup(function () {
       if (allData) {
         var searchVal = $.trim($("#searchTxt").val());
         var searchResultHtml = "";
@@ -423,7 +423,7 @@ var indexPage = {
         $("#searchResult").show();
       }
     });
-    $(document).on("click", "#searchResultHtml > li", function() {
+    $(document).on("click", "#searchResultHtml > li", function () {
       indexPage.setZoomAndCenter(
         $(this).attr("lon"),
         $(this).attr("lat"),
@@ -432,13 +432,13 @@ var indexPage = {
       );
       return false;
     });
-    $(document).on("click", ".search", function() {
+    $(document).on("click", ".search", function () {
       return false;
     });
-    $(document).on("click", function() {
+    $(document).on("click", function () {
       $("#searchResult").hide();
     });
-    $(document).on("click", "#message", function() {
+    $(document).on("click", "#message", function () {
       $("#msgWrap").load("view/message.html");
       if ($("#msgWrap").css("display") == "none") {
         $("#msgWrap").show();
@@ -447,7 +447,7 @@ var indexPage = {
       }
     });
     var marginLeft = 0;
-    $(document).on("click", ".imgVideoNext", function() {
+    $(document).on("click", ".imgVideoNext", function () {
       console.log(marginLeft);
       if ($(this).attr("next") === "0") {
         if (marginLeft < 0) {
@@ -461,7 +461,7 @@ var indexPage = {
       $("#imgVideo_center > ul").css("marginLeft", marginLeft);
     });
     //点击预览
-    $(document).on("click", "#imgVideo_center > ul > li", function() {
+    $(document).on("click", "#imgVideo_center > ul > li", function () {
       indexImgVideo = $(this).attr("num");
       $(".mask-wrap").show();
       if (imgVideoWArr[$(this).attr("num")].fileType === "1") {
@@ -492,13 +492,13 @@ var indexPage = {
 
       $("#mask_imgVideo").html(mask_imgVideo_HTML);
     });
-    $(document).on("click", ".mask-wrap", function() {
+    $(document).on("click", ".mask-wrap", function () {
       $(".mask-wrap").hide();
     });
-    $(document).on("click", "#mask_imgVideo", function() {
+    $(document).on("click", "#mask_imgVideo", function () {
       return false;
     });
-    $(document).on("click", "#mask_imgVideo > .arr", function() {
+    $(document).on("click", "#mask_imgVideo > .arr", function () {
       if ($(this).attr("next") === "0") {
         if (indexImgVideo > 0) {
           indexImgVideo--;
@@ -522,7 +522,7 @@ var indexPage = {
     });
     //巡查记录图片视频
     var detail_marginLeft = 0;
-    $(document).on("click", ".detailArr", function() {
+    $(document).on("click", ".detailArr", function () {
       console.log(detail_imgVideoArr);
       if ($(this).attr("next") === "0") {
         if (detail_marginLeft < 0) {
@@ -538,7 +538,7 @@ var indexPage = {
     });
     //巡查记录点击预览
 
-    $(document).on("click", "#imgArrDetailCenter > ul > li", function() {
+    $(document).on("click", "#imgArrDetailCenter > ul > li", function () {
       indexImgVideo = $(this).attr("num");
       $(".mask-wrap").show();
       // console.log(detail_imgVideoArr);
@@ -570,7 +570,7 @@ var indexPage = {
 
       $("#mask_imgVideo").html(mask_detialImgVideo_HTML);
     });
-    $(document).on("click", "#mask_imgVideo > .detialArr", function() {
+    $(document).on("click", "#mask_imgVideo > .detialArr", function () {
       // console.log(indexImgVideo);
       // console.log(detail_imgVideoArr);
       if ($(this).attr("next") === "0") {
@@ -594,102 +594,22 @@ var indexPage = {
         $("#center").html(centerHTML);
       }
     });
-    //灾害点图片
-    // $(document).on("click", "#fieldPhoto_wrap > div", function() {
-    //   var fieldPhotoMarginLeft = 0;
-    //   if ($(this).attr("class") === "imgArrRight") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "imgArrLeft") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldPhoto-wrap > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     fieldPhotoMarginLeft >= (imgArr.length - 3) * -144 &&
-    //     fieldPhotoMarginLeft <= 0
-    //   ) {
-    //     $(".fieldPhoto-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
-    //   }
-    // });
-    // $(document).on("click", "#fieldVideo_wrap > div", function() {
-    //   var fieldPhotoMarginLeft = 0;
-    //   if ($(this).attr("class") === "videoArrRight") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "videoArrLeft") {
-    //     fieldPhotoMarginLeft =
-    //       parseInt($(".fieldVideo-wrap > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     fieldPhotoMarginLeft >= (videoArr.length - 3) * -144 &&
-    //     fieldPhotoMarginLeft <= 0
-    //   ) {
-    //     $(".fieldVideo-wrap > ul").css("marginLeft", fieldPhotoMarginLeft);
-    //   }
-    // });
-    // 巡查图片左右滑动
-    // $(document).on("click", "#detailImg > div", function() {
-    //   var photoMarginLeft = 0;
-    //   if ($(this).attr("class") === "imgArrDetailRight") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailImg > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "imgArrDetailLeft") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailImg > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     photoMarginLeft >= (detailImgArr.length - 3) * -144 &&
-    //     photoMarginLeft <= 0
-    //   ) {
-    //     $("#detailImg > ul").css("marginLeft", photoMarginLeft);
-    //   }
-    // });
-    // $(document).on("click", "#detailVideo > div", function() {
-    //   var photoMarginLeft = 0;
-    //   if ($(this).attr("class") === "videoArrDetailRight") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailVideo > ul").css("marginLeft")) - 144;
-    //   } else if ($(this).attr("class") === "videoArrDetailLeft") {
-    //     photoMarginLeft =
-    //       parseInt($("#detailVideo > ul").css("marginLeft")) + 144;
-    //   }
-    //   if (
-    //     photoMarginLeft >= (detailVideoArr.length - 3) * -144 &&
-    //     photoMarginLeft <= 0
-    //   ) {
-    //     $("#detailVideo > ul").css("marginLeft", photoMarginLeft);
-    //   }
-    // });
     //关闭表单页面
-    $(document).on("click", ".closeTable", function() {
+    $(document).on("click", ".closeTable", function () {
       $("#tableWrap").hide();
     });
     // 快捷;
-    $(document).on("click", ".tools", function() {
+    $(document).on("click", ".tools", function () {
       indexPage.toolsShow($(this).attr("ids"));
     });
-    $(document).on("click", "#close7", function() {
+    $(document).on("click", "#close7", function () {
       $("#toolL").hide();
     });
-    // $(document).on("click", "#zqsb", function() {
-    //   window.parent.addTab({
-    //     url: "/light/fzSite/addSiteView",
-    //     title: "灾情上报",
-    //     iconCls: ""
-    //   });
-    // });
-    // $(document).on("click", "#zljh", function() {
-    //   window.parent.addTab({
-    //     url: "/light/plan/manager",
-    //     title: "防止计划",
-    //     iconCls: ""
-    //   });
-    // });
     if ($("#retrievalBox").height() < 500) {
       pageNum = 3; //每页显示的数量
     }
   },
-  changeMap: function(layers) {
+  changeMap: function (layers) {
     map = new AMap.Map("container", {
       resizeEnable: true,
       zoom: 16,
@@ -697,14 +617,14 @@ var indexPage = {
     });
   },
   //根据条件查询数据
-  queryData: function(data, layers) {
+  queryData: function (data, layers) {
     $.ajax({
       type: "GET",
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisDisasterdata", //后台接口地址
       dataType: "jsonp",
       data: data,
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         if (data.success === "0") {
           jsonData = data.result;
@@ -721,13 +641,13 @@ var indexPage = {
     });
   },
   // 获取所在区域
-  queryGetGisAreaName: function() {
+  queryGetGisAreaName: function () {
     $.ajax({
       type: "GET",
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
       dataType: "jsonp",
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
         var result = data.result;
         var selectconten = "<option value='全部'>全部</option>";
         for (var i = 0; i < result.length; i++) {
@@ -742,7 +662,7 @@ var indexPage = {
       }
     });
   },
-  years: function() {
+  years: function () {
     var mydate = new Date();
     year = mydate.getFullYear(); //获取完整的年份(4位,1970-????)
     console.log(year);
@@ -754,7 +674,7 @@ var indexPage = {
     $("#years").html(yearsHtml);
   },
   //分页
-  paging: function(num) {
+  paging: function (num) {
     var numpage = "";
     numPageS = Math.ceil(num / pageNum);
     numpage += "<a class='activeColor'>" + 1 + "</a>";
@@ -765,7 +685,7 @@ var indexPage = {
   },
 
   //查询列表warnlevel
-  tableList: function(data, numPage) {
+  tableList: function (data, numPage) {
     var tbodyHtml = "";
     var nums = numPage * pageNum;
     if (data.length < numPage * pageNum) {
@@ -794,14 +714,14 @@ var indexPage = {
     $("#tbodyHtml").html(tbodyHtml);
   },
   //治理状况统计
-  getGovernance: function(data) {
+  getGovernance: function (data) {
     $.ajax({
       type: "POST",
       url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/Getypecount",
       dataType: "jsonp",
       data: data,
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         if (data.success == "0") {
           $("#ungovern").html(data.result.suspending);
@@ -812,20 +732,19 @@ var indexPage = {
       }
     });
   },
-  clickColor: function(numPage) {
+  clickColor: function (numPage) {
     $("#arrCenter")
       .find("a")
       .eq(numPage)
       .addClass("activeColor");
   },
   // 地图上显示点
-  showPoint: function(data) {
+  showPoint: function (data) {
     var markers = [];
     pointData = data;
     var tData = "";
     map.clearMap(); // 清除地图覆盖物
-    // indexPage.notHarnessing(pointData);
-    AMap.event.addListener(map, "zoomend", function() {
+    AMap.event.addListener(map, "zoomend", function () {
       indexPage.sizeZoom(map.getZoom());
       indexPage.clickPoint(clickPointObj);
     });
@@ -868,7 +787,7 @@ var indexPage = {
       var tData = data[i];
       marker.content = tData;
       marker.on("click", markerClick);
-      AMap.event.addListener(map, "zoomend", function() {
+      AMap.event.addListener(map, "zoomend", function () {
         var data = pointData;
         map.remove(markers);
         markers = [];
@@ -916,7 +835,6 @@ var indexPage = {
             marker.on("click", markerClick);
             marker.setLabel({
               offset: new AMap.Pixel(0, 0), //修改label相对于maker的位置
-              // offset: new AMap.Pixel(-100, -25), //修改label相对于maker的位置
               content: tData.addressname
             });
             markers.push(marker);
@@ -1007,7 +925,7 @@ var indexPage = {
     map.setFitView();
   },
   // 转移视觉目标
-  setZoomAndCenter: function(lon, lat, managestate, lever) {
+  setZoomAndCenter: function (lon, lat, managestate, lever) {
     var color = "#0aa2fa";
     switch (managestate) {
       case "1":
@@ -1034,11 +952,11 @@ var indexPage = {
     };
     indexPage.sizeZoom(map.getZoom());
     map.setZoomAndCenter(lever, [lon, lat]);
-    setTimeout(function() {
+    setTimeout(function () {
       indexPage.clickPoint(clickPointObj);
     }, 500);
   },
-  sizeZoom: function(ziseZoom) {
+  sizeZoom: function (ziseZoom) {
     switch (ziseZoom) {
       case 3:
         clickPointObj.size = 15;
@@ -1098,7 +1016,7 @@ var indexPage = {
         break;
     }
   },
-  clickPoint: function(clickPointObj) {
+  clickPoint: function (clickPointObj) {
     try {
       CanvasLayer.hide();
     } catch (error) {}
@@ -1112,7 +1030,7 @@ var indexPage = {
     } catch (error) {}
   },
   // 增加图层
-  addDraw: function(lon, lat, size, color) {
+  addDraw: function (lon, lat, size, color) {
     var canvas = document.createElement("canvas");
     canvas.width = canvas.height = 200;
     var context = canvas.getContext("2d");
@@ -1121,7 +1039,7 @@ var indexPage = {
     context.globalAlpha = 1;
     context.lineWidth = 2;
     var radious = 0;
-    var draw = function(argument) {
+    var draw = function (argument) {
       context.clearRect(0, 0, 200, 200);
       context.globalAlpha = (context.globalAlpha - 0.01 + 1) % 1;
       radious = (radious + 1) % 100;
@@ -1142,7 +1060,7 @@ var indexPage = {
     CanvasLayer.setMap(map);
     draw();
   },
-  detailsSpot: function(etc) {
+  detailsSpot: function (etc) {
     var data = {
       uuid: etc.uuid
     };
@@ -1152,7 +1070,7 @@ var indexPage = {
       dataType: "jsonp",
       data: data,
       callback: "callback",
-      success: function(data) {
+      success: function (data) {
         if (data.success == "0") {
           indexPage.detailsSpotHtml(etc, data.result);
         }
@@ -1160,7 +1078,7 @@ var indexPage = {
     });
   },
   //巡查详情
-  inspecting: function(etc) {
+  inspecting: function (etc) {
     $.ajax({
       type: "POST",
       url: fileUrl.header88 + "/light/inspect/mobile/GetSingleInspect", //后台接口地址
@@ -1168,7 +1086,7 @@ var indexPage = {
       data: {
         uuid: etc.uuid
       },
-      success: function(data) {
+      success: function (data) {
         if (data.success == true) {
           historyData = {
             data: data.result,
@@ -1178,12 +1096,12 @@ var indexPage = {
           indexPage.inspectingHtml(historyData);
         }
       },
-      error: function(err) {
+      error: function (err) {
         console.log(err);
       }
     });
   },
-  inspectingHtml: function(historyData) {
+  inspectingHtml: function (historyData) {
     var inspectingDetailHtml = "";
     if (historyData.data.length != 0) {
       var activeData = historyData.data[historyData.index];
@@ -1208,10 +1126,6 @@ var indexPage = {
             filetype: activeData.attach[i].filetype
           });
         }
-        // detail_imgVideoArr.push({
-        //   url_path:activeData.attach[i].url_path,
-        //   filetype:activeData.attach[i].filetype
-        // })
       }
       detail_imgVideoArr = detail_imgArr.concat(detail_videoArr);
       console.log(detail_imgVideoArr);
@@ -1227,27 +1141,6 @@ var indexPage = {
           } onerror=src="./img/loading.gif"></video></li>`;
         }
       }
-      // console.log(detail_imgVideoArr)
-      // detailImgArr = [];
-      // (detailVideoArr = []), (imgMini = 0);
-      // videoMini = 0;
-      // for (let i = 1; i < activeData.attach.length; i++) {
-      //   if (activeData.attach[i].filetype === "1") {
-      //     imgMini++;
-      //     detailImgArr.push(activeData.attach[i].url_path);
-      //     detail_img += `<li class="imgMinDetail" index="${imgMini - 1}">
-      //     <img src="${
-      //       activeData.attach[i].url_path
-      //     }"  onerror=src="./img/loading.gif" alt="暂无图片"></li>`;
-      //   } else if (activeData.attach[i].filetype === "2") {
-      //     videoMini++;
-      //     detailVideoArr.push(activeData.attach[i].url_path);
-      //     detail_video += `<li class="videoMinDetail" index="${videoMini - 1}">
-      //     <video controls="controls" muted pause="" width="100%" src="${
-      //       activeData.attach[i].url_path
-      //     }" class="pause">暂无视频</video></li>`;
-      //   }
-      // }
       inspectingDetailHtml = `<div class="inspectingDetail-header">
       <span>巡查历史</span>
       <span>编号（${historyData.etc.id}）</span>
@@ -1329,18 +1222,6 @@ var indexPage = {
             color: "#666666"
           });
       }
-      // if (
-      //   parseInt($("#detailImg > ul").css("width")) <=
-      //   parseInt($("#detailImg").css("width"))
-      // ) {
-      //   $(".detailImg > div").css({ display: "none" });
-      // }
-      // if (
-      //   parseInt($("#detailVideo > ul").css("width")) <=
-      //   parseInt($("#detailVideo").css("width"))
-      // ) {
-      //   $(".detailVideo > div").css({ display: "none" });
-      // }
       indexPage.walkings(walkingStart, walkingEnd);
     } else {
       inspectingDetailHtml = `<div class="inspectingDetail-header">
@@ -1354,7 +1235,7 @@ var indexPage = {
       $("#inspectingDetail").html(inspectingDetailHtml);
     }
   },
-  walkings: function(walkingStart, walkingEnd) {
+  walkings: function (walkingStart, walkingEnd) {
     //巡查轨迹
     var map = new AMap.Map("containerTrack", {
       resizeEnable: true,
@@ -1369,8 +1250,7 @@ var indexPage = {
     //根据起终点坐标规划步行路线
     walking.search(walkingStart, walkingEnd);
   },
-  detailsSpotHtml: function(etc, data) {
-    console.log(data);
+  detailsSpotHtml: function (etc, data) {
     newOpenUuid = etc.uuid;
     // 获取天气
     var weatherHtml = "";
@@ -1384,7 +1264,7 @@ var indexPage = {
         lon: data.fzsite.lon,
         lat: data.fzsite.lat
       },
-      success: function(data) {
+      success: function (data) {
         if (data.success == "0") {
           for (let i = 0; i < data.result.forecast.dailyArray.length; i++) {
             description = data.result.forecast.description;
@@ -1476,17 +1356,11 @@ var indexPage = {
           fileType: "1",
           url_path: data.attachList[i].url_path
         });
-        // imgHTML += `<li dataType="1"><img  onerror=src="./img/loading.gif" alt="暂无图片" src = ${
-        //   data.attachList[i].url_path
-        // } /></li>`;
       } else if (data.attachList[i].filetype === "2") {
         videoArrW.push({
           fileType: "2",
           url_path: data.attachList[i].url_path
         });
-        // videoHTML += `<li dataType="2"><video  onerror=src="./img/loading.gif" alt="暂无图片" src = ${
-        //   data.attachList[i].url_path
-        // } ></video></li>`;
       }
     }
     imgVideoWArr = imgArrW.concat(videoArrW);
@@ -1502,41 +1376,6 @@ var indexPage = {
         } onerror=src="./img/loading.gif"></video></li>`;
       }
     }
-    // var imgHtml = "";
-    // var videoHtml = "";
-    // imgArr = [];
-    // videoArr = [];
-    // imgMini = 0;
-    // videoMini = 0;
-    // for (let i = 0; i < data.attachList.length; i++) {
-    //   if (data.attachList[i].filetype === "1") {
-    //     imgMini++;
-    //     imgArr.push(data.attachList[i].url_path);
-    //     imgHtml += `<li class="imgMin"  index="${imgMini - 1}">
-    //     <img width="100%" src="${
-    //       data.attachList[i].url_path
-    //     }"  onerror=src="./img/loading.gif" alt="暂无图片">
-    //     <a>${config.formatDate(data.attachList[i].createtime)}</a>
-    //     </li>`;
-    //   } else if (data.attachList[i].filetype === "2") {
-    //     videoMini++;
-    //     videoArr.push(data.attachList[i].url_path);
-    //     videoHtml += `<li class="videoMin" index="${videoMini - 1}">
-    //     <video  width="100%" src="${
-    //       data.attachList[i].url_path
-    //     }" class="pause">暂无视频</video>
-    //     <a>${config.formatDate(data.attachList[i].createtime)}</a>
-    //     </li>`;
-    //   }
-    // }
-    // if (imgHtml.length == 0) {
-    //   imgHtml =
-    //     "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无照片</p>";
-    // }
-    // if (videoHtml.length == 0) {
-    //   videoHtml =
-    //     "<p style='font-size:14px;line-height:45px;color:#666666;padding-left:14px;'>暂无视频</p>";
-    // }
     var detailsHtml = `<div class="details-header">
     <span title=${data.fzsite.secondname}>${data.fzsite.secondname}</span>
     <span>(编号：${data.fzsite.id})</span>
@@ -1652,31 +1491,11 @@ var indexPage = {
           color: "#666666"
         });
     }
-    // $(".fieldPhoto-wrap > ul").css({
-    //   width: imgArr.length * 154,
-    //   "min-width": "438px"
-    // });
-    // $(".fieldVideo-wrap > ul").css({
-    //   width: videoArr.length * 154,
-    //   "min-width": "438px"
-    // });
-    // if (
-    //   parseInt($("#fieldPhoto_wrap > ul").css("width")) <=
-    //   parseInt($("#fieldPhoto_wrap").css("width"))
-    // ) {
-    //   $(".fieldPhoto-wrap > div").css({ display: "none" });
-    // }
-    // if (
-    //   parseInt($("#fieldVideo_wrap > ul").css("width")) <=
-    //   parseInt($("#fieldVideo_wrap").css("width"))
-    // ) {
-    //   $(".fieldVideo-wrap > div").css({ display: "none" });
-    // }
     $("#details").show();
   },
   //周围信息
-  around: function(lat, lon, name) {
-    AMap.service(["AMap.PlaceSearch"], function() {
+  around: function (lat, lon, name) {
+    AMap.service(["AMap.PlaceSearch"], function () {
       var placeSearch = new AMap.PlaceSearch({
         //构造地点查询类
         pageSize: 3,
@@ -1686,12 +1505,12 @@ var indexPage = {
         panel: "panel"
       });
       var cpoint = [lon, lat]; //中心点坐标
-      placeSearch.searchNearBy("", cpoint, 500, function(status, result) {});
+      placeSearch.searchNearBy("", cpoint, 500, function (status, result) {});
       map.setZoomAndCenter(17, [lon, lat]);
     });
   },
 
-  toolsShow: function(tools) {
+  toolsShow: function (tools) {
     console.log(tools);
     var toolsUrl;
     if (tools === "yjzjk") {
@@ -1713,7 +1532,7 @@ var indexPage = {
       type: "GET",
       url: toolsUrl,
       dataType: "json",
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         if (data.success === "0" && tools === "yjzjk") {
           indexPage.yjzjk(data.result);
@@ -1724,12 +1543,12 @@ var indexPage = {
         }
         $("#toolL").show();
       },
-      error: function(err) {
+      error: function (err) {
         console.log(err);
       }
     });
   },
-  yjzjk: function(data) {
+  yjzjk: function (data) {
     console.log(data);
     var toolsHTML = `<thead><tr><th>姓名</th><th>单位</th><th>手机号</th><th>邮箱</th></tr></thead>`;
     toolsHTML += `<tbody>`;
@@ -1744,7 +1563,7 @@ var indexPage = {
     toolsHTML += `</tbody>`;
     $("#toolsHTML").html(toolsHTML);
   },
-  qxdw: function(data) {
+  qxdw: function (data) {
     var toolsHTML = `<thead><tr><th>单位</th><th>联系人</th><th>联系电话</th></tr></thead>`;
     toolsHTML += `<tbody>`;
     for (let i = 0; i < data.length; i++) {
@@ -1757,7 +1576,7 @@ var indexPage = {
     toolsHTML += `</tbody>`;
     $("#toolsHTML").html(toolsHTML);
   },
-  qxgj: function(data) {
+  qxgj: function (data) {
     console.log(data);
     var toolsHTML = `<thead><tr><th>抢险工具名称</th><th>工具数量</th><th>所属单位</th><th>联系人</th><th>联系电话</th></tr></thead>`;
     toolsHTML += `<tbody>`;
@@ -1775,5 +1594,3 @@ var indexPage = {
   }
 };
 indexPage.init();
-
-// console.log($.cookie);
