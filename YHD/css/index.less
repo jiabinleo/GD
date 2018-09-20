@@ -78,7 +78,7 @@ html {
         color: #666666;
         &.sta1 {
           &:hover {
-            color: #0aa2fa;
+            color: #ff0000;
           }
         }
         &.sta2 {
@@ -93,7 +93,7 @@ html {
         }
         &.sta4 {
           &:hover {
-            color: #0aa2fa;
+            color: #fa9d0a;
           }
         }
       }
@@ -322,8 +322,8 @@ html {
       p {
         color: #666666;
         max-height: 48px;
-        height: 6vh;
-        line-height: 60px;
+        height: 4vh;
+        line-height: 33px;
         &.disasterType {
           span {
             font-size: 0;
@@ -371,10 +371,10 @@ html {
           span {
             color: #999999;
             display: inline-block;
-            width: 70px;
+            width: 100px;
             text-align: right;
             &:first-of-type {
-              width: 56px;
+              width: 100px;
             }
             a {
               &:before {
@@ -407,7 +407,31 @@ html {
         border-radius: 3px;
         color: #ffffff;
         font-weight: 700;
-        margin-top: 20px;
+        margin: 13px 0;
+      }
+      table {
+        tbody {
+          tr {
+            td {
+              &.status1 {
+                color: #ff0000;
+              }
+              &.status2 {
+                color: #ff0000;
+              }
+              &.status3 {
+                color: #fa9d0a;
+              }
+              &.status4 {
+                color: #fa9d0a;
+              }
+            }
+          }
+        }
+      }
+      .loading {
+        line-height: 14px;
+        height: 14px;
       }
       .status {
         span {
@@ -466,23 +490,23 @@ html {
           }
         }
         tbody {
-          // padding-top: 24px;
+          padding-top: 24px;
           border: none;
           tr {
-            line-height: 34px;
+            line-height: 26px;
             td {
               color: #999999;
               &:first-of-type {
                 display: inline-block;
-                height: 34px;
-                width: 250px;
+                width: 240px;
+                height: 20px;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                vertical-align: 0;
               }
               &:last-of-type {
                 text-align: right;
-                height: 34px;
               }
               &.status1 {
                 color: #0aa2fa;
@@ -1290,7 +1314,7 @@ html {
     border-radius: 5px;
     transform: translate(-45%, -40px) !important;
     padding: 10px;
-    box-shadow: 5px 5px 15px 5px RGBA(51, 51, 51, 0.1);
+    box-shadow: 1px 4px 5px 0px RGBA(51, 51, 51, 0.05);
     letter-spacing: 0.2em;
   }
   .toolL {
@@ -1381,7 +1405,7 @@ html {
   }
   .legends {
     padding-left: 10px;
-    height: 117px;
+    height: 59px;
     position: absolute;
     left: 10px;
     bottom: 10px;
@@ -1416,32 +1440,6 @@ html {
         label {
           padding: 0 10px;
           color: #fa9d0a;
-        }
-      }
-      &:nth-of-type(3) {
-        span {
-          padding: 0px 8px;
-          display: inline-block;
-          height: 10px;
-          background: #0aa2fa;
-          border-radius: 3px;
-        }
-        label {
-          padding: 0 10px;
-          color: #0aa2fa;
-        }
-      }
-      &:nth-of-type(4) {
-        span {
-          padding: 0px 8px;
-          display: inline-block;
-          height: 10px;
-          background: #666666;
-          border-radius: 3px;
-        }
-        label {
-          padding: 0 10px;
-          color: #666666;
         }
       }
     }
@@ -1505,11 +1503,39 @@ html {
           line-height: 40px;
           height: 5vh;
           &.area {
-            margin-top: 0;
+            margin-top: 7px;
+          }
+          &.grade {
+            margin-top: -4px;
+          }
+          &.status {
+            margin-top: -16px;
+            margin-bottom: 10px;
           }
         }
         .button {
           height: 34px;
+          margin: 0 0 25px 0;
+        }
+        table {
+          tbody {
+            tr {
+              td {
+                &.status1 {
+                  color: #ff0000;
+                }
+                &.status2 {
+                  color: #ff0000;
+                }
+                &.status3 {
+                  color: #fa9d0a;
+                }
+                &.status4 {
+                  color: #fa9d0a;
+                }
+              }
+            }
+          }
         }
       }
     }

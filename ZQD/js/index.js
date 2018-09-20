@@ -195,6 +195,7 @@ var indexPage = {
         .addClass("insetActive")
         .siblings()
         .removeClass("insetActive");
+      dataS.years = $("#years option:selected").val();
       areaname = $("#getAreaName option:selected").val();
       warnlevel = "";
       for (let i = 0; i < gradename.length; i++) {
@@ -203,7 +204,7 @@ var indexPage = {
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       managestate = $(this).attr("data");
       var data = {
-        year: 2018,
+        year: dataS.years,
         areaid: "",
         warnlevel: "",
         managestate: managestate

@@ -369,7 +369,7 @@ html {
   border-radius: 3px;
   color: #ffffff;
   font-weight: 700;
-  margin: 20px 0;
+  margin: 13px 0;
 }
 .wrap .retrievalBox .retrievalBox-content .status span {
   border-radius: 10px;
@@ -1230,10 +1230,10 @@ html {
     height: 5vh;
   }
   .wrap .retrievalBox .retrievalBox-content p.area {
-    margin-top: 12px;
+    margin-top: 7px;
   }
   .wrap .retrievalBox .retrievalBox-content p.grade {
-    margin-top: 10px;
+    margin-top: -4px;
   }
   .wrap .retrievalBox .retrievalBox-content p.status {
     margin-top: -16px;
@@ -1241,6 +1241,7 @@ html {
   }
   .wrap .retrievalBox .retrievalBox-content .button {
     height: 34px;
+    margin: 0 0 25px 0;
   }
   .wrap .toolL section table thead tr td {
     font-size: 16px;

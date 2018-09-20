@@ -9,27 +9,31 @@ var filePath = {
 var config = {
   //时间转换
   formatDate: function(now) {
-    var now = new Date(now);
+    if (now) {
+      var now = new Date(now);
 
-    var year = now.getFullYear();
-    var month = now.getMonth() + 1;
-    var date = now.getDate();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var second = now.getSeconds();
-    return (
-      year +
-      "-" +
-      config.fixZero(month, 2) +
-      "-" +
-      config.fixZero(date, 2) +
-      " " +
-      config.fixZero(hour, 2) +
-      ":" +
-      config.fixZero(minute, 2) +
-      ":" +
-      config.fixZero(second, 2)
-    );
+      var year = now.getFullYear();
+      var month = now.getMonth() + 1;
+      var date = now.getDate();
+      var hour = now.getHours();
+      var minute = now.getMinutes();
+      var second = now.getSeconds();
+      return (
+        year +
+        "-" +
+        config.fixZero(month, 2) +
+        "-" +
+        config.fixZero(date, 2) +
+        " " +
+        config.fixZero(hour, 2) +
+        ":" +
+        config.fixZero(minute, 2) +
+        ":" +
+        config.fixZero(second, 2)
+      );
+    } else {
+      return "";
+    }
   },
   //时间如果为单位数补0
   fixZero: function(num, length) {
@@ -57,15 +61,68 @@ var config = {
       case "4":
         sta = "已结案";
         break;
+      default:
+        sta = "暂无";
+        break;
     }
     return sta;
+  },
+  // 隐患等级
+  warnlevel: function(key) {
+    var color = "#0aa2fa";
+    switch (key) {
+      case "1":
+        color = "#ff0000";
+        break;
+      case "2":
+        color = "#ff0000";
+        break;
+      case "3":
+        color = "#fa9d0a";
+        break;
+      case "4":
+        color = "#fa9d0a";
+        break;
+      default:
+        color = "#0aa2fa";
+        break;
+    }
+    console.log(color);
+    return color;
+  },
+  warnlevels: function(key) {
+    var warle = "一般隐患";
+    switch (key) {
+      case "1":
+        warle = "重大隐患";
+        break;
+      case "2":
+        warle = "重大隐患";
+        break;
+      case "3":
+        warle = "一般隐患";
+        break;
+      case "4":
+        warle = "一般隐患";
+        break;
+      default:
+        warle = "一般隐患";
+        break;
+    }
+    return warle;
   },
   //拖拽
   zIndex: 1,
   drag: function(IdName) {
     var box = document.getElementById(IdName);
-    var eleP = { left: 0, top: 0 };
-    var startP = { left: 0, top: 0 };
+    var eleP = {
+      left: 0,
+      top: 0
+    };
+    var startP = {
+      left: 0,
+      top: 0
+    };
     box.onmousedown = function(event) {
       config.zIndex += 1;
       box.style.zIndex = config.zIndex;
@@ -76,7 +133,10 @@ var config = {
       startP.top = event.clientY;
       document.onmousemove = function(event) {
         event = event || window.event;
-        var endP = { left: 0, top: 0 };
+        var endP = {
+          left: 0,
+          top: 0
+        };
         endP.left = event.clientX;
         endP.top = event.clientY;
         var disX = endP.left - startP.left;
@@ -141,4 +201,9 @@ function isNull(object) {
     return true;
   }
   return false;
+}
+
+// 判断字段是否为空
+function isKong(val) {
+  return val ? val : "";
 }
