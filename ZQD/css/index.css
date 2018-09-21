@@ -52,6 +52,7 @@ html {
   width: 55px;
   height: 45px;
   background-color: #50bbfb;
+  cursor: pointer;
 }
 .wrap .search .search-right .search-logo {
   width: 55px;
@@ -111,6 +112,7 @@ html {
   font-weight: 500;
   color: #7c8196;
   font-size: 12px;
+  cursor: pointer;
 }
 .wrap .tool > div:hover {
   color: #50bbfb;
@@ -370,6 +372,7 @@ html {
   color: #ffffff;
   font-weight: 700;
   margin: 13px 0;
+  cursor: pointer;
 }
 .wrap .retrievalBox .retrievalBox-content .status span {
   border-radius: 10px;
@@ -377,6 +380,7 @@ html {
   font-size: 12px;
   font-weight: 500;
   margin-right: 8px;
+  cursor: pointer;
 }
 .wrap .retrievalBox .retrievalBox-content .status span:first-of-type {
   color: #ff0000;
@@ -430,6 +434,7 @@ html {
 }
 .wrap .retrievalBox .retrievalBox-content table tbody tr {
   line-height: 26px;
+  cursor: pointer;
 }
 .wrap .retrievalBox .retrievalBox-content table tbody tr td {
   color: #999999;
@@ -464,12 +469,17 @@ html {
   width: 20px;
   height: 20px;
   background: url("../img/arrl.png") no-repeat;
+  cursor: pointer;
 }
 .wrap .retrievalBox .paging .paging-content .arrR {
   display: inline-block;
   width: 20px;
   height: 20px;
   background: url("../img/arrr.png") no-repeat;
+  cursor: pointer;
+}
+.wrap .retrievalBox .paging .paging-content .arrCenter {
+  cursor: pointer;
 }
 .wrap .retrievalBox .paging .paging-content .arrCenter a {
   padding: 5px;
@@ -683,6 +693,7 @@ html {
   height: 107px;
   float: left;
   padding: 3px;
+  cursor: pointer;
 }
 .wrap .details .details-content .imgVideo .imgVideo-center ul li img {
   width: 100%;
@@ -743,6 +754,7 @@ html {
   text-align: center;
   width: 25%;
   padding: 20px 0;
+  cursor: pointer;
 }
 .wrap .details .details-content .else ul li img {
   width: 70px;
@@ -1238,10 +1250,12 @@ html {
   .wrap .retrievalBox .retrievalBox-content p.status {
     margin-top: -16px;
     margin-bottom: 10px;
+    cursor: pointer;
   }
   .wrap .retrievalBox .retrievalBox-content .button {
     height: 34px;
     margin: 0 0 25px 0;
+    cursor: pointer;
   }
   .wrap .toolL section table thead tr td {
     font-size: 16px;
@@ -1249,4 +1263,11 @@ html {
   .wrap .toolL section table tbody tr td {
     font-size: 14px;
   }
+}
+.amap_lib_placeSearch_list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+.amap_lib_placeSearch_page {
+  display: none;
 }

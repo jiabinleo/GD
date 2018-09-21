@@ -1,43 +1,42 @@
-$(function() {
-  var localhost = "http://14.116.184.77:8098";
+$(function () {
   var particularYear = "",
-    quarter_dataId = "",
-    quarter = ""; //年份数字    季度数字   第X季度
+    quarter_dataId = "";
   var StatisticalTable = {
-    init: function() {
+    init: function () {
       var year = new Date().getFullYear();
       var particularYearHtml = "";
       var years = new Date();
       $("#timer").html(
         "截止" +
-          years.getFullYear() +
-          "年" +
-          (years.getMonth() + 1) +
-          "月" +
-          years.getDate() +
-          "日"
+        years.getFullYear() +
+        "年" +
+        (years.getMonth() + 1) +
+        "月" +
+        years.getDate() +
+        "日"
       );
       $("#timerphone").html(
         "截止" +
-          years.getFullYear() +
-          "年" +
-          (years.getMonth() + 1) +
-          "月" +
-          years.getDate() +
-          "日"
+        years.getFullYear() +
+        "年" +
+        (years.getMonth() + 1) +
+        "月" +
+        years.getDate() +
+        "日"
       );
       StatisticalTable.queryData(particularYear, quarter_dataId);
       for (let i = year; i >= year - 10; i--) {
         particularYearHtml += "<option value=" + i + ">" + i + "年</option>";
       }
       $("#particularYear").html(particularYearHtml);
+      // $("#year-type").html(particularYearHtml)
       StatisticalTable.listen();
       //   StatisticalTable.TimePlugIn();
     },
-    listen: function() {
+    listen: function () {
       // $("#dateSure").on("click", function () {
       //pc
-      $("#search").on("click", function() {
+      $("#search").on("click", function () {
         particularYear = $("#particularYear option:selected").val();
         quarter_dataId = $("#quarter option:selected").attr("data-id");
         StatisticalTable.queryData(particularYear, quarter_dataId);
@@ -65,7 +64,7 @@ $(function() {
           $("#titlePc").html(particularYear + "年" + quarter + "灾险情统计表");
         }, 0);
       });
-      $("#change").on("click", function() {
+      $("#change").on("click", function () {
         if ($(this).val() === "列表模式") {
           $(this).val("图表模式");
           $("#map").hide();
@@ -77,7 +76,7 @@ $(function() {
         }
       });
     },
-    queryData: function(particularYear, quarter_dataId) {
+    queryData: function (particularYear, quarter_dataId) {
       $.ajax({
         url: localhost + "/dfbinterface/mobile/gisshow/GetGisCountData3",
         type: "POST",
@@ -87,15 +86,15 @@ $(function() {
           year: particularYear,
           quarter: quarter_dataId
         },
-        success: function(data) {
+        success: function (data) {
           if (data.success === "0") {
             StatisticalTable.queryDate(data.result);
           }
         },
-        error: function(err) {}
+        error: function (err) {}
       });
     },
-    queryDate: function(data) {
+    queryDate: function (data) {
       var tbodyHtml = "",
         warnlevelSum = 0, //灾险情总数
         warnlevel1Sum = 0, //隐患Ⅰ级总数

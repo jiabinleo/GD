@@ -8,7 +8,7 @@ var filePath = {
 };
 var config = {
   //时间转换
-  formatDate: function(now) {
+  formatDate: function (now) {
     if (now) {
       var now = new Date(now);
 
@@ -36,17 +36,17 @@ var config = {
     }
   },
   //时间如果为单位数补0
-  fixZero: function(num, length) {
+  fixZero: function (num, length) {
     var str = "" + num;
     var len = str.length;
     var s = "";
-    for (var i = length; i-- > len; ) {
+    for (var i = length; i-- > len;) {
       s += "0";
     }
     return s + str;
   },
   //状态
-  status: function(key) {
+  status: function (key) {
     var sta = "";
     switch (key) {
       case "1":
@@ -68,7 +68,7 @@ var config = {
     return sta;
   },
   // 隐患等级
-  warnlevel: function(key) {
+  warnlevel: function (key) {
     var color = "#0aa2fa";
     switch (key) {
       case "1":
@@ -87,10 +87,9 @@ var config = {
         color = "#0aa2fa";
         break;
     }
-    console.log(color);
     return color;
   },
-  warnlevels: function(key) {
+  warnlevels: function (key) {
     var warle = "一般隐患";
     switch (key) {
       case "1":
@@ -113,7 +112,7 @@ var config = {
   },
   //拖拽
   zIndex: 1,
-  drag: function(IdName) {
+  drag: function (IdName) {
     var box = document.getElementById(IdName);
     var eleP = {
       left: 0,
@@ -123,7 +122,7 @@ var config = {
       left: 0,
       top: 0
     };
-    box.onmousedown = function(event) {
+    box.onmousedown = function (event) {
       config.zIndex += 1;
       box.style.zIndex = config.zIndex;
       event = event || window.event;
@@ -131,7 +130,7 @@ var config = {
       eleP.top = box.offsetTop;
       startP.left = event.clientX;
       startP.top = event.clientY;
-      document.onmousemove = function(event) {
+      document.onmousemove = function (event) {
         event = event || window.event;
         var endP = {
           left: 0,
@@ -162,7 +161,7 @@ var config = {
         box.style.left = left + "px";
         box.style.top = top + "px";
       };
-      document.onmouseup = function() {
+      document.onmouseup = function () {
         document.onmousemove = null;
         document.onmouseup = null;
       };

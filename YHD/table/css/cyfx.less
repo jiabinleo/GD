@@ -33,6 +33,17 @@ body {
 .map {
   width: 100%;
   height: 100%;
+  .year-type {
+    position: absolute;
+    top: 43px;
+    left: 30px;
+    width: 240px;
+    height: 47px;
+    margin-right: 30px;
+    border-radius: 5px;
+    border: #d3d3d3 1px solid;
+    outline: none;
+  }
   p {
     font-size: 38px;
     text-align: center;
@@ -151,21 +162,23 @@ body {
   @rem: 750/16rem;
   .wrapper {
     .map {
-      padding-top: 36/@rem;
+      padding-top: 36 / @rem;
       .menu {
       }
       p {
         font-size: 42 / @rem;
         padding: 80 / @rem 0;
       }
-      .main {
+      .year-type {
+        top: 4rem;
+        left: 2rem;
+        width: 6.4rem;
+        height: 1.28rem;
+        margin-right: 0.192rem;
+        border-radius: 0.10666667rem;
       }
     }
   }
-
-  .menu {
-  }
-
   .change {
     margin: 30 / @rem;
     width: 200 / @rem;
@@ -173,7 +186,7 @@ body {
     border-radius: 5 / @rem;
   }
   .table {
-    padding-top: 36/@rem;
+    padding-top: 36 / @rem;
     section {
       menu {
         p {

@@ -1,31 +1,34 @@
 var dateStart = "",
   dateEnd = "";
-var localhost = "http://14.116.184.77:8098";
 var page = {
-  init: function() {
+  init: function () {
     page.listen();
-    page.queryData();
+    page.queryData(2018);
   },
-  listen: function() {},
-  queryData: function(dateStart, dateEnd) {
+  listen: function () {
+    $("#year-type").change(function (event) {
+      page.queryData($("option:selected").attr("value"))
+      $("#title").html($("option:selected").attr("value") + "年深圳地面坍塌治理情况")
+    })
+  },
+  queryData: function (years) {
     $.ajax({
       url: localhost + "/dfbinterface/mobile/gisshow/GetGisCountData2",
       type: "GET",
       dataType: "jsonp",
       jsonp: "callback",
       data: {
-        dateStart: dateStart,
-        dateEnd: dateEnd
+        year: years
       },
-      success: function(data) {
+      success: function (data) {
         if (data.success === "0") {
           page.queryEcharts(data.result[0]);
         }
       },
-      error: function(err) {}
+      error: function (err) {}
     });
   },
-  queryEcharts: function(data) {
+  queryEcharts: function (data) {
     var areaname = [],
       casehandling = [],
       handling = [],
@@ -49,7 +52,7 @@ var page = {
         },
         textBorderWidth: 1,
         position: "",
-        formatter: function(params) {
+        formatter: function (params) {
           if (params.value == 0) {
             return "";
           } else {
@@ -85,44 +88,47 @@ var page = {
         bottom: "3%",
         containLabel: true
       },
-      xAxis: [
-        {
-          type: "category",
-          boundaryGap: false,
-          data: areaname
-        }
-      ],
-      yAxis: [
-        {
-          type: "value"
-        }
-      ],
-      series: [
-        {
+      xAxis: [{
+        type: "category",
+        boundaryGap: false,
+        data: areaname
+      }],
+      yAxis: [{
+        type: "value"
+      }],
+      series: [{
           name: "未治理",
           type: "line",
-          areaStyle: { normal: {} },
+          areaStyle: {
+            normal: {}
+          },
           stack: "总量",
           data: suspending
         },
         {
           name: "治理中",
           type: "line",
-          areaStyle: { normal: {} },
+          areaStyle: {
+            normal: {}
+          },
           stack: "总量",
           data: handling
         },
         {
           name: "已治理",
           type: "line",
-          areaStyle: { normal: {} },
+          areaStyle: {
+            normal: {}
+          },
           stack: "总量",
           data: solved
         },
         {
           name: "已结案",
           type: "line",
-          areaStyle: { normal: {} },
+          areaStyle: {
+            normal: {}
+          },
           stack: "总量",
           data: casehandling
         }
@@ -137,38 +143,39 @@ var particularYear = "",
   quarter_dataId = "",
   quarter = ""; //年份数字    季度数字   第X季度
 var StatisticalTable = {
-  init: function() {
+  init: function () {
     var year = new Date().getFullYear();
     var particularYearHtml = "";
     var years = new Date();
     $("#timer").html(
       "截止" +
-        years.getFullYear() +
-        "年" +
-        (years.getMonth() + 1) +
-        "月" +
-        years.getDate() +
-        "日"
+      years.getFullYear() +
+      "年" +
+      (years.getMonth() + 1) +
+      "月" +
+      years.getDate() +
+      "日"
     );
     $("#timerphone").html(
       "截止" +
-        years.getFullYear() +
-        "年" +
-        (years.getMonth() + 1) +
-        "月" +
-        years.getDate() +
-        "日"
+      years.getFullYear() +
+      "年" +
+      (years.getMonth() + 1) +
+      "月" +
+      years.getDate() +
+      "日"
     );
     StatisticalTable.queryData(particularYear, quarter_dataId);
     for (let i = year; i >= year - 10; i--) {
       particularYearHtml += "<option value=" + i + ">" + i + "年</option>";
     }
     $("#particularYear").html(particularYearHtml);
+    $("#year-type").html(particularYearHtml)
     StatisticalTable.listen();
   },
-  listen: function() {
+  listen: function () {
     //pc
-    $(document).on("click", "#search", function() {
+    $(document).on("click", "#search", function () {
       particularYear = $("#particularYear option:selected").val();
       quarter_dataId = $("#quarter option:selected").attr("data-id");
       StatisticalTable.queryData(particularYear, quarter_dataId);
@@ -195,15 +202,15 @@ var StatisticalTable = {
       setTimeout(() => {
         $("#titlePc").html(
           "深圳市地面坍塌灾害治理情况统计(" +
-            particularYear +
-            "年" +
-            quarter +
-            ")"
+          particularYear +
+          "年" +
+          quarter +
+          ")"
         );
       }, 0);
     });
   },
-  queryData: function(particularYear, quarter) {
+  queryData: function (particularYear, quarter) {
     $.ajax({
       url: localhost + "/dfbinterface/mobile/gisshow/GetGisCountData5",
       type: "POST",
@@ -213,15 +220,15 @@ var StatisticalTable = {
         year: particularYear,
         quarter: quarter
       },
-      success: function(data) {
+      success: function (data) {
         if (data.success === "0") {
           StatisticalTable.queryDate(data.result);
         }
       },
-      error: function(err) {}
+      error: function (err) {}
     });
   },
-  queryDate: function(data) {
+  queryDate: function (data) {
     var tbodyHtmlPc = "",
       sosuSum = 0,
       solvedSum = 0,
@@ -270,7 +277,7 @@ var StatisticalTable = {
   }
 };
 StatisticalTable.init();
-$("#change").on("click", function() {
+$("#change").on("click", function () {
   if ($(this).val() === "列表模式") {
     $(this).val("图表模式");
     $("#map").hide();

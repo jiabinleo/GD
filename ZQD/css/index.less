@@ -50,6 +50,7 @@ html {
       width: 55px;
       height: 45px;
       background-color: #50bbfb;
+      cursor: pointer;
       .search-logo {
         width: 55px;
         height: 45px;
@@ -119,6 +120,7 @@ html {
       font-weight: 500;
       color: #7c8196;
       font-size: 12px;
+      cursor: pointer;
       &:hover {
         color: #50bbfb;
       }
@@ -408,6 +410,7 @@ html {
         color: #ffffff;
         font-weight: 700;
         margin: 13px 0;
+        cursor: pointer;
       }
       .status {
         span {
@@ -416,6 +419,7 @@ html {
           font-size: 12px;
           font-weight: 500;
           margin-right: 8px;
+          cursor: pointer;
           &:first-of-type {
             color: RGBA(255, 0, 0, 1);
             border: solid 1px rgba(255, 0, 0, 1);
@@ -470,6 +474,7 @@ html {
           border: none;
           tr {
             line-height: 26px;
+            cursor: pointer;
             td {
               color: #999999;
               &:first-of-type {
@@ -507,14 +512,17 @@ html {
           width: 20px;
           height: 20px;
           background: url("../img/arrl.png") no-repeat;
+          cursor: pointer;
         }
         .arrR {
           display: inline-block;
           width: 20px;
           height: 20px;
           background: url("../img/arrr.png") no-repeat;
+          cursor: pointer;
         }
         .arrCenter {
+          cursor: pointer;
           a {
             padding: 5px;
             vertical-align: 5.5px;
@@ -740,6 +748,7 @@ html {
               height: 107px;
               float: left;
               padding: 3px;
+              cursor: pointer;
               img {
                 width: 100%;
               }
@@ -950,6 +959,7 @@ html {
             text-align: center;
             width: 25%;
             padding: 20px 0;
+            cursor: pointer;
             img {
               width: 70px;
               height: 70px;
@@ -1513,11 +1523,13 @@ html {
           &.status {
             margin-top: -16px;
             margin-bottom: 10px;
+            cursor: pointer;
           }
         }
         .button {
           height: 34px;
           margin: 0 0 25px 0;
+          cursor: pointer;
         }
       }
     }
@@ -1542,4 +1554,12 @@ html {
       }
     }
   }
+}
+
+.amap_lib_placeSearch_list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+.amap_lib_placeSearch_page{
+  display: none;
 }

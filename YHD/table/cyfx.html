@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scale=none">
     <title>深圳市地面坍塌灾害治理情况统计</title>
+    <script src="./js/config.js"></script>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/echarts.min.js"></script>
     <link rel="stylesheet" href="./css/cyfx.css">
@@ -16,7 +17,9 @@
     <input type="button" class="change" id="change" value="列表模式" />
     <div class="wrapper">
         <div class="map" id="map">
-            <p>2018年度深圳市地面坍塌原因分析</p>
+            <select id="year-type" class="year-type">
+            </select>
+            <p id="title">2018年度深圳市地面坍塌原因分析</p>
             <div class="mains main2" id="main2" style="width: 100%;height:100%;"></div>
         </div>
         <div class="table" id="table">

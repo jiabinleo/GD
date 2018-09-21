@@ -1,41 +1,43 @@
-var localhost = "http://14.116.184.77:8098";
+
 var particularYear = "",
   quarter_dataId = "",
   quarter = ""; //年份数字    季度数字   第X季度
 var StatisticalTable = {
-  init: function() {
+  init: function () {
     var year = new Date().getFullYear();
     var particularYearHtml = "";
     var years = new Date();
     $("#timer").html(
       "截止" +
-        years.getFullYear() +
-        "年" +
-        (years.getMonth() + 1) +
-        "月" +
-        years.getDate() +
-        "日"
+      years.getFullYear() +
+      "年" +
+      (years.getMonth() + 1) +
+      "月" +
+      years.getDate() +
+      "日"
     );
     $("#timerphone").html(
       "截止" +
-        years.getFullYear() +
-        "年" +
-        (years.getMonth() + 1) +
-        "月" +
-        years.getDate() +
-        "日"
+      years.getFullYear() +
+      "年" +
+      (years.getMonth() + 1) +
+      "月" +
+      years.getDate() +
+      "日"
     );
     StatisticalTable.queryData(particularYear, quarter_dataId);
     for (let i = year; i >= year - 10; i--) {
       particularYearHtml += "<option value=" + i + ">" + i + "年</option>";
     }
     $("#particularYear").html(particularYearHtml);
+    $("#year-type").html(particularYearHtml)
 
     StatisticalTable.listen();
   },
-  listen: function() {
+  listen: function () {
     //pc
-    $("#search").on("click", function() {
+
+    $("#search").on("click", function () {
       var particularYear = $("#particularYear option:selected").val();
       var quarter_dataId = $("#quarter option:selected").attr("data-id");
       var quarter = $("#quarter option:selected").val();
@@ -67,7 +69,7 @@ var StatisticalTable = {
       }, 0);
     });
   },
-  queryData: function(particularYear, quarter) {
+  queryData: function (particularYear, quarter) {
     $.ajax({
       url: localhost + "/dfbinterface/mobile/gisshow/GetGisCountData4",
       type: "POST",
@@ -77,7 +79,7 @@ var StatisticalTable = {
         year: particularYear,
         quarter: quarter
       },
-      success: function(data) {
+      success: function (data) {
         if (data.success === "0") {
           var arr = [];
           for (const key in data.result[0]) {
@@ -88,10 +90,10 @@ var StatisticalTable = {
           StatisticalTable.queryDate(arr);
         }
       },
-      error: function(err) {}
+      error: function (err) {}
     });
   },
-  queryDate: function(data) {
+  queryDate: function (data) {
     var tbodyHtmlPc = "",
       datacountSum = 0;
     for (let i = 0; i < data.length; i++) {
@@ -132,24 +134,34 @@ var StatisticalTable = {
 };
 StatisticalTable.init();
 var page = {
-  init: function() {
+  init: function () {
     page.listen();
+    page.querysxt(2018)
   },
-  listen: function() {
+  listen: function () {
+    $("#year-type").change(function (event) {
+      page.querysxt($("option:selected").attr("value"))
+      $("#title").html($("option:selected").attr("value") + "年度深圳市地面坍塌原因分析")
+    })
+  },
+  querysxt: function (years) {
     //原因分析
     $.ajax({
       url: localhost + "/dfbinterface/mobile/gisshow/GetGisCountData4",
       type: "GET",
       dataType: "jsonp",
       jsonp: "callback",
-      success: function(data) {
+      data: {
+        year: years
+      },
+      success: function (data) {
         // data = JSON.parse(data);
         page.myChart2(data.result[0]);
       },
-      error: function(err) {}
+      error: function (err) {}
     });
   },
-  queryData: function(dateStart, dateEnd) {
+  queryData: function (dateStart, dateEnd) {
     $.ajax({
       url: localhost + "/dfbinterface/mobile/gisshow/GetGisCountData2",
       type: "GET",
@@ -159,13 +171,13 @@ var page = {
         dateStart: dateStart,
         dateEnd: dateEnd
       },
-      success: function(data) {
+      success: function (data) {
         page.queryEcharts(data);
       },
-      error: function(err) {}
+      error: function (err) {}
     });
   },
-  myChart2: function(data) {
+  myChart2: function (data) {
     var datas = [];
     for (const key in data) {
       datas.unshift(data[key]);
@@ -180,7 +192,9 @@ var page = {
       datacount.push({
         value: datas[i].datacount,
         name: datas[i].dataname,
-        itemStyle: { color: datas[i].color }
+        itemStyle: {
+          color: datas[i].color
+        }
       });
     }
     var myChart2 = echarts.init(document.getElementById("main2"));
@@ -196,8 +210,7 @@ var page = {
       tooltip: {
         trigger: "item",
         formatter: "{a} <br/>{b} : {c} ({d}%)",
-        textStyle: {
-        }
+        textStyle: {}
       },
       legend: {
         orient: "vertical",
@@ -211,41 +224,39 @@ var page = {
           color: "#000",
         }
       },
-      series: [
-        {
-          name: "访问来源",
-          type: "pie",
-          radius: ["20%", "70%"],
-          center: ["45%", "48%"],
-          label: {
-            normal: {
-              position: "inner",
-              formatter: "{d}%",
-              textStyle: {
-                color: "#FFF",
-              }
-            }
-          },
-          data: datacount,
-          itemStyle: {
-            emphasis: {
-              shadowBlur: 50,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
-            },
-            normal: {
-              borderColor: "#fff",
-              borderWidth: 2
+      series: [{
+        name: "访问来源",
+        type: "pie",
+        radius: ["20%", "70%"],
+        center: ["45%", "48%"],
+        label: {
+          normal: {
+            position: "inner",
+            formatter: "{d}%",
+            textStyle: {
+              color: "#FFF",
             }
           }
+        },
+        data: datacount,
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 50,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          },
+          normal: {
+            borderColor: "#fff",
+            borderWidth: 2
+          }
         }
-      ]
+      }]
     };
     myChart2.setOption(option2);
   }
 };
 page.init();
-$(document).on("click", "#change", function() {
+$(document).on("click", "#change", function () {
   if ($(this).val() === "列表模式") {
     $(this).val("图表模式");
     $("#map").hide();

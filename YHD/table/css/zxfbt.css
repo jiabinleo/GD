@@ -16,6 +16,17 @@ body {
   display: block;
   text-align: center;
 }
+.wrap .map .year-type {
+  position: absolute;
+  top: 43px;
+  left: 30px;
+  width: 240px;
+  height: 47px;
+  margin-right: 30px;
+  border-radius: 5px;
+  border: #d3d3d3 1px solid;
+  outline: none;
+}
 .wrap .map p {
   padding-top: 40px;
   font-size: 38px;
@@ -133,6 +144,14 @@ body {
 @media screen and (max-width: 750px) {
   .wrap .map {
     padding-top: 0.768rem;
+  }
+  .wrap .map .year-type {
+    top: 4rem;
+    left: 2rem;
+    width: 6.4rem;
+    height: 1.28rem;
+    margin-right: 0.192rem;
+    border-radius: 0.10666667rem;
   }
   .wrap .map p {
     padding: 1.70666667rem 0;

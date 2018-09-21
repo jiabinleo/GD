@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scale=none">
     <title>深圳地面坍塌治理情况</title>
+    <script src="./js/config.js"></script>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/echarts.min.js"></script>
     <link rel="stylesheet" href="./css/zlqktjt.css">
@@ -13,7 +14,8 @@
 <body>
     <div class="wrapper">
         <div id="map" class="map">
-            <p>深圳地面坍塌治理情况</p>
+            <p id="title">深圳地面坍塌治理情况</p>
+            <select id="year-type" class="year-type"></select>
             <div class="main" id="main" style="width: 90%;height:80%;"></div>
         </div>
         <input class="change" id="change" type="button" value="列表模式">
