@@ -198,7 +198,7 @@ var indexPage = {
       warnlevel = warnlevel.substring(0, warnlevel.length - 1);
       managestate = $(this).attr("data");
       var data = {
-        year: dataS.years,
+        year: new Date().getFullYear(),
         areaid: "",
         warnlevel: "",
         managestate: managestate
@@ -210,6 +210,8 @@ var indexPage = {
           .addClass("checkFalse");
       }
       areaname = [];
+      console.log(data);
+      console.log();
       indexPage.queryData(data, layers);
     });
     //周边详情
