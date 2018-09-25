@@ -502,6 +502,8 @@ var indexPage = {
           $("#search").val("查询");
         }, 1000);
         if (data.success === true) {
+          console.log(data.result.length)
+          $("#sum").html("共查询到" + data.result.length + "个隐患点")
           jsonData = data.result;
           allData = data.result;
           numPage = 1; //重置为第一页

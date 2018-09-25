@@ -1244,17 +1244,13 @@ html {
   .wrap .retrievalBox .retrievalBox-content p.area {
     margin-top: 7px;
   }
-  .wrap .retrievalBox .retrievalBox-content p.grade {
-    margin-top: -4px;
-  }
   .wrap .retrievalBox .retrievalBox-content p.status {
-    margin-top: -16px;
     margin-bottom: 10px;
     cursor: pointer;
   }
   .wrap .retrievalBox .retrievalBox-content .button {
     height: 34px;
-    margin: 0 0 25px 0;
+    margin: 5px 0 25px 0;
     cursor: pointer;
   }
   .wrap .toolL section table thead tr td {
