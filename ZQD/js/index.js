@@ -1105,7 +1105,7 @@ var indexPage = {
         lat: data.fzsite.lat
       },
       success: function (data) {
-        if (data.success == "0") {
+        if (data.success == true) {
           for (let i = 0; i < data.result.forecast.dailyArray.length; i++) {
             description = data.result.forecast.description;
             var skycon = {};
@@ -1370,11 +1370,11 @@ var indexPage = {
       url: toolsUrl,
       dataType: "json",
       success: function (data) {
-        if (data.success === "0" && tools === "yjzjk") {
+        if (data.success === true && tools === "yjzjk") {
           indexPage.yjzjk(data.result);
-        } else if (data.success === "0" && tools === "qxdw") {
+        } else if (data.success === true && tools === "qxdw") {
           indexPage.qxdw(data.result);
-        } else if (data.success === "0" && tools === "qxgj") {
+        } else if (data.success === true && tools === "qxgj") {
           indexPage.qxgj(data.result);
         }
         $("#toolL").show();
