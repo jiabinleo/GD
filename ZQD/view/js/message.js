@@ -110,7 +110,7 @@ var msg = {
   //更新阅读状态
   readNewMessage: function(id) {
     $.ajax({
-      url: fileUrl.header98 + "/dfbinterface/mobile/message/updateMessage",
+      url: fileUrl.header88 + "/dfbinterface/mobile/message/updateMessage",
       type: "POST",
       dataType: "json",
       data: {

@@ -525,7 +525,7 @@ var indexPage = {
   queryGetGisAreaName: function () {
     $.ajax({
       type: "GET",
-      url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
+      url: fileUrl.header88 + "/dfbinterface/mobile/gisshow/GetGisAreaname", //后台接口地址
       dataType: "jsonp",
       callback: "callback",
       success: function (data) {
@@ -907,7 +907,7 @@ var indexPage = {
     };
     $.ajax({
       type: "GET",
-      url: fileUrl.header98 + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
+      url: fileUrl.header88 + "/dfbinterface/mobile/gisshow/GetSingleDisaster", //后台接口地址
       dataType: "jsonp",
       data: data,
       callback: "callback",

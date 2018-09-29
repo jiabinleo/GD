@@ -199,7 +199,7 @@ var share = {
   },
   queryData: function () {
     $.ajax({
-      url: fileUrl.header98 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
+      url: fileUrl.header88 + "/dfbinterface/mobile/handle/GetSingleHandle", //后台接口地址
       type: "GET",
       dataType: "jsonp",
       callback: "result",
